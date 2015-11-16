@@ -24,3 +24,6 @@ class ApiController extends Controller
         return \Response::json($city);
     }
 }
+
+
+?>

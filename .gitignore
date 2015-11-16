@@ -41,3 +41,7 @@ Homestead.json
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+#Visual Code #
+###############
+.vscode

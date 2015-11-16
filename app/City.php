@@ -9,5 +9,5 @@ class City extends Model
     
      protected $table = 'city';
 
-     protected $fillable = ['idcity', 'cityname', 'state'];
+     protected $fillable = ['cityname', 'state'];
 }

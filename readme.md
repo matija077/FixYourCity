@@ -1,3 +1,11 @@
+## Fix Your City
+
+Fix Your City is a student group project for Web-based application.
+It is based on PHP on Laravel framework on the backend, phpMyAdmin database, and AngularJS on the frontend.
+
+In the application users submit, vote and discuss problems in their cities based on problem category. 
+
+
 ## Laravel PHP Framework
 
 [![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)

@@ -14,8 +14,16 @@
 		activate();
 		
 		function activate(){
-			
+			getCities();
 		}
 		
+		function getCities(){
+			//return dataservice.getCities().query().$promise
+			return dataservice.getCities().getAll().$promise
+				.then(function(data){
+					return vm.cities = data;
+				});
+			//return dataservice.getCities().
+		}
 	}
 })();

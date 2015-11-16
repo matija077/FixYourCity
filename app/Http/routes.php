@@ -13,7 +13,9 @@
 
 Route::get('/', 'HomeController@index');
 
-Route::group(array('prefix' => '/api'), function() 
+Route::group(array('prefix' => 'api'), function() 
 {
-	Route:get('/cities', 'ApiController@getCities');
+	Route::get('/cities/{id}', 'ApiController@getCity');
+	Route::get('/cities', 'ApiController@getCities');
+	
 });

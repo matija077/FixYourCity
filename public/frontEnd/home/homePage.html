@@ -1,0 +1,9 @@
+<h1>Rijeka</h1>
+<div class="container-fluid">
+	<ol class="cities">
+		<li ng-repeat="city in vm.cities">
+		<a href="#/city/{{city.idcity}}">{{city.cityname}}</a>
+		{{city.state}}
+		</li>
+	</ol>
+</div>

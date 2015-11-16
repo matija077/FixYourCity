@@ -19,3 +19,6 @@ Route::group(array('prefix' => 'api'), function()
 	Route::get('/cities', 'ApiController@getCities');
 	
 });
+
+
+?>

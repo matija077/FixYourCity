@@ -11,3 +11,5 @@ class City extends Model
 
      protected $fillable = ['idcity', 'cityname', 'state'];
 }
+
+?>

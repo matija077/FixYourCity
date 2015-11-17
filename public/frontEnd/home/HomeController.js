@@ -11,12 +11,15 @@
 		var vm = this;
 		vm.cities = [];
 		vm.citiesToShow = [];
+		vm.categories = [];
+		vm.categoriesToShow = [];
 		vm.filterCities = filterCities;
 		
 		activate();
 		
 		function activate(){
 			getCities();
+			getCategories();
 			
 		}
 		
@@ -29,6 +32,15 @@
 					return vm.cities = resource.data;
 				});
 			//return dataservice.getCities().
+		}
+		
+		function getCategories(){
+			return dataservice.getCategories().getAll().$promise
+				.then(function(resource){
+					console.log(resource);
+					vm.categoriesToShow = resource.data;
+					return vm.categories = resource.data;
+				});
 		}
 		
 		function filterCities(inputCityName){

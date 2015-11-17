@@ -17,8 +17,8 @@
 			<input type="text" ng-model="vm.inputCategoryName" 
 			ng-change="vm.filterCategories(vm.inputCategoryName);">
 			<ol class="categories">
-				<li ng-repeat="category in vm.categoryToShow">
-				<a href="#/">{{hi}}</a>
+				<li ng-repeat="category in vm.categoriesToShow">
+				{{ category.ctgname }}
 				</li>
 			</ol>
 		</div>

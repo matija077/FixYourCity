@@ -13,26 +13,23 @@
 	
 	function navbarController(){
 		var vm = this;
-		vm.active=active;
-		vm.hover=hover;
+		vm.activeAbout=activeAbout;
+		vm.hoverAbout=hoverAbout;
 		
 		
-		//value('txt','beg');
+		activeAbout();
 		
 		
-		
-		active();
-		
-		
-		function hover(){
-			vm.txt="HOVER";
+		function hoverAbout(){
+			vm.InnerAbout="Fake link";
 		}
 		
-		function active(){
-			vm.txt="fake link";
+		function activeAbout(){
+			vm.InnerAbout="About";
 		}
 		
-		//	return vm;
+		
+		
 	}
 
 })();

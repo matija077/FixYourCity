@@ -15,7 +15,6 @@
 		
 		function activate(){
 			getCity();
-			console.log(vm.city);
 		}
 		
 		function getCity(){
@@ -24,7 +23,7 @@
 			//dataservice.getCity()
 				.then(function(city){
 					console.log(city);
-					return vm.city = city[0];
+					return vm.city = city;
 				})
 		}
 	}

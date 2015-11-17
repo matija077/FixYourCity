@@ -16,9 +16,14 @@
 		return service;
 		
 		function getCities(){
-			return $resource("api/cities", {id: "@id"}, {
-				getAll: {method: 'GET', params:{}, isArray:true },
-				getCity: {method: 'GET', params:{id: $routeParams.id}, isArray:true}
+			return $resource("api/cities/:id", {id: "@id"}, {
+				getAll: {method: 'GET', params:{}, isArray:false, 
+				transformResponse: function(data, headers){
+                    // transform to array of objects 
+                    return { data: angular.fromJson(data)};
+                } 
+				},
+				getCity: {method: 'GET', params:{id: $routeParams.id}, isArray:false}
 			});
 		}
 		

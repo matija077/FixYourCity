@@ -14,6 +14,7 @@
 		vm.categories = [];
 		vm.categoriesToShow = [];
 		vm.filterCities = filterCities;
+		vm.filterCategories = filterCategories;
 		
 		activate();
 		
@@ -39,7 +40,8 @@
 				.then(function(resource){
 					console.log(resource);
 					vm.categoriesToShow = resource.data;
-					return vm.categories = resource.data;
+				    vm.categories = resource.data;
+					console.log(vm.categories);
 				});
 		}
 		
@@ -52,6 +54,18 @@
 				}
 			});
 			console.log(vm.citiesToShow);
+		}
+		
+		function filterCategories(inputCategoryName){
+			vm.categoriesToShow = [];
+			console.log(vm.categories);
+			vm.categories.forEach(function(element) {
+				console.log(element, inputCategoryName);
+				if (element.ctgname.indexOf(inputCategoryName)!=-1){
+					vm.categoriesToShow.push(element);
+				}
+			});
+			console.log(vm.categoriesToShow);
 		}
 	}
 })();

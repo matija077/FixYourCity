@@ -6,7 +6,12 @@
 	<link rel="stylesheet" type="text/css" href="frontEnd/stylesheet.css">
 </head>
 <body>
+	
+	
 	<div class="container">
+		<div class="navbar" >
+			<div ng-include = "'frontEnd/home/navbar.htm'"></div>
+		</div>
 		<div ng-view></div>
 	</div>	
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.js"></script>
@@ -22,6 +27,9 @@
 	<script src="frontEnd/cities/CityDetailController.js"></script>
 	
 	<script src="frontEnd/dataservice.js"></script>
+	
+	<script src="frontEnd/home/navbarController.js"></script>
+	
 </body>
 
 </html>

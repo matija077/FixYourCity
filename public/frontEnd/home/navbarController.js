@@ -58,7 +58,6 @@
 		/*
 		*
 		*		GENERIC TEMPLATE FOR TABS
-		*		icoSrc is '#' sign
 		*		target '' (empty) or '_blank'
 		*
 		

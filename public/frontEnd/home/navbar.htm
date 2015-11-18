@@ -1,15 +1,11 @@
 <nav class="navbar navbar-default" ng-controller="navbarController as navbar"> 
-
-	<div class="container-fluid">
-		
-		<div class="navbar-header">
-		
+	<div class="container-fluid">		
+		<div class="navbar-header">		
 		
 			<ul class="nav nav-pills nav-justified">
-				<li class="active" ng-repeat="tab in navbar.tabs"  ng-bind-html="navbar.renderTabs(tab)"></li>
+				<li class="active" ng-repeat="tab in navbar.tabs"  ng-bind-html="navbar.renderTab(tab)"></li>
 			</ul>
-		
-				
+						
 		</div>
 	</div>
 </nav>

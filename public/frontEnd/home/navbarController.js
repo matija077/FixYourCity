@@ -7,8 +7,7 @@
 	
 	function navbarController($sce){
 		var vm = this;
-		vm.renderTabs=renderTabs;
-		
+		vm.renderTab=renderTab;
 		
 		vm.tabs=[
 			//BEGIN TABS
@@ -62,30 +61,31 @@
 		*		icoSrc is '#' sign
 		*		target '' (empty) or '_blank'
 		*
-		*
 		
 				{
 					url: '',
 					target: '',   
-					icoSrc: 'https://upload.wikimedia.org/wikipedia/commons/6/63/Number_sign.svg',
+					icoSrc: '',
 					innerDesc: '',
 				},
 		
-		*
 		*	
 		*/
 				];
 			/*
-			*
 			* END OF TABS
-			*
 			*/
 		
 		
-		function renderTabs(tab){     //called for each tab in navbar from html using ng-repeat
+		function renderTab(tab){     //called for each tab in navbar from html using ng-repeat
 			var retval=''; 
-			retval='<a href="'+tab.url+'" target="'+tab.target+'"><img width="16px" height="16px" src="'+tab.icoSrc+'"/> '+tab.innerDesc+'</a>';
 			
+			retval='<a href="'+tab.url+'" target="'+tab.target+'">';			
+			if(tab.icoSrc){
+				retval+='<img width="16px" height="16px" src="'+tab.icoSrc+'"/>';
+			}			
+			retval+=' '+tab.innerDesc+'</a>';
+						
 			return $sce.trustAsHtml(retval);    // 'accepts' it as a html code
 		}
 		

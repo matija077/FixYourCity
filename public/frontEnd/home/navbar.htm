@@ -6,10 +6,10 @@
 		
 		
 			<ul class="nav nav-pills nav-justified">
-				<li class="active" ng-repeat="tab in navbar.tabs"><a href="{{tab.url}}" target="{{tab.target}}"><img width="16px" height="16px" src="{{tab.icoSrc}}"/> {{tab.innerDesc}}</a></li>
+				<li class="active" ng-repeat="tab in navbar.tabs"  ng-bind-html="navbar.renderTabs(tab)"></li>
 			</ul>
 		
-		
+				
 		</div>
 	</div>
 </nav>

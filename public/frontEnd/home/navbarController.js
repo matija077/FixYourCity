@@ -13,7 +13,7 @@
 			//BEGIN TABS
 			// NOTE: , INSTAD OF ;
 				{
-					url: 'http://localhost/FixYourCity/public/#/',
+					url: '#/',
 					target: '',  
 					icoSrc: 'https://upload.wikimedia.org/wikipedia/commons/6/63/Number_sign.svg',
 					innerDesc: 'Home',
@@ -49,7 +49,7 @@
 					innerDesc: 'Bootstrap',
 				},
 				{
-					url: 'http://localhost/FixYourCity/public/#/about',
+					url: '#/about',
 					target: '',  
 					icoSrc: '',
 					innerDesc: 'About',

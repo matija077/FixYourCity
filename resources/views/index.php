@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html data-ng-app="FixYourCityApp">
 <html lang="en">
 <head>

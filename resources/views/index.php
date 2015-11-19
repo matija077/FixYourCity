@@ -1,3 +1,4 @@
+<!DOCTYPE html> 
 <html data-ng-app="FixYourCityApp">
 <head>
 	<meta charset="utf-8">
@@ -14,6 +15,13 @@
 		</div>
 		<div ng-view></div>
 	</div>	
+	
+	<noscript>
+		<center>
+			<img src="http://i.imgur.com/eEWwVtb.png" /> <br/><br /> <h3>Sorry! This site requires enabled JavaScript.</h3>
+		</center>
+	</noscript>
+	
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.js"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular-route.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular-resource.js"></script>

@@ -1,26 +1,59 @@
-<h1>Rijeka</h1>
 <div class="container-fluid">
-	<form role="form" class="row">
-		<div class="col-md-3">
-			<input type="text" ng-model="vm.inputCityName" ng-change="vm.filterCities(vm.inputCityName);">
-			<ol class="cities">
-				<li ng-repeat="city in vm.citiesToShow">
-				<a href="#/city/{{city.idcity}}">{{city.cityname}}</a>
-				{{city.state}}
-				</li>
-			</ol>
+	<div class="row">
+		<div class="col-md-4">
+			<table class="table">
+				<tr>
+					<th>
+						<h1>Rijeka</h1>
+					</th>
+				</tr>
+				<tr>
+					<td>
+						<input type="text" ng-model="vm.inputCityName" ng-change="vm.filterCities(vm.inputCityName);">
+					</td>
+				</tr>
+				<tr ng-repeat="city in vm.citiesToShow">
+					<td>
+						<a href="#/city/{{city.idcity}}">{{city.cityname}}</a>
+					</td>
+					<td>
+						{{city.state}}
+					</td>
+				</tr>	
+					<!--<ol class="cities">
+						<li ng-repeat="city in vm.citiesToShow">
+						<a href="#/city/{{city.idcity}}">{{city.cityname}}</a>
+						{{city.state}}
+						</li>
+					</ol>-->
+			</table>
 		</div>
-	</form>
-	<form role="form" class="row">
-		<div class="col-md-6">
-			<h2>Category:</h2>
-			<input type="text" ng-model="vm.inputCategoryName" 
-			ng-change="vm.filterCategories(vm.inputCategoryName);">
-			<ol class="categories">
-				<li ng-repeat="category in vm.categoriesToShow">
-				{{ category.ctgname}}
-				</li>
-			</ol>
+		<div class="col-md-2">
 		</div>
-	</form>
+		<div class="col-md-4">
+			<table class="table table-hover">
+				<tr>
+					<th>
+						<h1>Category:</h1>
+					</th>
+				</tr>
+				<tr>
+					<td>
+						<input type="text" ng-model="vm.inputCategoryName" 
+						ng-change="vm.filterCategories(vm.inputCategoryName);">
+					</td>
+					<tr ng-repeat="category in vm.categoriesToShow">
+						<td>
+							{{ category.ctgname}}
+						</td>
+					</tr>
+					<!--<ol class="categories">
+						<li ng-repeat="category in vm.categoriesToShow">
+						{{ category.ctgname}}
+						</li>
+					</ol>-->
+					</tr>
+			</table>
+		</div>
+	</div>
 </div>

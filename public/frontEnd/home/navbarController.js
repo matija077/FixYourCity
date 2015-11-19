@@ -49,7 +49,7 @@
 					innerDesc: 'Bootstrap',
 				},
 				{
-					url: 'http://localhost/FixYourCity/public/#/',
+					url: 'http://localhost/FixYourCity/public/#/about',
 					target: '',  
 					icoSrc: '',
 					innerDesc: 'About',

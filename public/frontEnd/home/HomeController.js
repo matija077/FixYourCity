@@ -11,12 +11,16 @@
 		var vm = this;
 		vm.cities = [];
 		vm.citiesToShow = [];
+		vm.categories = [];
+		vm.categoriesToShow = [];
 		vm.filterCities = filterCities;
+		vm.filterCategories = filterCategories;
 		
 		activate();
 		
 		function activate(){
 			getCities();
+			getCategories();
 			
 		}
 		
@@ -31,6 +35,16 @@
 			//return dataservice.getCities().
 		}
 		
+		function getCategories(){
+			return dataservice.getCategories().getAll().$promise
+				.then(function(resource){
+					console.log(resource);
+					vm.categoriesToShow = resource.data;
+				    vm.categories = resource.data;
+					console.log(vm.categories);
+				});
+		}
+		
 		function filterCities(inputCityName){
 			vm.citiesToShow = [];
 			vm.cities.forEach(function(element) {
@@ -40,6 +54,18 @@
 				}
 			});
 			console.log(vm.citiesToShow);
+		}
+		
+		function filterCategories(inputCategoryName){
+			vm.categoriesToShow = [];
+			console.log(vm.categories);
+			vm.categories.forEach(function(element) {
+				console.log(element, inputCategoryName);
+				if (element.ctgname.indexOf(inputCategoryName)!=-1){
+					vm.categoriesToShow.push(element);
+				}
+			});
+			console.log(vm.categoriesToShow);
 		}
 	}
 })();

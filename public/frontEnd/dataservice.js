@@ -11,6 +11,7 @@
 		var service = {
 			getCities : getCities,
 			//getCity: getCity,
+			getCategories : getCategories,
 		}
 		
 		return service;
@@ -24,6 +25,15 @@
                 } 
 				},
 				getCity: {method: 'GET', params:{id: $routeParams.id}, isArray:false}
+			});
+		}
+		
+		function getCategories(){
+			return $resource("api/categories", {}, {
+				getAll: {method: 'GET', params:{}, isArray:false,
+				transformResponse: function(data, headers){
+					return { data: angular.fromJson(data)};
+				}}
 			});
 		}
 		

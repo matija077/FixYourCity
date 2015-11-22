@@ -5,9 +5,9 @@
 		.module('FixYourCityApp')
 		.factory('dataservice', dataservice);
 		
-		dataservice.$inject = ['$http', '$resource', '$routeParams'];
+		dataservice.$inject = ['$http', '$resource', '$stateParams'];
 		
-	function dataservice($http, $resource, $routeParams){
+	function dataservice($http, $resource, $stateParams){
 		var service = {
 			getCities : getCities,
 			//getCity: getCity,
@@ -24,7 +24,7 @@
                     return { data: angular.fromJson(data)};
                 } 
 				},
-				getCity: {method: 'GET', params:{id: $routeParams.id}, isArray:false}
+				getCity: {method: 'GET', params:{id: $stateParams.id}, isArray:false}
 			});
 		}
 		

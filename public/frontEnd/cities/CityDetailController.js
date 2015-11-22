@@ -5,9 +5,9 @@
 		.module('FixYourCityApp')
 		.controller('CityDetailController', CityDetailController);
 		
-		CityDetailController.$inject = ['dataservice', '$routeParams'];
+		CityDetailController.$inject = ['dataservice'];
 		
-	function CityDetailController(dataservice, $routeParams){
+	function CityDetailController(dataservice){
 		var vm = this;
 		vm.city = [];
 		

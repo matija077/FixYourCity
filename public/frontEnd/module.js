@@ -2,21 +2,23 @@
 	'use strict';
 	
 	angular
-		.module('FixYourCityApp', ['ngRoute', 'ngResource'])
+		.module('FixYourCityApp', [ 'ui.router','ngResource',])
 		.config(routeConfig);
 		
-	function routeConfig ($routeProvider){
-		$routeProvider
-			.when('/',{
+	function routeConfig ($stateProvider, $urlRouterProvider){
+		$stateProvider
+			.state('home',{
+				url: '/',
 				templateUrl: 'frontEnd/home/homePage.html',
 				controller: 'HomeController',
 				controllerAs: 'vm',
 			})
-			.when('/city/:id', {
+			.state('city', {
+				url: '/city/:id',
 				templateUrl: 'frontEnd/cities/city.html',
 				controller: 'CityDetailController',
 				controllerAs: 'vm',
 			})
-			.otherwise({ redirectTo: '/'});
+			$urlRouterProvider.otherwise( '/');
 	}
 })();

@@ -5,16 +5,23 @@
 		.module('FixYourCityApp')
 		.controller('HomeController', HomeController);
 		
-		HomeController.$inject = ['dataservice'];
+		HomeController.$inject = ['dataservice', '$auth'];
 		
-	function HomeController(dataservice){
+	function HomeController(dataservice, $auth){
 		var vm = this;
 		vm.cities = [];
 		vm.citiesToShow = [];
 		vm.categories = [];
 		vm.categoriesToShow = [];
+		var credentials = {
+                /*email: vm.email,
+                password: vm.password*/
+				email: 'ryanchenkie@gmail.com',
+				password: 'secret'
+        }
 		vm.filterCities = filterCities;
 		vm.filterCategories = filterCategories;
+		vm.login = login;
 		
 		activate();
 		
@@ -66,6 +73,17 @@
 				}
 			});
 			console.log(vm.categoriesToShow);
+		} 
+		
+		function login(){
+            // Use Satellizer's $auth service to login
+            $auth.login(credentials)
+				.then(function(data) {
+					console.log('in');
+				})
+				.catch(function(data) {
+					console.log(data + 'error');	
+				});
 		}
 	}
 })();

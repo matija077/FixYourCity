@@ -2,10 +2,12 @@
 	'use strict';
 	
 	angular
-		.module('FixYourCityApp', [ 'ui.router','ngResource',])
+		.module('FixYourCityApp', [ 'ui.router','ngResource','satellizer'])
 		.config(routeConfig);
 		
-	function routeConfig ($stateProvider, $urlRouterProvider){
+	function routeConfig ($stateProvider, $urlRouterProvider, $authProvider){
+		$authProvider.loginUrl = 'RWA/public/api/authenticate';
+		
 		$stateProvider
 			.state('home',{
 				url: '/',

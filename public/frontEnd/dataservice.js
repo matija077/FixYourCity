@@ -12,6 +12,7 @@
 			getCities : getCities,
 			//getCity: getCity,
 			getCategories : getCategories,
+			insertCity : insertCity,
 		}
 		
 		return service;
@@ -21,8 +22,9 @@
 				getAll: {method: 'GET', params:{}, isArray:false, 
 				transformResponse: function(data, headers){
                     // transform to array of objects 
+					//console.log($resource);
                     return { data: angular.fromJson(data)};
-                } 
+                }
 				},
 				getCity: {method: 'GET', params:{id: $routeParams.id}, isArray:false}
 			});
@@ -37,6 +39,14 @@
 			});
 		}
 		
+		function insertCity(){
+			return $resource("api/insertcity/:cityname/:state",{cityname:"@cityname",state:"@state"},{
+				send: {method: 'POST', params:{}, isArray:false,
+				transformResponse: function(data, headers){
+					return { data: angular.fromJson(data)};
+				}}
+			});
+		}
 		
 		 /*function getCity(){
 			console.log($routeParams.id);			

@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\City;
 use App\Category;
 
+
 class ApiController extends Controller
 {
     public static function getCities()
@@ -33,7 +34,22 @@ class ApiController extends Controller
         
           return \Response::json($categories);
     }
+	
+	public static function insertCity($cityname,$state){
+		$city = new City;
+		$city->cityname=$cityname;
+		$city->state=$state;
+		
+		if(!count(City::where('cityname',$cityname)->where('state',$state)->first())){
+			//ovdje ide Wiki provjera
+			$city->save();
+			return \Response::json($city->idcity);
+		}else{
+			return \Response::json('City exists');
+		}
+		
+	}
+	
+	
+	
 }
-
-
-?>

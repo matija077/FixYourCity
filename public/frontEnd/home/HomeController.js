@@ -16,7 +16,7 @@
 		var credentials = {
                 /*email: vm.email,
                 password: vm.password*/
-				email: 'ryanchenkie@gmail.com',
+				email: 'ryanchenkie7@gmail.com',
 				password: 'secret'
         }
 		vm.filterCities = filterCities;

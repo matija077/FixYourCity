@@ -9,21 +9,37 @@ use JWTAuth;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use App\User;
+
 class AuthenticateController extends Controller
 {
-    public static function signup()
+    public static function signup(Request $request)
     {
-        $credentials = Input::only('iduser', 'password');
-
+        //if user exists returns a new model instance
         try {
-            $user = User::create($credentials);
-        } catch (Exception $e) {
-            return Response::json(['error' => 'User already exists.'], HttpResponse::HTTP_CONFLICT);
+            $user = User::firstorNew(['email' => $request->email]);
+        }//catching any erros that may occur
+        catch(Exception $e){
+            return \Response::json(['error' => $e->getMessage()], 404);
         }
-        
+        /*
+        *check if user actually exists in database
+        * '\' in front of a Hash for including
+        */
+        if (!$user->exists){
+            $user = array('username' => $request->username, 'email' => $request->email,
+                'password' =>  \Hash::make($request->password), 'accesslevel' => $request->accesslevel, 
+                'karma' => $request->karma);
+                
+            $user = User::create($user);
+        }//user exist; return 'conflict error'
+        else{
+            return \Response::json(['error' => 'User already exists.'], 409);
+        }
+               
         $token = JWTAuth::fromUser($user);
         
-        return Response::json(compact('token'));
+        return \Response::json(compact('token'));
     }
     
     public static function authenticate(Request $request)

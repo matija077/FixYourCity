@@ -6,6 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="frontEnd/stylesheet.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 </head>
 <body>
 	
@@ -32,8 +33,9 @@
 	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular-cookies.js"></script>
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/restangular/1.3.1/restangular.js"></script>
 	
+	<!--
 	  <!-- Angular Material Javascript now available via Google CDN; version 0.11.2 used here -->
-    <!--<script src="https://ajax.googleapis.com/ajax/libs/angular_material/0.11.2/angular-material.min.js"></script> -->
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/angular_material/0.11.2/angular-material.min.js"></script> 
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-animate.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-aria.min.js"></script>
 	 <!-- Angular Material CSS now available via Google CDN; version 0.11.2 used here -->
@@ -49,7 +51,7 @@
 	
 	<script src="frontEnd/home/navbarController.js"></script>
 	
-	<script src="frontEnd/home/AppCtrl.js"></script>
+	<!--<script src="frontEnd/home/AppCtrl.js"></script>-->
 	
 	
 </body>

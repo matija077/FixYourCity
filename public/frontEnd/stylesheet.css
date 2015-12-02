@@ -5,3 +5,8 @@
 .container-secondForm{
 	float: right;
 }*/
+/*footer icons*/
+.navbar-text > a {
+    color: inherit;
+    text-decoration: none;
+}

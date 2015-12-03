@@ -19,9 +19,18 @@
 				email: 'ryanchenkie7@gmail.com',
 				password: 'secret'
         }
+		var user = {
+			username: 'yolo2',
+			email: 'ryanchenkie10@gmail.com',
+			password: 'secret',
+			accesslevel: '1',
+			karma: '50'
+		}
 		vm.filterCities = filterCities;
 		vm.filterCategories = filterCategories;
 		vm.login = login;
+		vm.signUp = signUp;
+		vm.logout = logout;
 		
 		activate();
 		
@@ -80,10 +89,24 @@
             $auth.login(credentials)
 				.then(function(data) {
 					console.log('in');
+					
 				})
 				.catch(function(data) {
 					console.log(data + 'error');	
 				});
+		}
+		
+		function signUp(){
+			return dataservice.signUp().save(user).$promise
+				.then(function(resource){
+					console.log(resource);
+				});
+		}
+		
+		function logout(){
+			$auth.logout().then(function() {
+				console.log('out');
+			})
 		}
 	}
 })();

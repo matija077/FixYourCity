@@ -18,7 +18,7 @@ class ApiController extends Controller
     }
     
     public static function getCities()
-    {
+    {     
         $cities = City::all();  
         //$cities = City::all()->toJson();  
                         

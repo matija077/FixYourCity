@@ -5,9 +5,9 @@
 		.module('FixYourCityApp')
 		.controller('HomeController', HomeController);
 		
-		HomeController.$inject = ['dataservice', '$auth'];
+		HomeController.$inject = ['dataservice', '$auth', '$rootScope', '$state'];
 		
-	function HomeController(dataservice, $auth){
+	function HomeController(dataservice, $auth, $rootScope, $state){
 		var vm = this;
 		vm.cities = [];
 		vm.citiesToShow = [];
@@ -44,7 +44,7 @@
 			//return dataservice.getCities().query().$promise
 			return dataservice.getCities().getAll().$promise
 				.then(function(resource){
-					console.log(resource);
+					//console.log(resource);
 					vm.citiesToShow = resource.data;
 					return vm.cities = resource.data;
 				});
@@ -54,10 +54,10 @@
 		function getCategories(){
 			return dataservice.getCategories().getAll().$promise
 				.then(function(resource){
-					console.log(resource);
+					//console.log(resource);
 					vm.categoriesToShow = resource.data;
 				    vm.categories = resource.data;
-					console.log(vm.categories);
+					//console.log(vm.categories);
 				});
 		}
 		
@@ -88,8 +88,19 @@
             // Use Satellizer's $auth service to login
             $auth.login(credentials)
 				.then(function(data) {
-					console.log('in');
-					
+					dataservice.getUser().getUser().$promise
+						.then(function(userData){
+							//local storage accepts only string pairs7
+							//add user to local storage
+							localStorage.setItem('user', JSON.stringify(userData.data.user));
+							//needed fro  ng-if
+							$rootScope.authenticated = true;
+							//load data agian
+							$state.reload();
+						})
+						.catch(function(userDataError){
+							console.log('error retriving');
+						});
 				})
 				.catch(function(data) {
 					console.log(data + 'error');	
@@ -104,9 +115,13 @@
 		}
 		
 		function logout(){
-			$auth.logout().then(function() {
-				console.log('out');
-			})
+			$auth.logout().then(function() {	
+				localStorage.removeItem('user');
+				
+                $rootScope.authenticated = false;
+				
+				$state.reload();
+			});
 		}
 	}
 })();

@@ -1,18 +1,22 @@
 <div class="container-fluid">
 	<div class="row">
+	
+		<div class="col-md-0">
+		</div>
+		
 		<div class="col-md-4">
 			<table class="table">
 				<tr>
 					<th>
-						<h1>Rijeka</h1>
+						<h1>City</h1>
 					</th>
 				</tr>
 				<tr>
 					<td>
-						<input type="text" ng-model="vm.inputCityName" ng-change="vm.filterCities(vm.inputCityName);">
+						<input type="text" placeholder="Search for city..." ng-model="vm.inputCityName" ng-change="vm.filterCities(vm.inputCityName);">
 					</td>
-				</tr>
-				<tr ng-repeat="city in vm.citiesToShow">
+				</tr> 
+				<tr ng-repeat="city in vm.citiesToShow | limitTo: 5" ng-click="vm.selectCity(city.idcity)" ng-class="{'lightgraybg':vm.selectedcity === city.idcity}">
 					<td>
 						<a href="#/city/{{city.idcity}}">{{city.cityname}}</a>
 					</td>
@@ -28,32 +32,66 @@
 					</ol>-->
 			</table>
 		</div>
-		<div class="col-md-2">
-		</div>
+		
 		<div class="col-md-4">
-			<table class="table table-hover">
+		</div>
+		
+		<div class="col-md-4">
+			<table class="table">
 				<tr>
 					<th>
-						<h1>Category:</h1>
+						<h1>Category</h1>
 					</th>
 				</tr>
 				<tr>
 					<td>
-						<input type="text" ng-model="vm.inputCategoryName" 
-						ng-change="vm.filterCategories(vm.inputCategoryName);">
+						<input type="text" placeholder="Search for category..." ng-model="vm.inputCategoryName" ng-change="vm.filterCategories(vm.inputCategoryName);">
 					</td>
-					<tr ng-repeat="category in vm.categoriesToShow">
-						<td>
-							{{ category.ctgname}}
-						</td>
-					</tr>
+				</tr>
+				<tr ng-repeat="category in vm.categoriesToShow  | limitTo: 5" ng-click="vm.selectCategory(category.idcategory)" ng-class="{'lightgraybg':vm.selectedcategory === category.idcategory}">
+					<td>
+						{{ category.ctgname}}
+					</td>
+					<td></td>
+				</tr>
 					<!--<ol class="categories">
 						<li ng-repeat="category in vm.categoriesToShow">
 						{{ category.ctgname}}
 						</li>
 					</ol>-->
-					</tr>
+				
 			</table>
 		</div>
+		
+		<div class="col-md-0">
+		</div>
+		
 	</div>
+	
+	
+	<div class="row">
+	
+	
+		<div class="col-md-4">
+			<!--
+			<input type="text" placeholder="City name here" ng-model="vm.cityname"/>
+			<input type="text" placeholder="State here" ng-model="vm.state"/>
+			<input type="button" value="Add city" ng-click="vm.insertCity()"/>
+			-->
+		</div>
+		
+		<div class="col-md-4">
+			<center>
+			<input type="button" value="Proceed to report" ng-disabled="(!vm.selectedcity || !vm.selectedcategory)"/ ng-click="vm.proceedSubmit(vm.selectedcity,vm.selectedcategory)">
+			</center>
+		</div>
+		
+		<div class="col-md-4">
+		</div>
+		
+		
+	</div>
+	
+	
+	
 </div>

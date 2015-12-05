@@ -8,7 +8,7 @@ class Category extends Model
 {
      protected $table = 'category';
      
-     protected $fillable = ['ctgname'];
+	 protected $primaryKey = 'idcategory';
      
-      protected $hidden = ['idcategory'];
+     protected $guarded = ['idcategory'];
 }

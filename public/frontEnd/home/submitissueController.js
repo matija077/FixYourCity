@@ -9,14 +9,6 @@
 		
 	function submitissueController(dataservice, $routeParams){
 		var vm = this;
-		var problem = {
-			iduser: '',
-			idcity : '',
-			idcategory : '',
-			address : '',
-			text : '',
-		};
-		
 		vm.city = [];
 		vm.category = [];
 		vm.address='';
@@ -34,8 +26,6 @@
 			vm.category = getCategory();
 		};
 		
-		
-		
 		function getCity(){
 			return dataservice.getCities().getCity({id:$routeParams.idcity});
 		};
@@ -45,48 +35,19 @@
 		};
 		
 		function submitissue(){
-			problem.iduser=1;
-			problem.idcity=vm.city.idcity;
-			problem.idcategory=vm.category.idcategory;
-			problem.address=vm.address;
-			problem.text=vm.text;
+			var problem = {
+				iduser: '1',
+				idcity : vm.city.idcity,
+				idcategory : vm.category.idcategory,
+				address : vm.address,
+				text : vm.text,
+			};
 			vm.sent=true;
-			return dataservice.submitProblem().save(problem);
-		};
-	
-	
-	
-		//vm.city=$routeParams.idcity;
-		//vm.category=dataservice.getCategories().getCategory($routeParams.idcategory);
-		/*
-		function getCity(){
-			return dataservice.getCities().getCity().$promise
-				.then(function(city){
-					console.log(city);
-					return vm.city = city;
-				})
+			dataservice.submitProblem().save(problem);
+			// error check before vm.sent=true?
 		};
 		
 		
-		/*
-		var vm = this;
-		vm.city = [];
 		
-		activate();
-		
-		function activate(){
-			getCity();
-		}
-		
-		function getCity(){
-			//dataservice.getCity().query().$promise
-			return dataservice.getCities().getCity().$promise
-			//dataservice.getCity()
-				.then(function(city){
-					console.log(city);
-					return vm.city = city;
-				})
-		}
-		*/
 	}
 })();

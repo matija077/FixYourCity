@@ -9,7 +9,6 @@ class Category extends Model
      protected $table = 'category';
      
 	 protected $primaryKey = 'idcategory';
-     //protected $fillable = ['ctgname'];
      
      protected $guarded = ['idcategory'];
 }

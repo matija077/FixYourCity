@@ -22,6 +22,11 @@
 				controller: 'submitissueController',
 				controllerAs: 'vm',
 			})
+			.when('/about',{
+				templateUrl: 'frontEnd/about/about.html',
+				controller: 'aboutController',
+				controllerAs: 'vm',
+			})
 			.otherwise({ redirectTo: '/'});
 	}
 })();

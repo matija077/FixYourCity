@@ -38,8 +38,10 @@
 	<script src="frontEnd/dataservice.js"></script>
 	
 	<script src="frontEnd/home/navbarController.js"></script>
-	
+
 	<script src="frontEnd/home/submitissueController.js"></script>
+
+	<script src="frontEnd/about/aboutController.js"></script>
 	
 </body>
 

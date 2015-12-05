@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\City;
 use App\Category;
+use App\Problem;
 
 
 class ApiController extends Controller
@@ -35,6 +36,14 @@ class ApiController extends Controller
           return \Response::json($categories);
     }
 	
+	public static function getCategory($idcategory)
+    {
+        $category = Category::where('idcategory', '=', $idcategory)->firstOrFail();
+        
+        return \Response::json($category);
+    }
+	
+	
 	public static function insertCity($cityname,$state){
 		$city = new City;
 		$city->cityname=$cityname;
@@ -47,6 +56,28 @@ class ApiController extends Controller
 		}else{
 			return \Response::json('City exists');
 		}
+		
+		// destroy $city?
+	}
+	
+	public static function submitProblem(Request $request){
+		//exact duplicate check needed!
+		
+		$problem=array(
+			'iduser' => $request->iduser,
+			'idcity' => $request->idcity,
+			'idcategory' => $request->idcategory,
+			'address' => $request->address,
+			'url' => NULL,
+			'text' => $request->text,
+			'votepositive' => '1',
+			'votenegative' => '0',
+			
+		//	'' => $request->
+		);
+		
+		$problem = Problem::create($problem);
+		
 		
 	}
 	

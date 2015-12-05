@@ -18,8 +18,9 @@ Route::group(array('prefix' => 'api'), function()
 	Route::get('/cities/{id}', 'ApiController@getCity');
 	Route::get('/cities', 'ApiController@getCities');
 	Route::get('/categories', 'ApiController@getCategories');
+	Route::get('/categories/{id}', 'ApiController@getCategory');
 	Route::post('/insertcity/{cityname}/{state}', 'ApiController@insertCity');
-	
+	Route::post('/submitproblem', 'ApiController@submitProblem');
 });
 
 

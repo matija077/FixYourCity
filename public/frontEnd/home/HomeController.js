@@ -7,6 +7,7 @@
 		
 		HomeController.$inject = ['dataservice'];
 		
+		
 	function HomeController(dataservice){
 		var vm = this;
 		vm.cities = [];
@@ -16,6 +17,11 @@
 		vm.filterCities = filterCities;
 		vm.filterCategories = filterCategories;
 		vm.insertCity=insertCity;
+		vm.selectCity=selectCity;
+		vm.selectedcity;
+		vm.selectCategory=selectCategory;
+		vm.selectedcategory;
+		vm.proceedSubmit=proceedSubmit;
 		
 		activate();
 		
@@ -72,6 +78,22 @@
 		function insertCity(){
 			dataservice.insertCity().send({cityname:vm.cityname,state:vm.state});
 		}
+		
+		function selectCity(param){
+			//vm.state=param;
+			vm.selectedcity=param;
+		}
+		
+		function selectCategory(param){
+			//vm.cityname=param;
+			vm.selectedcategory=param;
+		}
+	
+		function proceedSubmit(idcity,idcategory){
+			//dataservice.saveData(5,1);
+			dataservice.goPath('/submit/'+idcity+'/'+idcategory);
+		}
+		
 		
 	}
 })();

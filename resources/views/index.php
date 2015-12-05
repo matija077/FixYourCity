@@ -39,6 +39,8 @@
 	
 	<script src="frontEnd/home/navbarController.js"></script>
 	
+	<script src="frontEnd/home/submitissueController.js"></script>
+	
 </body>
 
 </html>

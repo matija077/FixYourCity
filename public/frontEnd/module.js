@@ -2,32 +2,39 @@
 	'use strict';
 	
 	angular
-		.module('FixYourCityApp', ['ngRoute', 'ngResource'])
+		.module('FixYourCityApp', [ 'ui.router','ngResource','satellizer'])
 		.config(routeConfig);
 		
-	function routeConfig ($routeProvider){
-		$routeProvider
-			.when('/',{
+	function routeConfig ($stateProvider, $urlRouterProvider, $authProvider){
+		$authProvider.loginUrl = 'RWA/public/api/authenticate';
+		
+		$stateProvider
+			.state('home',{
+				url: '/',
 				templateUrl: 'frontEnd/home/homePage.html',
 				controller: 'HomeController',
 				controllerAs: 'vm',
 			})
-			.when('/city/:id', {
+			.state('city', {
+				url: '/city/:id',
 				templateUrl: 'frontEnd/cities/city.html',
 				controller: 'CityDetailController',
 				controllerAs: 'vm',
 			})
-			.when('/submit/:idcity/:idcategory', {
+			.state('submit', {
+				url: '/submit/:idcity/:idcategory',
 				templateUrl:'frontEnd/home/submitissue.html',
 				controller: 'submitissueController',
 				controllerAs: 'vm',
 			})
-			.when('/about',{
+			.state('about',{
+				url: '/about',
 				templateUrl: 'frontEnd/about/about.html',
 				controller: 'aboutController',
 				controllerAs: 'vm',
 			})
-			.otherwise({ redirectTo: '/'});
+			$urlRouterProvider.otherwise( '/');
+
 	}
 })();
 

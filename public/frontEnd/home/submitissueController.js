@@ -5,9 +5,9 @@
 		.module('FixYourCityApp')
 		.controller('submitissueController', submitissueController);
 		
-		submitissueController.$inject = ['dataservice', '$routeParams'];
+		submitissueController.$inject = ['dataservice', '$stateParams'];
 		
-	function submitissueController(dataservice, $routeParams){
+	function submitissueController(dataservice, $stateParams){
 		var vm = this;
 		vm.city = [];
 		vm.category = [];
@@ -27,16 +27,17 @@
 		};
 		
 		function getCity(){
-			return dataservice.getCities().getCity({id:$routeParams.idcity});
+			return dataservice.getCities().getCity({id:$stateParams.idcity});
 		};
 		
 		function getCategory(){
-			return dataservice.getCategories().getCategory({id:$routeParams.idcategory});
+			return dataservice.getCategories().getCategory({id:$stateParams.idcategory});
 		};
 		
 		function submitissue(){
+			var user = JSON.parse(localStorage.getItem("user"));
 			var problem = {
-				iduser: '1',
+				iduser: user.iduser,
 				idcity : vm.city.idcity,
 				idcategory : vm.category.idcategory,
 				address : vm.address,

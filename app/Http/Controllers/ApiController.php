@@ -13,9 +13,16 @@ use App\Problem;
 
 class ApiController extends Controller
 {
-    public static function getCities(){
-       $cities = City::all();  
-		
+    //add jwt token to every api route
+    public function __construct()
+    {
+         $this->middleware('jwt.auth');
+    }
+    
+    public static function getCities()
+    {     
+        $cities = City::all();  
+   
        return \Response::json($cities);    
     }
     

@@ -17,6 +17,27 @@
 				controller: 'CityDetailController',
 				controllerAs: 'vm',
 			})
+			.when('/submit/:idcity/:idcategory', {
+				templateUrl:'frontEnd/home/submitissue.html',
+				controller: 'submitissueController',
+				controllerAs: 'vm',
+			})
+			.when('/about',{
+				templateUrl: 'frontEnd/about/about.html',
+				controller: 'aboutController',
+				controllerAs: 'vm',
+			})
 			.otherwise({ redirectTo: '/'});
 	}
 })();
+
+/* TEMPLATE
+*
+	.when('/', {
+				templateUrl:'',
+				controller: '',
+				controllerAs: 'vm',
+	})
+*
+*
+*/

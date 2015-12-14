@@ -1,0 +1,68 @@
+<div class="container-fluid">
+	<div class="row">
+	
+	
+		<div class="col-md-2">
+		</div>
+		
+		
+		<div class="col-md-8 well well-lg">
+		
+			<div class="row">
+				<center>
+					<h4>You are reporting issue for '{{vm.city.cityname}}, {{vm.city.state}}' in category '{{vm.category.ctgname}}'<h4>
+				</center>
+				<hr />
+			</div>
+			
+			<div class="row">
+				<div class="col-md-6">
+				
+					<b>Issue image:</b>
+					<br />
+					<input type="file" ng-disabled="1" />
+					
+					<br />
+					
+					<b>Location:</b> (required)
+					<br />
+					<input type="text" class="form-control" placeholder="Enter street name" ng-model="vm.address" />
+					
+				</div>
+				
+				<div class="col-md-6">
+				
+					<b>Description:</b>
+					<br />
+					<textarea  style="height: 100px;" class="form-control" placeholder="Problem description" ng-model="vm.text" ></textarea>
+				
+				</div>
+				
+			</div>
+			
+			<div class="row">
+				<hr />
+				<center>
+					<input type="submit" value="  Submit  " ng-disabled="(!vm.address)" ng-click="vm.submitissue()" ng-if="!vm.sent" />
+					<span ng-if="vm.sent"><h3>Issue successfully reported!</h3></span>
+				</center>
+			</div>
+			
+			
+		</div>
+		
+		
+		<div class="col-md-2">
+		</div>
+		
+	
+	
+	</div>
+	
+	<div class="row">
+	
+	</div>
+
+
+
+</div>

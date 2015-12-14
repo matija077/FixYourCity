@@ -5,6 +5,7 @@
 .container-secondForm{
 	float: right;
 }*/
+<<<<<<< HEAD
 /*footer icons*/
 .navbar-text > a > p {
     color: blue;
@@ -69,4 +70,8 @@ html, body {
 .navbar-icons {
 	padding-top: 120px;
 	padding-right: 100px;
+=======
+.lightgraybg{
+	background-color: lightgray;
+>>>>>>> f53ea04add345d902d36feeccf0bc9d04d713f1a
 }

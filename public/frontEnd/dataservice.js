@@ -5,9 +5,9 @@
 		.module('FixYourCityApp')
 		.factory('dataservice', dataservice);
 		
-		dataservice.$inject = ['$http', '$resource', '$stateParams', '$urlRouter'];
+		dataservice.$inject = ['$http', '$resource', '$stateParams', '$urlRouter','$state'];
 		
-	function dataservice($http, $resource, $stateParams, $urlRouter){
+	function dataservice($http, $resource, $stateParams, $urlRouter, $state){
 
 		var service = {
 			getCities : getCities,
@@ -63,8 +63,8 @@
 			});
 		}
 		
-		function goPath(param){
-			$state.go(param);
+		function goPath(stateName, params){
+			$state.go(stateName, params);
 		}
 		
 		function submitProblem(){

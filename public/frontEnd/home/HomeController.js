@@ -138,8 +138,7 @@
 		}
 	
 		function proceedSubmit(idcity,idcategory){
-			//dataservice.goPath('/submit/'+idcity+'/'+idcategory);
-			$state.go('submit', {"idcity": idcity, "idcategory": idcategory});
+			dataservice.goPath('submit', {"idcity": idcity, "idcategory": idcategory});
 		}
 		
 		

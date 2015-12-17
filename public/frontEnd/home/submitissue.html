@@ -26,7 +26,7 @@
 					
 					<b>Location:</b> (required)
 					<br />
-					<input type="text" class="form-control" placeholder="Enter street name" ng-model="vm.address" />
+					<input type="text" class="form-control" placeholder="Enter street name" ng-model="vm.address"/>
 					
 				</div>
 				
@@ -43,7 +43,7 @@
 			<div class="row">
 				<hr />
 				<center>
-					<input type="submit" value="  Submit  " ng-disabled="(!vm.address)" ng-click="vm.submitissue()" ng-if="!vm.sent" />
+					<input type="submit" value="  Submit  " ng-disabled="(!vm.address) || (role<=1) || (!authenticated)" ng-click="vm.submitissue()" ng-if="!vm.sent" />
 					<span ng-if="vm.sent"><h3>Issue successfully reported!</h3></span>
 				</center>
 			</div>

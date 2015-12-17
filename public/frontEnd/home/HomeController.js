@@ -16,15 +16,15 @@
 		var credentials = {
                 /*email: vm.email,
                 password: vm.password*/
-				email: 'ryanchenkie7@gmail.com',
-				password: 'secret'
+				email: 'admin@gmail.com',
+				password: 'root'
         }
 		var user = {
-			username: 'yolo2',
-			email: 'ryanchenkie10@gmail.com',
-			password: 'secret',
-			accesslevel: '1',
-			karma: '50'
+			username: 'admin',
+			email: 'admin@gmail.com',
+			password: 'root',
+			accesslevel: '4',
+			karma: '1000'
 		}
 		vm.filterCities = filterCities;
 		vm.filterCategories = filterCategories;
@@ -92,8 +92,10 @@
 							localStorage.setItem('user', JSON.stringify(userData.data.user));
 							//needed fro  ng-if
 							$rootScope.authenticated = true;
+							$rootScope.role = userData.data.user.accesslevel;
 							//load data agian
 							$state.reload();
+							console.log($rootScope.role);
 						})
 						.catch(function(userDataError){
 							console.log('error retriving');

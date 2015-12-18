@@ -21,7 +21,7 @@ Route::group(array('prefix' => 'api'), function()
 	Route::get('/categories/{id}', 'ApiController@getCategory');
 	Route::post('/insertcity', 'ApiController@insertCity');
 	Route::post('/submitproblem', 'ApiController@submitProblem');
-	Route::get('authenticate/user', 'AuthenticateController@getAuthenticatedUser');
+	Route::get('/authenticate/user', 'AuthenticateController@getAuthenticatedUser');
 	Route::post('/authenticate', 'AuthenticateController@authenticate');
 	Route::post('/signup', 'AuthenticateController@signup');
 });

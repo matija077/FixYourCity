@@ -32,13 +32,17 @@
 		$searchValue = "class=\"postal-code\"";   //trazi za class="postal-code"
 		$altSearchValue = "Cities and towns";
 		$altAltSearchValue = "<a href=\"/wiki/City\" title=\"City\">City</a>";
+		$village = "village";
 
 		if (strpos($content, $searchValue) == false && strpos($content, $altSearchValue) == false
 			&& strpos($content, $altAltSearchValue) == false) {
 		echo "Couldn't find city: " . "<i>$city</i>";
 		} else {
 			$cityFound = true;
-			echo "City " . "<i>$city</i>" . " has been found!";
+			if (strpos($content, $village) == true) {
+				echo "Village " . "<i>$city</i>" . " has been found!";
+			}
+			else echo "City " . "<i>$city</i>" . " has been found!";
 		}
 
 		if (strpos($content, $town) == true) {

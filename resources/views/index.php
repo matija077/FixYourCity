@@ -13,12 +13,13 @@
 	
 	<div class="container">
 		<div class="navbar" >
-			<div ng-include = "'frontEnd/home/navbar.htm'"></div>
+			<div ng-include = "'frontEnd/home/header2.htm'"></div>
 		</div>
 		<div ng-view></div>
 		<div class="footernavbar" >
 			<div ng-include = "'frontEnd/home/footer.htm'"></div>
 		</div>
+		
 	</div>	
 	
 	<noscript>
@@ -32,6 +33,12 @@
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular-resource.js"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular-cookies.js"></script>
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/restangular/1.3.1/restangular.js"></script>
+
+	<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+    
 	
 	<!--
 	  <!-- Angular Material Javascript now available via Google CDN; version 0.11.2 used here -->

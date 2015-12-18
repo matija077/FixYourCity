@@ -7,7 +7,7 @@
 		.run(routeInterceptor);
 		
 	function routeConfig ($stateProvider, $urlRouterProvider, $authProvider){
-		$authProvider.loginUrl = 'RWA/public/api/authenticate';
+		$authProvider.loginUrl = 'FixYourCity/public/api/authenticate';
 		
 		$stateProvider
 			.state('home',{

@@ -3,6 +3,9 @@
 Homestead.yaml
 Homestead.json
 .env
+.ftpquota
+/ftps
+/phpmyadmin
 
 # Compiled source #
 ###################

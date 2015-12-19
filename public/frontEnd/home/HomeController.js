@@ -65,7 +65,7 @@
 		function filterCities(inputCityName){
 			vm.citiesToShow = [];
 			vm.cities.forEach(function(element) {
-				if (element.cityname.indexOf(inputCityName)!=-1){
+				if (angular.lowercase(element.cityname).indexOf(angular.lowercase(inputCityName))!=-1){
 					vm.citiesToShow.push(element);
 				}
 			});
@@ -74,11 +74,10 @@
 		function filterCategories(inputCategoryName){
 			vm.categoriesToShow = [];
 			vm.categories.forEach(function(element) {
-				if (element.ctgname.indexOf(inputCategoryName)!=-1){
+				if (angular.lowercase(element.ctgname).indexOf(angular.lowercase(inputCategoryName))!=-1){
 					vm.categoriesToShow.push(element);
 				}
 			});
-			console.log(vm.categoriesToShow);
 		} 
 		
 		function login(){

@@ -12,28 +12,28 @@
 		$stateProvider
 			.state('home',{
 				url: '/',
-				templateUrl: 'frontEnd/home/homePage.html',
+				templateUrl: 'frontend/home/homePage.html',
 				controller: 'HomeController',
 				controllerAs: 'vm',
 				accesslevel: '1',
 			})
 			.state('city', {
 				url: '/city/:id',
-				templateUrl: 'frontEnd/cities/city.html',
+				templateUrl: 'frontend/cities/city.html',
 				controller: 'CityDetailController',
 				controllerAs: 'vm',
 				accesslevel: '2',
 			})
 			.state('submit', {
 				url: '/submit/:idcity/:idcategory',
-				templateUrl:'frontEnd/home/submitissue.html',
+				templateUrl:'frontend/home/submitissue.html',
 				controller: 'submitissueController',
 				controllerAs: 'vm',
 				accesslevel: '1',	
 			})
 			.state('about',{
 				url: '/about',
-				templateUrl: 'frontEnd/about/about.html',
+				templateUrl: 'frontend/about/about.html',
 				controller: 'aboutController',
 				controllerAs: 'vm',
 				accesslevel: '1',

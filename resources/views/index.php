@@ -5,14 +5,14 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="frontEnd/stylesheet.css">
+	<link rel="stylesheet" type="text/css" href="frontend/stylesheet.css">
 </head>
 <body>
 	
 	
 	<div class="container">
 		<div class="navbar" >
-			<div ng-include = "'frontEnd/home/navbar.htm'"></div>
+			<div ng-include = "'frontend/home/navbar.htm'"></div>
 		</div>
 		<div ui-view></div>
 	</div>	
@@ -31,19 +31,19 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/satellizer/0.13.1/satellizer.min.js"></script>
 	<!--<script src="http://cdnjs.cloudflare.com/ajax/libs/restangular/1.3.1/restangular.js"></script>-->
 	
-	<script src="frontEnd/module.js"></script>
+	<script src="frontend/module.js"></script>
 	
-	<script src="frontEnd/home/HomeController.js"></script>
+	<script src="frontend/home/HomeController.js"></script>
 	
-	<script src="frontEnd/cities/CityDetailController.js"></script>
+	<script src="frontend/cities/CityDetailController.js"></script>
 	
-	<script src="frontEnd/dataservice.js"></script>
+	<script src="frontend/dataservice.js"></script>
 	
-	<script src="frontEnd/home/navbarController.js"></script>
+	<script src="frontend/home/navbarController.js"></script>
 
-	<script src="frontEnd/home/submitissueController.js"></script>
+	<script src="frontend/home/submitissueController.js"></script>
 
-	<script src="frontEnd/about/aboutController.js"></script>
+	<script src="frontend/about/aboutController.js"></script>
 	
 </body>
 

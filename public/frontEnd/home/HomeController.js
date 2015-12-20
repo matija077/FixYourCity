@@ -16,7 +16,9 @@
 		var credentials = {
                 /*email: vm.email,
                 password: vm.password*/
-				email: 'admin@gmail.com',
+				/*email: 'admin@gmail.com',
+				password: 'root'*/
+				email: 'level2@gmail.com',
 				password: 'root'
         }
 		var user = {

@@ -7,6 +7,7 @@
 		.run(routeInterceptor);
 		
 	function routeConfig ($stateProvider, $urlRouterProvider, $authProvider){
+
 		$authProvider.loginUrl = 'FixYourCity/public/api/authenticate';
 		
 		$stateProvider
@@ -45,19 +46,22 @@
 	function routeInterceptor ($rootScope, $state){
 		$rootScope.$on('$stateChangeStart', function(event, toState){
 			var user = JSON.parse(localStorage.getItem('user'));
-			console.log(user);
-			console.log($rootScope.role);
+			var token = localStorage.getItem('satellizer_token');
+			console.log('user :', user);
+			console.log('token :', token);
+			console.log('role :', $rootScope.role);
 			
 			//if a user  came from a different webpage,
 			//but a token is still valid in local storage autheticate him
-			if (user!=null) {
+			if (token!=null && user!=null) {
 				$rootScope.authenticated = true;
 				$rootScope.role = user.accesslevel;
-				console.log($rootScope.role);
+				console.log('role :', $rootScope.role);
 				console.log(toState);
 				}else {
 					//if user is a guest, on a first state change assign him role 1
 					$rootScope.role = '1';
+					$rootScope.authenticated = false;
 				}
 				//it-s enough to check accesslevel only. If user is authenticated he
 				//will have accesslevel > 1

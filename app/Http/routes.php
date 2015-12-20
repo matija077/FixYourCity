@@ -20,7 +20,7 @@ Route::group(array('prefix' => 'api'), function()
 	Route::get('/categories', 'ApiController@getCategories');
 	Route::get('/categories/{id}', 'ApiController@getCategory');
 	Route::post('/insertcity', 'ApiController@insertCity');
-	Route::post('/submitproblem', 'ApiController@submitProblem');
+	Route::post('/submitproblem', 'ApiController@submitProblem')->middleware('check:2');
 	Route::get('authenticate/user', 'AuthenticateController@getAuthenticatedUser');
 	Route::post('/authenticate', 'AuthenticateController@authenticate');
 	Route::post('/signup', 'AuthenticateController@signup');

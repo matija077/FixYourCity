@@ -21,6 +21,7 @@ Route::group(array('prefix' => 'api'), function()
 	Route::get('/categories/{id}', 'ApiController@getCategory');
 	Route::post('/insertcity', 'ApiController@insertCity');
 	Route::post('/submitproblem', 'ApiController@submitProblem');
+	//Route::post('/checkcountry', 'ApiController@checkCountry');
 });
 
 

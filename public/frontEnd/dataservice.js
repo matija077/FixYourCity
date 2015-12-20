@@ -14,6 +14,7 @@
 			insertCity : insertCity,
 			goPath : goPath,   //goPath(path)  partial path where to redirect (checks module.js)
 			submitProblem : submitProblem,
+			
 		}
 		
 		return service;
@@ -53,7 +54,17 @@
 			});
 		}
 		
-		
+		/****/
+		function checkCountry(){
+			return $resource("api/checkcountry/:id", {id: "@id"}, {
+				getAll: {method: 'POST', params:{}, isArray:false, 
+				transformResponse: function(data, headers){
+                    // transform to array of objects 
+                    return { data: angular.fromJson(data)};
+                }},
+				checkCountry: {method: 'POST', params:{id: $routeParams.id}, isArray:false}
+			});
+		}
 		
 	}
 })();

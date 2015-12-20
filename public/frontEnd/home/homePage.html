@@ -17,7 +17,7 @@
 						<input type="text" placeholder="Search for city..." ng-model="vm.inputCityName" ng-change="vm.filterCities(vm.inputCityName);">
 					</td>
 				</tr> 
-				<tr ng-repeat="city in vm.citiesToShow | limitTo: 5" ng-click="vm.selectCity(city.idcity)" ng-class="{'lightgraybg':vm.selectedcity === city.idcity}">
+				<tr ng-repeat="city in vm.citiesToShow | limitTo: 10" ng-click="vm.selectCity(city.idcity)" ng-class="{'lightgraybg':vm.selectedcity === city.idcity}">
 					<td>
 						<a href="#/city/{{city.idcity}}">{{city.cityname}}</a>
 					</td>
@@ -74,11 +74,11 @@
 	
 	
 		<div class="col-md-4">
-			<!--
+			
 			<input type="text" placeholder="City name here" ng-model="vm.cityname"/>
 			<input type="text" placeholder="State here" ng-model="vm.state"/>
 			<input type="button" value="Add city" ng-click="vm.insertCity()"/>
-			-->
+			
 		</div>
 		
 		<div class="col-md-4">

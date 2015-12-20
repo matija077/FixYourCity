@@ -43,9 +43,14 @@
 				address : vm.address,
 				text : vm.text,
 			};
-			vm.sent=true;
-			dataservice.submitProblem().save(problem);
-			// error check before vm.sent=true?
+			dataservice.submitProblem().save(problem).$promise
+				.then(function(data){
+					vm.sent=true;
+				})
+				.catch(function(data){
+					console.log(data);
+				//TODO: add error message	
+				});
 		};
 		
 		

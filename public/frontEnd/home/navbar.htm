@@ -5,7 +5,16 @@
 			<ul class="nav nav-pills">
 				<li class="active" ng-repeat="tab in navbar.tabs"  ng-bind-html="navbar.renderTab(tab)"></li>
 			</ul>
-						
+			
+			<div class="login col-md-2">
+			<button type="button" class="btn btn-info"  ng-click="navbar.login();">Login</button>
+			</div>
+			<div class="signup col-md-2">
+				<button type="button" class="btn btn-info"  ng-click="navbar.signUp();">Sign up!</button>
+			</div>
+			<div class="logout col-md-2">
+				<button type="button" class="btn btn-info"  ng-click="navbar.logout();">Log out</button>
+			</div>						
 		</div>
 	</div>
 </nav>

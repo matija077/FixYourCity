@@ -9,19 +9,13 @@
 	
 	function navbarController($sce, $auth, dataservice, $rootScope){
 		var vm = this;
-		var credentials = {
-			/*email: vm.email,
-			password: vm.password*/
-			/*email: 'admin@gmail.com',
-			password: 'root'*/
-			email: 'level2@gmail.com',
-			password: 'root'
-        }
+		vm.email = '';
+		vm.password = '';
 		var user = {
-			username: 'admin',
-			email: 'admin@gmail.com',
+			username: 'try',
+			email: 'try@gmail.com',
 			password: 'root',
-			accesslevel: '4',
+			accesslevel: '2',
 			karma: '1000'
 		}
 		vm.renderTab=renderTab;
@@ -109,35 +103,46 @@
 		}
 				
 		function login(){
-            // Use Satellizer's $auth service to login
-            $auth.login(credentials)
-				.then(function(data) {
-					dataservice.getUser().getUser().$promise
-						.then(function(userData){
-							//local storage accepts only string pairs7
-							//add user to local storage
-							localStorage.setItem('user', JSON.stringify(userData.data.user));
-							//needed fro  ng-if
-							$rootScope.authenticated = true;
-							$rootScope.role = userData.data.user.accesslevel;
-							$rootScope.userName = userData.data.user.username;
-							//load data agian
-							dataservice.reload();
-							console.log($rootScope.role);
-						})
-						.catch(function(userDataError){
-							console.log('error retriving');
-						});
-				})
-				.catch(function(data) {
-					console.log(data + 'error');	
-				});
+			if ((vm.email!='') && (vm.password!='')){
+				var credentials = {
+					email : vm.email,
+					password : vm.password,
+				}
+				console.log(credentials);
+				// Use Satellizer's $auth service to login
+				$auth.login(credentials)
+					.then(function(data) {
+						dataservice.getUser().getUser().$promise
+							.then(function(userData){
+								//local storage accepts only string pairs
+								//add user to local storage
+								localStorage.setItem('user', JSON.stringify(userData.data.user));
+								//needed for ng-if
+								$rootScope.authenticated = true;
+								$rootScope.role = userData.data.user.accesslevel;
+								$rootScope.userName = userData.data.user.username;
+								//load data agian
+								dataservice.reload();
+								console.log($rootScope.role);
+							})
+							.catch(function(userDataError){
+								console.log('error retriving');
+							});
+					})
+					.catch(function(data) {
+						console.log(data + 'error');	
+					});
+			}
 		}
 		
 		function signUp(){
 			return dataservice.signUp().save(user).$promise
 				.then(function(resource){
 					console.log(resource);
+					login();
+				})
+				.catch(function(data){
+					console.log('error :', data);
 				});
 		}
 		
@@ -146,6 +151,8 @@
 				localStorage.removeItem('user');
 				
                 $rootScope.authenticated = false;
+				$rootScope.role = '1';
+				$rootScope.userName = "";
 				
 				dataservice.reload();
 			});

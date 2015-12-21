@@ -5,9 +5,9 @@
 		.module('FixYourCityApp')
 		.controller('navbarController', navbarController);
 		
-	navbarController.$inject = ['$sce', '$auth', 'dataservice', '$rootScope', '$state'];
+	navbarController.$inject = ['$sce', '$auth', 'dataservice', '$rootScope'];
 	
-	function navbarController($sce, $auth, dataservice, $rootScope, $state){
+	function navbarController($sce, $auth, dataservice, $rootScope){
 		var vm = this;
 		var credentials = {
 			/*email: vm.email,
@@ -122,7 +122,7 @@
 							$rootScope.role = userData.data.user.accesslevel;
 							$rootScope.userName = userData.data.user.username;
 							//load data agian
-							$state.reload();
+							dataservice.reload();
 							console.log($rootScope.role);
 						})
 						.catch(function(userDataError){
@@ -147,7 +147,7 @@
 				
                 $rootScope.authenticated = false;
 				
-				$state.reload();
+				dataservice.reload();
 			});
 		}
 		

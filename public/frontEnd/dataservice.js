@@ -55,7 +55,7 @@
 		}
 		
 		/****/
-		function checkCountry(){
+		/*function checkCountry(){
 			return $resource("api/checkcountry/:id", {id: "@id"}, {
 				getAll: {method: 'POST', params:{}, isArray:false, 
 				transformResponse: function(data, headers){
@@ -64,7 +64,7 @@
                 }},
 				checkCountry: {method: 'POST', params:{id: $routeParams.id}, isArray:false}
 			});
-		}
+		}*/
 		
 	}
 })();

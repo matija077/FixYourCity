@@ -81,6 +81,30 @@ private static function vratiCyrilic($latinString) {
         echo $cyrilicString;
 }
 
+private static function cleanString($text) {
+    $utf8 = array(
+        '/[áàâãªä]/u'   =>   'a',
+        '/[ÁÀÂÃÄ]/u'    =>   'A',
+        '/[İÍÌÎÏ]/u'    =>   'I',
+        '/[íìîï]/u'     =>   'i',
+        '/[éèêë]/u'     =>   'e',
+        '/[ÉÈÊË]/u'     =>   'E',
+        '/[óòôõºö]/u'   =>   'o',
+        '/[ÓÒÔÕÖ]/u'    =>   'O',
+        '/[úùûü]/u'     =>   'u',
+        '/[ÚÙÛÜ]/u'     =>   'U',
+        '/ç/'           =>   'c',
+        '/Ç/'           =>   'C',
+        '/ñ/'           =>   'n',
+        '/Ñ/'           =>   'N',
+        '/–/'           =>   '-', // UTF-8 hyphen to "normal" hyphen
+        '/[’‘‹›‚]/u'    =>   ' ', // Literally a single quote
+        '/[“”«»„]/u'    =>   ' ', // Double quote
+        '/ /'           =>   ' ', // nonbreaking space (equiv. to 0x160)
+    );
+    return preg_replace(array_keys($utf8), array_values($utf8), $text);
+}
+
 
 private static function checkCity($request, $numbah){
 
@@ -113,7 +137,8 @@ private static function checkCity($request, $numbah){
   for($i = 0; $i < count($json_array['response']); ++$i){
       //if($json_array['response'][$i]['title'] == $string_to_search && $json_array['response'][$i]['region'] == $region_to_search){
           //if($json_array['response'][$i]['region'] == $region_to_search) {
-    if($json_array['response'][$i]['title'] == $string_to_search || $json_array['response'][$i]['title'] == $cirilica) {
+      $removeSpecialChar = self::cleanString($json_array['response'][$i]['title']);
+    if($json_array['response'][$i]['title'] == $string_to_search || $json_array['response'][$i]['title'] == $cirilica || $string_to_search == $removeSpecialChar) {
     
           $found = true;
           $grad = $json_array['response'][$i]['title'];

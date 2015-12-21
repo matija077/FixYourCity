@@ -120,6 +120,7 @@
 							//needed fro  ng-if
 							$rootScope.authenticated = true;
 							$rootScope.role = userData.data.user.accesslevel;
+							$rootScope.userName = userData.data.user.username;
 							//load data agian
 							$state.reload();
 							console.log($rootScope.role);

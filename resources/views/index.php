@@ -15,6 +15,9 @@
 			<div ng-include = "'frontend/home/navbar.htm'"></div>
 		</div>
 		<div ui-view></div>
+		<div class="footernavbar" >
+			<div ng-include = "'frontend/home/footer.htm'"></div>
+		</div>
 	</div>	
 	
 	<noscript>

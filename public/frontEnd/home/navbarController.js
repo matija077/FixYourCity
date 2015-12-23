@@ -11,13 +11,6 @@
 		var vm = this;
 		vm.email = '';
 		vm.password = '';
-		var user = {
-			username: 'try',
-			email: 'try@gmail.com',
-			password: 'root',
-			accesslevel: '2',
-			karma: '1000'
-		}
 		vm.renderTab=renderTab;
 		vm.login = login;
 		vm.signUp = signUp;
@@ -136,14 +129,7 @@
 		}
 		
 		function signUp(){
-			return dataservice.signUp().save(user).$promise
-				.then(function(resource){
-					console.log(resource);
-					login();
-				})
-				.catch(function(data){
-					console.log('error :', data);
-				});
+			dataservice.goPath('signup');
 		}
 		
 		function logout(){

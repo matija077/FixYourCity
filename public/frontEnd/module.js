@@ -39,6 +39,13 @@
 				controllerAs: 'vm',
 				accesslevel: '1',
 			})
+			.state('signup', {
+				url: '/signup',
+				templateUrl: 'frontend/signup/signup.html',
+				controller: 'signupController',
+				controllerAs: 'vm',
+				accesslevel: '1',
+			})
 			$urlRouterProvider.otherwise( '/');
 
 	}

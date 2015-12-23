@@ -1,0 +1,28 @@
+<div class="container-fluid">
+	<div class="row">
+	
+	
+		<div class="col-md-2">
+		</div>
+		
+		
+		<div class="col-md-8 well well-lg">
+			<form name="signup">
+				<h4>User Name:</h4> <input type="text" name="username" ng-model="vm.user.username">
+				<span ng-if="vm.error.username">Required!</span>
+				<h4>Email: </h4> <input type="text" ng-model="vm.user.email">
+				<span ng-if="vm.error.email">Required!</span>
+				<h4>Password: </h4> <input type="password" ng-model="vm.user.password">
+				<span ng-if="vm.error.password==1">Required!</span>
+				<span ng-if="vm.error.password==2">Password must match!</span>
+				<h4>Retype password: </h4> <input type="password"
+					ng-model="vm.user.retypePassword">
+				<span ng-if="vm.error.retypePassword==1">Required!</span>
+				<span ng-if="vm.error.retypePassword==2">Password must match!</span><br>
+				<div class="col-md-3"></div>
+				<button class="btn btn-info col-md-3" ng-click="vm.signUp();">Sign up</button>
+			</form>	
+		</div>
+	</div>
+</div>
+		

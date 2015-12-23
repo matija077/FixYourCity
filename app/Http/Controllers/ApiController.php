@@ -1,11 +1,16 @@
 <?php
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
+
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+
 use App\City;
 use App\Category;
 use App\Problem;
+
+
 class ApiController extends Controller
 {
     //add jwt token to every api route
@@ -39,10 +44,7 @@ class ApiController extends Controller
         return \Response::json($category);
 	}
 
-
-
 	private static function checkCountry($name){
-		$name = str_replace("+", " ", $name);
 		$countries = file_get_contents('http://api.vk.com/method/database.getCountries?need_all=1&count=1000&lang=en');
 		$pozicija = strpos($countries, $name);
 		$razdvoji = substr($countries, $pozicija-18, 9);
@@ -54,11 +56,11 @@ class ApiController extends Controller
 		$cyr  = array('а','б','в','г','д','e','ж','з','и','й','к','л','м','н','о','п','р','с','т','у', 
 			'ф','х','ц','ч','ш','щ','ъ','ь', 'ю','я','А','Б','В','Г','Д','Е','Ж','З','И','Й','К','Л','М','Н','О','П','Р','С','Т','У',
 			'Ф','Х','Ц','Ч','Ш','Щ','Ъ','Ь', 'Ю','Я' );
-			$lat = array( 'a','b','v','g','d','e','zh','z','i','y','k','l','m','n','o','p','r','s','t','u',
+		$lat = array( 'a','b','v','g','d','e','zh','z','i','y','k','l','m','n','o','p','r','s','t','u',
 			'f' ,'h' ,'ts' ,'ch','sh' ,'sht' ,'a' ,'y' ,'yu' ,'ya','A','B','V','G','D','E','Zh',
 			'Z','I','Y','K','L','M','N','O','P','R','S','T','U',
 			'F' ,'H' ,'Ts' ,'Ch','Sh' ,'Sht' ,'A' ,'Y' ,'Yu' ,'Ya' );
-			$cyrilicString = str_replace($lat, $cyr, $latinString);
+		$cyrilicString = str_replace($lat, $cyr, $latinString);
         return $cyrilicString;
 	}
 
@@ -86,44 +88,35 @@ class ApiController extends Controller
 		return preg_replace(array_keys($utf8), array_values($utf8), $text);
 	}
 
-	private static function checkCity($request, $numbah){
-		$grad = $request->cityname;
+	private static function checkCity($grad, $numbah, $region){
 		$grad = implode(' ', array_map('ucfirst', explode(' ', $grad)));
 		$string_to_search = $grad;
 		$grad = str_replace(" ", "+", $grad);
-		$grad = implode('+', array_map('ucfirst', explode('+', $grad)));
 		$cities = file_get_contents('http://api.vk.com/method/database.getCities?country_id=' . $numbah . '&need_all=1&count=1000&q=' . $grad . '&lang=en');
 		$json_array = json_decode($cities, true);
-		$podrucje = "";
 		$cirilica = self::vratiCyrilic($string_to_search);
-		$found = false;
+		//$cirReg = self::vratiCyrilic($region);    //maybe update later
+		$found = "";
+		if (!isset($json_array['response'])) return $found; 
 		for($i = 0; $i < count($json_array['response']); ++$i){
 			$removeSpecialChar = self::cleanString($json_array['response'][$i]['title']);
 			if($json_array['response'][$i]['title'] == $string_to_search || $json_array['response'][$i]['title'] == $cirilica || $string_to_search == $removeSpecialChar) {
-				$found = true;
-				$grad = $json_array['response'][$i]['title'];
-				if(isset($json_array['response'][$i]['region'])) {
-					$regija = $json_array['response'][$i]['region'];
-				}else $regija = "";
-				break;
-				if(isset($json_array['response'][$i]['area'])) {
-					echo "Area: " . $json_array['response'][$i]['area'] . "<br />";
+				if(empty($region) || $json_array['response'][$i]['region'] == $region){
+					$found = $json_array['response'][$i]['title'];
+					break;
 				}
 			}
 		}
 		return $found;
 	}
-
-	private static function unos ($found) {
-		if ($found) {
-			$newcity=array(
-			'cityname' => $request->cityname,
-			'state' => $request->state,);
-		$newcity = City::create($newcity)->idcity;
-		return \Response::json($newcity);
-		}else {
-			return \Response::json('Ne postoji');
-		};
+	
+	public static function isUSA($state){
+		$array = array(
+			'Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut','Delaware','Florida','Georgia','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','Kentucky','Louisiana','Maine',
+			'Maryland','Massachusetts','Michigan','Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire','New Jersey','New Mexico','New York','North Carolina','North Dakota',
+			'Ohio','Oklahoma','Oregon','Pennsylvania','Rhode Island','South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont','Virginia','Washington','West Virginia','Wisconsin','Wyoming'
+		);
+		return in_array($state,$array);
 	}
 	
 	public static function insertCity(Request $request){
@@ -133,57 +126,39 @@ class ApiController extends Controller
 
 		$temp=City::where('cityname',$request->cityname)->where('state',$request->state)->first();
 		if(!count($temp)) {  //ne postoji vec u bazi
-			$provjera = false;
-    
-			$name = $request->state;
-			$name = str_replace(" ", "+", $name);
-			$name = implode('+', array_map('ucfirst', explode('+', $name)));
-			$numbah = self::checkCountry($name);
-      
-
-			if ($numbah == "") {
-				//echo "Country not found.";
-			}else {
-				$provjera = self::checkCity($request, $numbah);
+			
+			if(self::isUSA($request->state)){
+				$numbah=9; // USA has id 9 in the API
+				$region=$request->state;
+			}else{
+				if($request->state=="USA") return \Response::json("Enter state name");
+				$name = $request->state;
+				$name = implode(' ', array_map('ucfirst', explode(' ', $name)));
+				$numbah = self::checkCountry($name);
+				$region = "";
+			}
+			
+			if (!empty($numbah)){
+				$cityToInsert = self::checkCity($request->cityname, $numbah, $region);
+				if (!empty($cityToInsert)) {
+					$stateToInsert = implode(' ', array_map('ucfirst', explode(' ', $request->state)));
+					$newcity=array(
+						'cityname' => $cityToInsert,
+						'state' => $stateToInsert,
+					);
+					$newcity = City::create($newcity)->idcity;
+					return \Response::json($newcity);
+				}else{
+					return \Response::json('Ne postoji');
+				};
+			}else{
+				return \Response::json('Country or state does not exist');
 			}
 
-			if ($provjera) {
-				$cityToInsert = implode(' ', array_map('ucfirst', explode(' ', $request->cityname)));
-				$stateToInsert = implode(' ', array_map('ucfirst', explode(' ', $request->state)));
-				$newcity=array(
-					'cityname' => $cityToInsert,
-					'state' => $stateToInsert,
-				);
-				$newcity = City::create($newcity)->idcity;
-				return \Response::json($newcity);
-			}else {
-				return \Response::json('Ne postoji');
-			}
+			
 		}
 	}
 	
-	/*
-	public static function insertCity(Request $request){
-		if(!$request->cityname || !$request->state){ 
-			return \Response::json('Missing parameters');
-		}
-		
-		$temp=City::where('cityname',$request->cityname)->where('state',$request->state)->first();
-		if(!count($temp)){
-			$newcity=array(
-				'cityname' => $request->cityname,
-				'state' => $request->state,
-			);
-			$newcity = City::create($newcity)->idcity;
-			return \Response::json($newcity);
-		}else{
-			
-			return \Response::json(['error'=>'0','errordesc'=>'City exists']);
-		};
-		
-		// destroy $newcity?
-	}
-	*/
 	public static function submitProblem(Request $request){
 		if(!$request->iduser || !$request->idcity || !$request->idcategory || !$request->address){
 			return \Response::json('Missing parameters');

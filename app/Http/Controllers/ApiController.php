@@ -19,29 +19,28 @@ class ApiController extends Controller
          $this->middleware('jwt.auth');
     }*/
     
-    public static function getCities()
-    {     
-        $cities = City::all();  
+	public static function getCities(){     
+		$cities = City::all();  
    
-       return \Response::json($cities);    
-    }
+		return \Response::json($cities);    
+	}
     
-    public static function getCity($idcity) {
-        $city = City::where('idcity', '=', $idcity)->firstOrFail();
+	public static function getCity($idcity) {
+	$city = City::where('idcity', '=', $idcity)->firstOrFail();
         
-        return \Response::json($city);
-    }
+		return \Response::json($city);
+	}
     
 	public static function getCategories(){
 		$categories = Category::all();
         
 		return \Response::json($categories);
 	}
-  
+
 	public static function getCategory($idcategory){
-        $category = Category::where('idcategory', '=', $idcategory)->firstOrFail();
+		$category = Category::where('idcategory', '=', $idcategory)->firstOrFail();
         
-        return \Response::json($category);
+		return \Response::json($category);
 	}
 
 	private static function checkCountry($name){

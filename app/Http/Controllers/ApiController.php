@@ -33,9 +33,9 @@ class ApiController extends Controller
     }
     
 	public static function getCategories(){
-        $categories = Category::all();
+		$categories = Category::all();
         
-        return \Response::json($categories);
+		return \Response::json($categories);
 	}
   
 	public static function getCategory($idcategory){
@@ -61,7 +61,7 @@ class ApiController extends Controller
 			'Z','I','Y','K','L','M','N','O','P','R','S','T','U',
 			'F' ,'H' ,'Ts' ,'Ch','Sh' ,'Sht' ,'A' ,'Y' ,'Yu' ,'Ya' );
 		$cyrilicString = str_replace($lat, $cyr, $latinString);
-        return $cyrilicString;
+		return $cyrilicString;
 	}
 
 	private static function cleanString($text){

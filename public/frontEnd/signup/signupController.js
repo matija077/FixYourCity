@@ -35,7 +35,9 @@
 				return dataservice.signUp().save(user).$promise
 					.then(function(resource){
 						console.log(resource);
-						//login();
+						//TODO: login();
+						dataservice.goPath('home');
+						
 					})
 					.catch(function(data){
 						console.log('error :', data);

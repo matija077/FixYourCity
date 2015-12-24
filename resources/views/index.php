@@ -50,6 +50,8 @@
 
 	<script src="frontend/about/aboutController.js"></script>
 	
+	<script src="frontend/signup/signupController.js"></script>
+	
 </body>
 
 </html>

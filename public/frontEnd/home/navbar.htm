@@ -5,7 +5,22 @@
 			<ul class="nav nav-pills">
 				<li class="active" ng-repeat="tab in navbar.tabs"  ng-bind-html="navbar.renderTab(tab)"></li>
 			</ul>
-						
+			
+			<div class="login col-md-7" ng-if="(!authenticated)">
+			<input type="text" placeholder="email" name="username" ng-model="navbar.email">
+			<input type="password" placeholder="password" name="pasword" ng-model="navbar.password">
+			<button type="submit" class="btn btn-info"  ng-click="navbar.login();"
+				 ng-disabled="(navbar.email=='') || (navbar.password=='')">Login</button>
+			</div>
+			<div class="signup col-md-2" ng-if="(!authenticated)">
+				<button type="button" class="btn btn-info"  ng-click="navbar.signUp();">Sign up!</button>
+			</div>
+			<div class="username col-md-2" ng-if="(authenticated)">
+				{{ userName }}		
+			</div>
+			<div class="logout col-md-2" ng-if="(authenticated)">
+				<button type="button" class="btn btn-info"  ng-click="navbar.logout();">Log out</button>
+			</div>							
 		</div>
 	</div>
 </nav>

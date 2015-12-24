@@ -13,21 +13,6 @@
 		vm.citiesToShow = [];
 		vm.categories = [];
 		vm.categoriesToShow = [];
-		var credentials = {
-                /*email: vm.email,
-                password: vm.password*/
-				/*email: 'admin@gmail.com',
-				password: 'root'*/
-				email: 'level2@gmail.com',
-				password: 'root'
-        }
-		var user = {
-			username: 'admin',
-			email: 'admin@gmail.com',
-			password: 'root',
-			accesslevel: '4',
-			karma: '1000'
-		}
 		vm.filterCities = filterCities;
 		vm.filterCategories = filterCategories;
 		vm.insertCity=insertCity;
@@ -36,9 +21,6 @@
 		vm.selectCategory=selectCategory;
 		vm.selectedcategory;
 		vm.proceedSubmit=proceedSubmit;
-		vm.login = login;
-		vm.signUp = signUp;
-		vm.logout = logout;
 		
 		activate();
 		
@@ -81,49 +63,7 @@
 				}
 			});
 		} 
-		
-		function login(){
-            // Use Satellizer's $auth service to login
-            $auth.login(credentials)
-				.then(function(data) {
-					dataservice.getUser().getUser().$promise
-						.then(function(userData){
-							//local storage accepts only string pairs7
-							//add user to local storage
-							localStorage.setItem('user', JSON.stringify(userData.data.user));
-							//needed fro  ng-if
-							$rootScope.authenticated = true;
-							$rootScope.role = userData.data.user.accesslevel;
-							//load data agian
-							$state.reload();
-							console.log($rootScope.role);
-						})
-						.catch(function(userDataError){
-							console.log('error retriving');
-						});
-				})
-				.catch(function(data) {
-					console.log(data + 'error');	
-				});
-		}
-		
-		function signUp(){
-			return dataservice.signUp().save(user).$promise
-				.then(function(resource){
-					console.log(resource);
-				});
-		}
-		
-		function logout(){
-			$auth.logout().then(function() {	
-				localStorage.removeItem('user');
-				
-                $rootScope.authenticated = false;
-				
-				$state.reload();
-			});
-		}
-		
+	
 		function insertCity(){
 			var citytoinsert={
 				cityname: vm.cityname,

@@ -82,6 +82,11 @@
 			* END OF TABS
 			*/
 		
+		activate();
+		
+		function activate(){
+			getNotifications();	
+		}
 		
 		function renderTab(tab){     //called for each tab in navbar from html using ng-repeat
 			var retval=''; 
@@ -144,6 +149,15 @@
 			});
 		}
 		
+		function getNotifications(){
+			dataservice.getNotifications().$promise
+				.then(function(data){
+					
+				})
+				.catch(function(data){
+					
+				});
+		}	
 		
 	}
 

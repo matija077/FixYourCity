@@ -24,6 +24,7 @@ Route::group(array('prefix' => 'api'), function()
 	Route::get('/authenticate/user', 'AuthenticateController@getAuthenticatedUser');
 	Route::post('/authenticate', 'AuthenticateController@authenticate');
 	Route::post('/signup', 'AuthenticateController@signup');
+	Route::get('/notification', 'ApiController@getNotifications');
 });
 
 

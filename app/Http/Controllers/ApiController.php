@@ -3,12 +3,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use JWTAuth;
+
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use App\City;
 use App\Category;
 use App\Problem;
+
+use App\User;
+use App\Subscribe;
 
 
 class ApiController extends Controller
@@ -174,12 +179,30 @@ class ApiController extends Controller
 			'text' => $request->text,
 			'votepositive' => '1',
 			'votenegative' => '0',
+			'lastactivity' => date('Y-m-d H:i:s', time()),
 		);
 		
 		$problem = Problem::create($problem);
 		
 		//destroy $problem?
 		
+	}
+	
+	public static function getNotifications(){
+		//$user = JWTAuth::parseToken()->authenticate();
+		$subcribes = Subscribe::where('iduser', 1)->first();
+		/*for($i=0; $i<$subcribes.count(); $i++){
+			//$problem = Problem::where('idproblem', $subcribe->idproblem);
+		}*/
+		$problem = Problem::where('idproblem', 20)->value('lastactivity');
+		$user = User::where('iduser', 1)->value('lastactivity');
+		
+		dd($problem, $user, $subcribes);
+		if ($problem>$user){
+			return \Response::json('message', 200);
+		}
+		return \Response::json('', 400);
+		//return \Response::json($problem);
 	}
 
 

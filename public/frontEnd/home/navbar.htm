@@ -18,6 +18,9 @@
 			<div class="username col-md-2" ng-if="(authenticated)">
 				{{ userName }}		
 			</div>
+			<div class="notifcation col-md-1" ng-if="(authenticated)">
+				{{  }}
+			</div>
 			<div class="logout col-md-2" ng-if="(authenticated)">
 				<button type="button" class="btn btn-info"  ng-click="navbar.logout();">Log out</button>
 			</div>							

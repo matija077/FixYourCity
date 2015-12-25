@@ -29,8 +29,8 @@ class AccesslevelCheck
             if ($user!=''){
             //date_default_timezone_set('Europe/Zagreb');
             //time is off by an hour
-            $hour = 3600;
-            $lastactivity = date('Y-m-d H:i:s', time()+$hour);
+            //$hour = 3600;
+            $lastactivity = date('Y-m-d H:i:s', time());
             $user->lastactivity = $lastactivity;    
             $user->save();
         }

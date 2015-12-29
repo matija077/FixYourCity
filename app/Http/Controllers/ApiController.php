@@ -188,19 +188,22 @@ class ApiController extends Controller
 		
 	}
 	
-	public static function getNotifications(){
-		//$user = JWTAuth::parseToken()->authenticate();
-		$subcribes = Subscribe::where('iduser', 1)->first();
-		/*for($i=0; $i<$subcribes.count(); $i++){
-			//$problem = Problem::where('idproblem', $subcribe->idproblem);
-		}*/
-		$problem = Problem::where('idproblem', 20)->value('lastactivity');
-		$user = User::where('iduser', 1)->value('lastactivity');
-		
-		dd($problem, $user, $subcribes);
-		if ($problem>$user){
-			return \Response::json('message', 200);
-		}
+	public static function getNotifications($userId){
+        if ($userId!=0) {
+            $subcribes = Subscribe::where('iduser', $userId)->first();
+            /*for($i=0; $i<$subcribes.count(); $i++){
+                //$problem = Problem::where('idproblem', $subcribe->idproblem);
+            }*/
+            $problem = Problem::where('idproblem', 20)->value('lastactivity');
+            $user = User::where('iduser', $userId)->value('lastactivity');
+            
+            //dd($problem, $user, $subcribes);
+            if ($problem>$user){
+                $response[0] = 'message1';
+                $response[1] = 'message2';
+                return \Response::json($response, 200);
+            }
+        }
 		return \Response::json('', 400);
 		//return \Response::json($problem);
 	}

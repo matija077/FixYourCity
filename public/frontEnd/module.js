@@ -63,19 +63,24 @@
 			if (token!=null && user!=null) {
 				$rootScope.authenticated = true;
 				$rootScope.role = user.accesslevel;
+                $rootScope.userName = user.username;
 				console.log('role :', $rootScope.role);
-				console.log(toState);
-				}else {
-					//if user is a guest, on a first state change assign him role 1
-					$rootScope.role = '1';
-					$rootScope.authenticated = false;
-				}
-				//it-s enough to check accesslevel only. If user is authenticated he
-				//will have accesslevel > 1
-				if (toState.accesslevel>$rootScope.role){
-					event.preventDefault();
-					$state.go('about');
-				}
+				console.log(toState);      
+            }else {
+                //if user is a guest, on a first state change assign him role 1
+                $rootScope.role = '1';
+                $rootScope.authenticated = false;
+                //on exparation token is removed by Satelizer. We need to take care of removing the user.
+                if (user!=null) {
+                    localStorage.removeItem('user');
+                }
+            }
+            //it-s enough to check accesslevel only. If user is authenticated he
+            //will have accesslevel > 1
+            if (toState.accesslevel>$rootScope.role){
+                event.preventDefault();
+                $state.go('about');
+            }
 		});
 	}
 	

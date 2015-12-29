@@ -20,9 +20,16 @@ class AccesslevelCheck
     public function handle($request, Closure $next, $role)
     {
         //get user from token not folloeing prinicples of reusable coding
-        $user = JWTAuth::parseToken()->authenticate();
-        //get user's accesslevel to copare with route accesslevel
-        $accesslevel = User::where('iduser', $user->iduser)->value('accesslevel');
+        try{
+            $user = JWTAuth::parseToken()->authenticate();      
+            //get user's accesslevel to copare with route accesslevel
+            if ($user!=''){
+                $accesslevel = User::where('iduser', $user->iduser)->value('accesslevel');
+            }
+        }catch(Exception $e){
+            $accesslevel = 1;
+            return response('error'.$e, 404);
+        }
             /*every time user is authenticated and uses routes with this middleware, 
             *it updates user's lastactivity column.  
             */  

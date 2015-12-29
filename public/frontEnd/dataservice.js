@@ -18,7 +18,7 @@
 			signUp: signUp,
 			getUser: getUser,
 			reload : reload,
-			getNotification: getNotifications,
+			getNotifications: getNotifications,
 		}
 		
 		/*var token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjQsImlzcyI6Imh0dHA6XC9cL2xvY2FsaG9zdFwvUldBXC9wdWJsaWNcL2FwaVwvYXV0aGVudGljYXRlIiwiaWF0IjoiMTQ0ODU1MzIzOCIsImV4cCI6IjE0NDg1NTY4MzgiLCJuYmYiOiIxNDQ4NTUzMjM4IiwianRpIjoiYjZmMjk0N2U0ODQ1ZDljOGE2OTU4ZDZhZGNlZGUwNTAifQ.5CbF03PUe1fr-gK2xQMlCjdCQ2LioWOizc6bqsLBiKY';*/
@@ -78,11 +78,12 @@
 			});
 		}	
 		
-		function getNotifications(){
-			return $resource("api/notification", {}, {
-				transformResponse: function(data, headers){
-					return { data: angular.fromJson(data)};
-				}
+		function getNotifications(userid){
+			return $resource("api/notification/:id", {}, {
+				getNotifications: {method: 'GET', params: {id: userid}, isArray:false,
+					transformResponse: function(data, headers){
+						return { data: angular.fromJson(data)};
+				}	}
 			});
 		}	
 	}

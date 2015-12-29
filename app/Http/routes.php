@@ -20,11 +20,11 @@ Route::group(array('prefix' => 'api'), function()
 	Route::get('/categories', 'ApiController@getCategories');
 	Route::get('/categories/{id}', 'ApiController@getCategory');
 	Route::post('/insertcity', 'ApiController@insertCity');
-	Route::post('/submitproblem', 'ApiController@submitProblem')->middleware('check:3');
-	Route::get('/authenticate/user', 'AuthenticateController@getAuthenticatedUser');
+	Route::post('/submitproblem', 'ApiController@submitProblem')->middleware('check:2');
+	Route::get('/authenticate/user', 'AuthenticateController@getAuthenticatedUser')->middleware('check:2');
 	Route::post('/authenticate', 'AuthenticateController@authenticate');
 	Route::post('/signup', 'AuthenticateController@signup');
-	Route::get('/notification', 'ApiController@getNotifications');
+	Route::get('/notification/{id}', 'ApiController@getNotifications');
 });
 
 

@@ -190,22 +190,32 @@ class ApiController extends Controller
 	
 	public static function getNotifications($userId){
         if ($userId!=0) {
-            $subcribes = Subscribe::where('iduser', $userId)->first();
-            /*for($i=0; $i<$subcribes.count(); $i++){
-                //$problem = Problem::where('idproblem', $subcribe->idproblem);
-            }*/
-            $problem = Problem::where('idproblem', 20)->value('lastactivity');
-            $user = User::where('iduser', $userId)->value('lastactivity');
-            
-            //dd($problem, $user, $subcribes);
-            if ($problem>$user){
-                $response[0] = 'message1';
-                $response[1] = 'message2';
+            $counter = 0;
+            $user = User::where('iduser', $userId)->first();
+            $userLastActivity = $user->lastactivity;
+            $subcribes = Subscribe::where('iduser', $userId)->get();
+            foreach($subcribes as $subcribe){
+                //maybe just use one query??
+                $problem = Problem::where('idproblem', $subcribe->idproblem)->first();
+                $problemLastActivity = $problem->lastactivity;
+                $probemText = $problem->text;
+                $categoryName = Category::where('idcategory', $problem->idcategory)->value('ctgname');
+                //$categoryname = Category::where('idcategory', $)
+                if ($problemLastActivity>$userLastActivity){
+                    $response[$counter++] = $probemText.' in category '.$categoryName.' has been updateded';
+                }
+            }
+            //every time we try to query notifications update user's lastactivity
+            $lastactivity = date('Y-m-d H:i:s', time());
+            $user->lastactivity = $lastactivity;
+            $user->save();
+
+            if ($counter>0){
                 return \Response::json($response, 200);
             }
+
         }
 		return \Response::json('', 400);
-		//return \Response::json($problem);
 	}
 
 

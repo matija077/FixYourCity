@@ -21,7 +21,7 @@
 			<div class="notification" ng-if="(authenticated)">
 				<div class="notification.exists col-md-2" ng-show="(!navbar.seen)" ng-style="{'color': 'red'}"
                     ng-click="navbar.seenNotifications();">
-					notifications
+					notifications <span class="badge">{{ navbar.numberOfNotifications }}</span>
 				</div>
 				<div class="notification.default col-md-2" ng-show="(navbar.seen)">
 					notifications

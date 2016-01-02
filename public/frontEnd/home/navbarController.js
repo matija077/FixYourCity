@@ -13,7 +13,7 @@
 		vm.password = '';
 		vm.notifications = [];
 		vm.numberOfNotifications = 0;
-        vm.seen = false;
+        vm.seen = true;
 		vm.renderTab=renderTab;
 		vm.login = login;
 		vm.signUp = signUp;
@@ -191,7 +191,7 @@
                     console.log(data);              
                 })
                 .catch(function(data){
-                    console.log(data);
+                    console.log(data, vm.seen);
                 });
         }
         

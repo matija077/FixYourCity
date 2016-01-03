@@ -167,7 +167,6 @@
             //array is needed because vm.notifications is actually not a variable.
             userid = JSON.parse(localStorage.getItem('user'));
             //if there is no user authenticated, we are still making a call to backend.
-            console.log(userid);
             if (userid!=null){
                 userid = userid.iduser;
             }else{
@@ -188,6 +187,7 @@
                     localStorage.setItem('notifications counter', vm.numberOfNotifications);
                     //if there are new notifications we need to tell user about that
                     vm.seen = false;
+                    //data is seen in this log
                     console.log(data);              
                 })
                 .catch(function(data){

@@ -46,6 +46,13 @@
 				controllerAs: 'vm',
 				accesslevel: '1',
 			})
+            .state('admin page', {
+                url: '/admin',
+                templateUrl: 'frontend/admin page/admin_page.html',
+                controller: 'AdminPageController',
+                controllerAs: 'vm',
+                accesslevel: '4',
+            })
 			$urlRouterProvider.otherwise( '/');
 
 	}

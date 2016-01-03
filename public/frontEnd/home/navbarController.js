@@ -15,6 +15,7 @@
 		vm.login = login;
 		vm.signUp = signUp;
 		vm.logout = logout;
+        vm.goPath = goPath;
 		
 		vm.tabs=[
 			//BEGIN TABS
@@ -143,6 +144,11 @@
 				dataservice.reload();
 			});
 		}
+        
+        function goPath(state){
+            var params = "";
+            dataservice.goPath(state, params);
+        }
 		
 		
 	}

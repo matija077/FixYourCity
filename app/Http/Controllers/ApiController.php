@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\City;
 use App\Category;
 use App\Problem;
+use App\User;
 
 
 class ApiController extends Controller
@@ -181,6 +182,12 @@ class ApiController extends Controller
 		//destroy $problem?
 		
 	}
+    
+    public static function getUsers(Request $request){
+        $users = User::all();
+        
+        return \Response::json($users, 200);
+    }
 
 
 	

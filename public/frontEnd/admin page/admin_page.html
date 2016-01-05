@@ -1,0 +1,32 @@
+<div class="nav col-md-12">
+    <ul class="nav nav-tabs">
+    <li role="presentation" class="active"><a href="" ng-click="vm.renderParts(searchUser);">Users</a></li>
+    <li role="presentation"><a href="" ng-click="vm.renderParts(feedback);">Feedback</a></li>
+    <li role="presentation"><a href="" ng-click="vm.renderParts(feedback);">Feedback</a></li>
+    <li role="presentation"><a href="" ng-click="vm.renderParts(feedback);">Feedback</a></li>
+    </ul>
+</div>
+<div class="col-md-10" ng-switch="vm.chosenPart">
+    <div class="user" ng-switch-when="searchUser">
+        <div class="row">
+            <div class="col-md-12">
+                Username: <input type="text" name="user" ng-model="vm.user.username">
+                Email: <input type="text" name="email" ng-model="vm.user.email">
+                Accesslevel: <input type="number" name="accesslevel" ng-model="vm.user.accesslevel">
+            </div>
+        </div>
+        <div class="row">
+            <table class="col-md-12" border="1">
+                <tr>
+                    <th>username</th><th>email</th><th>accesslevel</th>
+                </tr>
+                <tr ng-repeat="user in vm.usersReturned" ng-click="vm.choseUser(user);">
+                    <td>{{ user.username }}</td><td>{{ user.email }}</td>
+                    <td>{{ user.accesslevel }}</td>
+                </tr>
+            </table>
+            <button type="button" class="btn btn-success" ng-disabled="vm.userChosen==0" 
+                ng-click="vm.renderParts(   banUser);">Go {{  vm.userChosen.username }}!
+            </button>
+    </div>
+</div>

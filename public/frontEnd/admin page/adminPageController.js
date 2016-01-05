@@ -12,10 +12,11 @@
         vm.chosenPart = "searchUser";
         vm.user = {};
         vm.usersReturned = {};
-        vm.userChosen = 0;
+        vm.userChosed = '';
         vm.renderParts = renderParts;
         vm.returnUsers = returnUsers;
-        vm.choseuser = choseUser;
+        vm.choseUser = choseUser;
+        vm.banUser = banUser;
 		
         activate();
 
@@ -24,12 +25,6 @@
         }
 
         function renderParts(part){
-            /*
-            *1 = user
-            *2 = feedback
-            *3 = feedback
-            *4 = feedback
-            */
             return vm.chosenPart = part;
         }
 
@@ -45,7 +40,26 @@
         }
 
         function choseUser(user){
-            
+            //if same user has already been higlighted, then remove highlight
+            if (vm.userChosed.iduser==user.iduser){
+                vm.userChosed = '';
+            //if nothing is highlighted or other user is highlihted, add highlight
+            } else {
+                vm.userChosed = user;
+            }
+        }
+
+        function banUser(time){
+            if (time==''){
+                time = 0;
+            }
+            dataservice.banUser().banUser(time).$promise
+                .then(function(data){
+                    console.log(data);
+                })
+                .catch(function(data){
+                    console.log(data);
+                });
         }
 
 	}

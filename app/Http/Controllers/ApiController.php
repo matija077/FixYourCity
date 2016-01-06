@@ -189,7 +189,19 @@ class ApiController extends Controller
         return \Response::json($users, 200);
     }
 
-
-	
+    public static function banUser(Request $request, $idUser, $time){
+        //if time is 0, user is perma banned
+        if ($time!=0) {
+            $time = date('Y-m-d H:i:s', time()+$time);
+        }
+        $user = User::where('iduser', $idUser)->first();
+        $user->banned = $time;
+        $user->save();
+        if ($time==0){
+            return \Response::json('user '.$user->username. 'has been perma banned', 200);
+        }else {
+            return \Response::json('user '.$user->username. 'has been temporary banned', 200);
+        }
+    }
 }
 	 

@@ -88,9 +88,10 @@
             });
         }
 
-        function banUser(iduser){
-            return $resource("api/ban/:id", {}, {
-                banUser: {method: 'POST ', params:{id: iduser}, isArray:false,
+        function banUser(iduser, time){
+            console.log(iduser, time);
+            return $resource("api/ban/:id/:time", {id: "@iduser"}, {
+                banUser: {method: 'POST', params:{id: iduser, time: time}, isArray:false,
                 transformResponse: function(data, headers){
                     return { data: angular.fromJson(data)};
                 }},

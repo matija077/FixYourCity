@@ -53,7 +53,8 @@
             if (time==''){
                 time = 0;
             }
-            dataservice.banUser().banUser(time).$promise
+            var admin =  JSON.parse(localStorage.getItem('user'));
+            dataservice.banUser(admin.iduser, time).banUser().$promise
                 .then(function(data){
                     console.log(data);
                 })

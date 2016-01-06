@@ -105,13 +105,13 @@
 			<div class="row" ng-repeat="problem in vm.problems">
 				<div class="well well-sm pull-left cod-md-2">
 					<center>
-					<div class="glyphicon glyphicon-menu-up" role="button" ng-click="problem.votepositive=problem.votepositive+1"></div>  <!-- make toggleable voting-->
+					<div class="glyphicon glyphicon-menu-up" role="button" ng-click="vm.toggle(problem,1)"></div>
 					<div>{{problem.votepositive-problem.votenegative}}</div>
-					<div class="glyphicon glyphicon-menu-down" role="button" ng-click="problem.votenegative=problem.votenegative+1"></div> <!-- make toggleable voting -->
+					<div class="glyphicon glyphicon-menu-down" role="button" ng-click="vm.toggle(problem,-1)"></div>
 					</center>
 				</div>
 				
-				<div class="well well-sm pull-left col-md-10">
+				<div class="well well-sm pull-left col-md-10">  <!-- missing: mark, picture -->
 					<p class="title">
 						<a href="/problem/{{problem.idproblem}}">   <!-- not leading anywhere yet -->
 						{{problem.text}}

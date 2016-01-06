@@ -83,11 +83,12 @@
 
 /* TEMPLATE
 *
-	.when('/', {
-				templateUrl:'',
+	.state('', {
+				url: '/',
+				templateUrl: '',
 				controller: '',
-				controllerAs: 'vm',
-	})
+				controllerAs: '',
+				accesslevel: '',
 *
 *
 */

@@ -23,6 +23,7 @@
 		vm.proceedSubmit=proceedSubmit;
 		vm.getProblems=getProblems;
 		vm.problems= [];
+		vm.toggle=toggle;
 		
 		activate();
 		
@@ -105,6 +106,50 @@
 					console.log(problems.data);
 					return vm.problems = problems.data;
 				});
+		}
+		
+		function toggle(problem,vote){
+			if(typeof problem.voted == 'undefined') problem.voted=0;
+			if(vote==1){
+				switch(problem.voted) {
+					case -1: {
+						problem.votenegative-=1;
+						problem.votepositive+=1;
+						problem.voted=1;
+						break;
+					}
+					case 0: {
+						problem.votepositive+=1;
+						problem.voted=1;
+						break;
+					}
+					case 1: {
+						problem.votepositive-=1;
+						problem.voted=0;
+						break;
+					}
+				}
+			}else{
+				switch(problem.voted){
+					case -1: {
+						problem.votenegative-=1;
+						//problem.votepositive+=1;
+						problem.voted=0;
+						break;
+					}
+					case 0: {
+						problem.votenegative+=1;
+						problem.voted=-1;
+						break;
+					}
+					case 1: {
+						problem.votepositive-=1;
+						problem.votenegative+=1;
+						problem.voted=-1;
+						break;
+					}
+				}
+			}
 		}
 		
 		

@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\City;
 use App\Category;
 use App\Problem;
+use App\Comment;
 
 
 class ApiController extends Controller
@@ -182,7 +183,35 @@ class ApiController extends Controller
 		
 	}
 
-
+	public static function getProblems($idcity,$idcategory){
+		$i = 0;
+		
+		// MARK isn't yet included in query
+		
+		//if idcategory is -1 it means category hasn't been selected -> querying only by city
+		if($idcategory!=-1){
+			$problems = Problem::where('idcity',$idcity)
+								->where('problem.idcategory',$idcategory)
+								->join('user','user.iduser','=','problem.iduser')
+								->join('category','category.idcategory','=','problem.idcategory')
+								->select('problem.*','user.username','category.ctgname')
+								->get();
+		}else{
+			$problems = Problem::where('idcity',$idcity)
+								->join('user','user.iduser','=','problem.iduser')
+								->join('category','category.idcategory','=','problem.idcategory')
+								->select('problem.*','user.username','category.ctgname')
+								->get();
+		}
+		
+		//following loop is to add number of comments for each problem that was found previously
+		while(isset($problems[$i])){
+			$problems[$i]['comments']=Comment::where('idproblem',$problems[$i]['idproblem'])->count();
+			$i++;
+		};
+		
+		return \Response::json($problems);
+	}
 	
 }
 	 

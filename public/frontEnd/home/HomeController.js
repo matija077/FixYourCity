@@ -21,12 +21,15 @@
 		vm.selectCategory=selectCategory;
 		vm.selectedcategory;
 		vm.proceedSubmit=proceedSubmit;
+		vm.getProblems=getProblems;
+		vm.problems= [];
 		
 		activate();
 		
 		function activate(){
 			getCities();
 			getCategories();
+			//getProblems(2);
 			
 		}
 		
@@ -73,15 +76,35 @@
 		}
 		
 		function selectCity(param){
-			vm.selectedcity=param;
+			if(vm.selectedcity!=param){
+				vm.selectedcity=param;
+				if(vm.selectedcategory){
+					getProblems(param,vm.selectedcategory);
+				}else{
+					getProblems(param,-1);
+				}
+			}
 		}
 		
 		function selectCategory(param){
-			vm.selectedcategory=param;
+			if(vm.selectedcategory!=param){
+				vm.selectedcategory=param;
+				if(vm.selectedcity){
+					getProblems(vm.selectedcity,param);
+				}
+			}
 		}
 	
 		function proceedSubmit(idcity,idcategory){
 			dataservice.goPath('submit', {"idcity": idcity, "idcategory": idcategory});
+		}
+		
+		function getProblems(idcity,idcategory){
+			return dataservice.getProblems(idcity,idcategory).getAll().$promise
+				.then(function(problems){
+					console.log(problems.data);
+					return vm.problems = problems.data;
+				});
 		}
 		
 		

@@ -48,7 +48,7 @@
 					vm.sent=true;
 				})
 				.catch(function(data){
-					console.log(data);
+					//console.log(data);
 				//TODO: add error message	
 				});
 		};

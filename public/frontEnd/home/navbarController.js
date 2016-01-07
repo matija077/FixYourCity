@@ -174,21 +174,23 @@
             }
             dataservice.getNotifications(userid).getNotifications().$promise
                 .then(function(data){
-                    //we are saving notifications and number of notifications
-                    angular.forEach(data.data, function(value, key){
-                        //javascript considers this variable as string, so parsing is needed
-                        vm.numberOfNotifications = parseInt(vm.numberOfNotifications, 10) + 1;
-                        vm.numberOfNotifications = parseInt(vm.numberOfNotifications, 10);
-                        //new notifications are prepended.
-                        array.unshift(value)
-                    })
-                    vm.notifications = array.concat(vm.notifications);
-                    localStorage.setItem('notifications', vm.notifications);
-                    localStorage.setItem('notifications counter', vm.numberOfNotifications);
-                    //if there are new notifications we need to tell user about that
-                    vm.seen = false;
-                    //data is seen in this log
-                    console.log(data);              
+					if(data.data!="No new notifications"){
+						//we are saving notifications and number of notifications
+						angular.forEach(data.data, function(value, key){
+							//javascript considers this variable as string, so parsing is needed
+							vm.numberOfNotifications = parseInt(vm.numberOfNotifications, 10) + 1;
+							vm.numberOfNotifications = parseInt(vm.numberOfNotifications, 10);
+							//new notifications are prepended.
+							array.unshift(value)
+						})
+						vm.notifications = array.concat(vm.notifications);
+						localStorage.setItem('notifications', vm.notifications);
+						localStorage.setItem('notifications counter', vm.numberOfNotifications);
+						//if there are new notifications we need to tell user about that
+						vm.seen = false;
+						//data is seen in this log
+						console.log(data);  
+					}
                 })
                 .catch(function(data){
                     console.log(data, vm.seen);

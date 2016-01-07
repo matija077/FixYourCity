@@ -1,5 +1,5 @@
 <div class="container-fluid">
-	<div class="row" ng-hide="vm.showsearch==0">
+	<div class="row" ng-hide="!vm.showsearch">
 	
 		<div class="col-md-0">
 		</div>
@@ -95,7 +95,7 @@
 		</div>
 	-->
 	<hr style="padding: 0px; margin: 0px;"/>
-	<div class="row rowcollapse" ng-click="vm.showsearchToggle()">
+	<div class="row collapserow" ng-click="vm.showsearchToggle()">
 	
 		<center>
 			<div class="glyphicon glyphicon-triangle-bottom glyphcollapse" ng-if="!vm.showsearch"></div><div class="glyphicon glyphicon-triangle-top glyphcollapse" ng-if="vm.showsearch"></div>
@@ -103,6 +103,7 @@
 	
 	</div>
 	<hr style="padding: 0px; margin-top: 0px;"/>
+	
 	<div class="row">
 		
 		<div class="col-md-4">
@@ -119,6 +120,7 @@
 		
 	</div>
 	<hr />
+	
 	<div class="row">
 	
 		<div class="col-md-1">

@@ -43,7 +43,7 @@ html, body {
 .glyphcollapse {
 	color: #999;
 }
-.rowcollapse {
+.collapserow {
 	background-size:100%;
 	background-color:#eee;
 }

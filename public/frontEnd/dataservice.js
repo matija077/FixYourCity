@@ -19,6 +19,7 @@
 			getUser: getUser,
 			reload : reload,
 			getNotifications: getNotifications,
+			getProblems: getProblems,
 		}
 		
 		/*var token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjQsImlzcyI6Imh0dHA6XC9cL2xvY2FsaG9zdFwvUldBXC9wdWJsaWNcL2FwaVwvYXV0aGVudGljYXRlIiwiaWF0IjoiMTQ0ODU1MzIzOCIsImV4cCI6IjE0NDg1NTY4MzgiLCJuYmYiOiIxNDQ4NTUzMjM4IiwianRpIjoiYjZmMjk0N2U0ODQ1ZDljOGE2OTU4ZDZhZGNlZGUwNTAifQ.5CbF03PUe1fr-gK2xQMlCjdCQ2LioWOizc6bqsLBiKY';*/
@@ -85,6 +86,16 @@
 						return { data: angular.fromJson(data)};
 				}	}
 			});
-		}	
+		}
+		
+		function getProblems(idcity,idcategory){
+			return $resource("api/problems/:idcity/:idcategory", {idcity: "@idcity",idcategory: "@idcategory"}, {
+				getAll: {method: 'GET', params:{idcity: idcity,idcategory: idcategory}, isArray:false,
+					transformResponse: function(data,headers){
+						return { data: angular.fromJson(data) };
+					}
+				}
+			});
+		}
 	}
 })();

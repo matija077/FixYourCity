@@ -21,6 +21,9 @@
 		vm.selectCategory=selectCategory;
 		vm.selectedcategory;
 		vm.proceedSubmit=proceedSubmit;
+		vm.getProblems=getProblems;
+		vm.problems= [];
+		vm.toggle=toggle;
 		
 		activate();
 		
@@ -73,17 +76,80 @@
 		}
 		
 		function selectCity(param){
-			vm.selectedcity=param;
+			if(vm.selectedcity!=param){
+				vm.selectedcity=param;
+				if(vm.selectedcategory){
+					getProblems(param,vm.selectedcategory);
+				}else{
+					getProblems(param,-1);
+				}
+			}
 		}
 		
 		function selectCategory(param){
-			vm.selectedcategory=param;
+			if(vm.selectedcategory!=param){
+				vm.selectedcategory=param;
+				if(vm.selectedcity){
+					getProblems(vm.selectedcity,param);
+				}
+			}
 		}
 	
 		function proceedSubmit(idcity,idcategory){
 			dataservice.goPath('submit', {"idcity": idcity, "idcategory": idcategory});
 		}
 		
+		function getProblems(idcity,idcategory){
+			return dataservice.getProblems(idcity,idcategory).getAll().$promise
+				.then(function(problems){
+					console.log(problems.data);
+					return vm.problems = problems.data;
+				});
+		}
+		
+		function toggle(problem,vote){
+			if(typeof problem.voted == 'undefined') problem.voted=0;
+			if(vote==1){
+				switch(problem.voted) {
+					case -1: {
+						problem.votenegative-=1;
+						problem.votepositive+=1;
+						problem.voted=1;
+						break;
+					}
+					case 0: {
+						problem.votepositive+=1;
+						problem.voted=1;
+						break;
+					}
+					case 1: {
+						problem.votepositive-=1;
+						problem.voted=0;
+						break;
+					}
+				}
+			}else{
+				switch(problem.voted){
+					case -1: {
+						problem.votenegative-=1;
+						//problem.votepositive+=1;
+						problem.voted=0;
+						break;
+					}
+					case 0: {
+						problem.votenegative+=1;
+						problem.voted=-1;
+						break;
+					}
+					case 1: {
+						problem.votepositive-=1;
+						problem.votenegative+=1;
+						problem.voted=-1;
+						break;
+					}
+				}
+			}
+		}
 		
 	}
 })();

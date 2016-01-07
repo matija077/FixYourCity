@@ -76,11 +76,23 @@
 		}
 		
 		function selectCity(param){
-			vm.selectedcity=param;
+			if(vm.selectedcity!=param){
+				vm.selectedcity=param;
+				if(vm.selectedcategory){
+					getProblems(param,vm.selectedcategory);
+				}else{
+					getProblems(param,-1);
+				}
+			}
 		}
 		
 		function selectCategory(param){
-			vm.selectedcategory=param;
+			if(vm.selectedcategory!=param){
+				vm.selectedcategory=param;
+				if(vm.selectedcity){
+					getProblems(vm.selectedcity,param);
+				}
+			}
 		}
 	
 		function proceedSubmit(idcity,idcategory){

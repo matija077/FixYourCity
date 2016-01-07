@@ -88,11 +88,12 @@
 
 /* TEMPLATE
 *
-	.when('/', {
-				templateUrl:'',
+	.state('', {
+				url: '/',
+				templateUrl: '',
 				controller: '',
 				controllerAs: 'vm',
-	})
+				accesslevel: '',
 *
 *
 */

@@ -15,6 +15,7 @@ use App\Comment;
 use App\User;
 use App\Subscribe;
 
+
 class ApiController extends Controller
 {
     //add jwt token to every api route
@@ -178,6 +179,7 @@ class ApiController extends Controller
 			'text' => $request->text,
 			'votepositive' => '1',
 			'votenegative' => '0',
+			'lastactivity' => date('Y-m-d H:i:s', time()),
 		);
 		
 		$problem = Problem::create($problem);

@@ -212,7 +212,7 @@ class ApiController extends Controller
 
             if ($counter>0){
                 return \Response::json($response, 200);
-            }
+            }else return \Response::json('No new notifications',200);
 
         }
 		return \Response::json('', 400);

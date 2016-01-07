@@ -18,6 +18,7 @@
 			signUp: signUp,
 			getUser: getUser,
 			reload : reload,
+			getNotifications: getNotifications,
 			getProblems: getProblems,
 		}
 		
@@ -75,6 +76,15 @@
 		
 		function submitProblem(){
 			return $resource("api/submitproblem", {}, {
+			});
+		}
+		
+		function getNotifications(userid){
+			return $resource("api/notification/:id", {}, {
+				getNotifications: {method: 'GET', params: {id: userid}, isArray:false,
+					transformResponse: function(data, headers){
+						return { data: angular.fromJson(data)};
+				}	}
 			});
 		}
 		

@@ -3,6 +3,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use JWTAuth;
+
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
@@ -10,7 +12,8 @@ use App\City;
 use App\Category;
 use App\Problem;
 use App\Comment;
-
+use App\User;
+use App\Subscribe;
 
 class ApiController extends Controller
 {
@@ -181,6 +184,34 @@ class ApiController extends Controller
 		
 		//destroy $problem?
 		
+	}
+	
+	public static function getNotifications($userId){
+        if ($userId!=0) {
+            $counter = 0;
+            $user = User::where('iduser', $userId)->first();
+            $userLastActivity = $user->lastactivity;
+            $subcribes = Subscribe::where('iduser', $userId)->get();
+            foreach($subcribes as $subcribe){
+                //maybe just use one query??
+                $problem = Problem::where('idproblem', $subcribe->idproblem)->first();
+                $problemLastActivity = $problem->lastactivity;
+                $probemText = $problem->text;
+                $categoryName = Category::where('idcategory', $problem->idcategory)->value('ctgname');
+                //$categoryname = Category::where('idcategory', $)
+                if ($problemLastActivity>$userLastActivity){
+                    $response[$counter++] = $probemText.' in category '.$categoryName.' has been updateded';
+                }
+            }
+            //every time we try to query notifications update user's lastactivity
+            $lastactivity = date('Y-m-d H:i:s', time());
+            $user->lastactivity = $lastactivity;
+            $user->save();
+            if ($counter>0){
+                return \Response::json($response, 200);
+            }
+        }
+		return \Response::json('', 400);
 	}
 
 	public static function getProblems($idcity,$idcategory){

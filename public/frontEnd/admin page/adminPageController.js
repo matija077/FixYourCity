@@ -13,6 +13,7 @@
         vm.user = {};
         vm.usersReturned = {};
         vm.userChosed = '';
+        vm.temporaryBanTime = {};
         vm.renderParts = renderParts;
         vm.returnUsers = returnUsers;
         vm.choseUser = choseUser;
@@ -25,6 +26,10 @@
         }
 
         function renderParts(part){
+            //we use ng-switch, so we need to reinitialize variables
+            if (vm.temporaryBanTime.days != 0) {
+                vm.temporaryBanTime = {'days' : 0, 'hours' : 24};
+            }
             return vm.chosenPart = part;
         }
 
@@ -50,12 +55,13 @@
         }
 
         function banUser(time){
-            if (time==''){
-                time = 0;
+            if (time.days>0 || time.hours>0){
+                //banned time is computed in hours
+                time = time.days*24 + time.hours;
             }
-            var admin =  JSON.parse(localStorage.getItem('user'));
-            dataservice.banUser(admin.iduser, time).banUser().$promise
+            dataservice.banUser(vm.userChosed.iduser, time).banUser().$promise
                 .then(function(data){
+                    dataservice.reload();
                     console.log(data);
                 })
                 .catch(function(data){

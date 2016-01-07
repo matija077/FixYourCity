@@ -185,22 +185,42 @@ class ApiController extends Controller
     
     public static function getUsers(Request $request){
         $users = User::all();
+        $date = date('Y-m-d H:i:s', time());
+        foreach($users as $user){
+            if ($user->banned>$date){
+                $user->banned = 'temporary';
+            } else if ($user->banned==0) {
+                $user->banned = 'pernamently';
+            } else { 
+                $user->banned = 'No';
+            }
+        }
         
         return \Response::json($users, 200);
     }
 
     public static function banUser(Request $request, $idUser, $time){
         //if time is 0, user is perma banned
-        if ($time!=0) {
-            $time = date('Y-m-d H:i:s', time()+$time);
+        if ($time==NAN){
+            return \Response::json('bantime is Nan', 400);
+        }
+        if ($time>0) {
+            $newtime = time()+$time*3600;
+            $date =  date('Y-m-d H:i:s', $newtime);
+        } else if ($time==0) {
+            $date = 0;
+        } else {
+            $date = date('Y-m-d H:i:s', time());
         }
         $user = User::where('iduser', $idUser)->first();
-        $user->banned = $time;
+        $user->banned = $date;
         $user->save();
         if ($time==0){
             return \Response::json('user '.$user->username. 'has been perma banned', 200);
-        }else {
+        }else if ($time>0) {
             return \Response::json('user '.$user->username. 'has been temporary banned', 200);
+        } else {
+            return \Response::json('user '.$user->username. 'is unbanned', 200);
         }
     }
 }

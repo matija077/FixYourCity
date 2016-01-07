@@ -9,27 +9,37 @@
 <div class="col-md-10" ng-switch="vm.chosenPart">
     <div class="user" ng-switch-when="searchUser">
         <div class="row">
-            <div class="col-md-12">
-                Username: <input type="text" name="user" ng-model="vm.user.username">
-                Email: <input type="text" name="email" ng-model="vm.user.email">
-                Accesslevel: <input type="number" name="accesslevel" ng-model="vm.user.accesslevel">
-            </div>
-        </div>
+            <form class="col-md-12">
+                <div class="col-md-3">
+                     Username: <input type="text" name="user" ng-model="vm.user.username">
+                </div>
+                <div class="col-md-3">
+                    Email: <input type="text" name="email" ng-model="vm.user.email">
+                </div>
+                <div class="col-md-3">
+                    Accesslevel: <input type="number" name="accesslevel" ng-model="vm.user.accesslevel">
+                </div>
+                <div class="col-md-3">
+                     Banned: <input type="text" name="banned" ng-model="vm.user.banned">
+                </div>
+            </form>
+        </div><br><br>
         <div class="row">
             <table class="col-md-12" border="1">
                 <tr>
-                    <th>username</th><th>email</th><th>accesslevel</th>
+                    <th>username</th><th>email</th><th>accesslevel</th><th>banned</th>
                 </tr>
                 <tr ng-repeat="user in vm.usersReturned | limitTo: 5" ng-click="vm.choseUser(user);"
                     ng-class="{'lightgraybg':user.iduser === vm.userChosed.iduser}">
                     <td>{{ user.username }}</td><td>{{ user.email }}</td>
-                    <td>{{ user.accesslevel }}</td>
+                    <td>{{ user.accesslevel }}</td><td>{{ user.banned }}</td>
                 </tr>
             </table>
-            <button type="button" class="btn btn-success" ng-disabled="vm.userChosed==''"
-                ng-click="vm.renderParts('banUser');">Go {{  vm.userChosen.username }}!
-            </button>
-        </div>
+        </div><br>
+        <div class="col-md-11"></div>
+        <button type="button" class="btn btn-success" ng-disabled="vm.userChosed==''"
+            ng-click="vm.renderParts('banUser');">Go {{  vm.userChosen.username }}!
+        </button>
     </div>
     <div class="banUser" ng-switch-when="banUser">
         <div class="row">
@@ -42,6 +52,9 @@
             <div class="col-md-2">
                 accesslevel
             </div>
+            <div class="col-md-2">
+                banned
+            </div>
         </div>
         <div class="row">
             <div class="col-md-2">
@@ -53,14 +66,28 @@
             <div class="col-md-2">
                 {{ vm.userChosed.accesslevel }}
             </div>
-        </div> <br><br>
+            <div class="col-md-2">
+                {{ vm.userChosed.banned }}
+            </div>
+            <span ng-show="vm.userChosed.banned=='No'" style="color: red;">Are you sure you wanna ban this user?</span>
+            <span ng-show="vm.userChosed.banned!='No'" style="color: red;"><h4>This user is banned</h4></span>
+        </div> <br> <br>
         <div class="row">
-            Are you sure you wanna ban this user?
-            <div class="col-md-5">
+            <div class="col-md-6">
                 <button type="button" class="btn btn-info" ng-click="vm.renderParts('searchUser');">
                     Go back</button>
-                <button type="button" class="btn btn-warning">Temporary ban</button>
+                <button type="button" class="btn btn-success" ng-click="vm.banUser(-1);" ng-hide="vm.userChosed.banned=='No'">
+                    Unban user</button>
+                <button type="button" class="btn btn-warning" ng-click="vm.banUser(vm.temporaryBanTime);">Temporary ban</button>
                 <button type="button" class="btn btn-danger" ng-click="vm.banUser(0);">Ban!</button>
+            </div>
+            <div class="col-md-3">
+                <div class="input-group">
+                    <span class="input-group-addon" id="days-addon">Days</span>
+                    <input type="text" class="form-control" ng-model="vm.temporaryBanTime.days">
+                    <span class="input-group-addon" id="hours-addon">Hours</span>
+                    <input type="text" class="form-control" ng-model="vm.temporaryBanTime.hours">
+                </div>
             </div>
         </div>
     </div>

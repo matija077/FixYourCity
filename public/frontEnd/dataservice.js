@@ -20,6 +20,8 @@
 			reload : reload,
 			getNotifications: getNotifications,
 			getProblems: getProblems,
+			getProblem: getProblem,
+			toggleVote: toggleVote,
 		}
 		
 		/*var token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjQsImlzcyI6Imh0dHA6XC9cL2xvY2FsaG9zdFwvUldBXC9wdWJsaWNcL2FwaVwvYXV0aGVudGljYXRlIiwiaWF0IjoiMTQ0ODU1MzIzOCIsImV4cCI6IjE0NDg1NTY4MzgiLCJuYmYiOiIxNDQ4NTUzMjM4IiwianRpIjoiYjZmMjk0N2U0ODQ1ZDljOGE2OTU4ZDZhZGNlZGUwNTAifQ.5CbF03PUe1fr-gK2xQMlCjdCQ2LioWOizc6bqsLBiKY';*/
@@ -96,6 +98,55 @@
 					}
 				}
 			});
+		}
+		
+		function getProblem(id){
+			return $resource("api/problem/:id", {id: "@id"}, {
+				getProblem: {method: 'GET', params:{id: id}, isArray:false }
+			});
+		}
+		
+		function toggleVote(problem,vote){
+			if(typeof problem.voted == 'undefined') problem.voted=0;
+			if(vote==1){
+				switch(problem.voted) {
+					case -1: {
+						problem.votenegative-=1;
+						problem.votepositive+=1;
+						problem.voted=1;
+						break;
+					}
+					case 0: {
+						problem.votepositive+=1;
+						problem.voted=1;
+						break;
+					}
+					case 1: {
+						problem.votepositive-=1;
+						problem.voted=0;
+						break;
+					}
+				}
+			}else{
+				switch(problem.voted){
+					case -1: {
+						problem.votenegative-=1;
+						problem.voted=0;
+						break;
+					}
+					case 0: {
+						problem.votenegative+=1;
+						problem.voted=-1;
+						break;
+					}
+					case 1: {
+						problem.votepositive-=1;
+						problem.votenegative+=1;
+						problem.voted=-1;
+						break;
+					}
+				}
+			}
 		}
 	}
 })();

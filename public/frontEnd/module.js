@@ -46,6 +46,13 @@
 				controllerAs: 'vm',
 				accesslevel: '1',
 			})
+			.state('problem', {
+				url: '/problem/:id',
+				templateUrl: 'frontend/problem/problem.html',
+				controller: 'problemController',
+				controllerAs: 'vm',
+				accesslevel: '1',
+			})
 			$urlRouterProvider.otherwise( '/');
 
 	}
@@ -54,9 +61,9 @@
 		$rootScope.$on('$stateChangeStart', function(event, toState){
 			var user = JSON.parse(localStorage.getItem('user'));
 			var token = localStorage.getItem('satellizer_token');
-			console.log('user :', user);
-			console.log('token :', token);
-			console.log('role :', $rootScope.role);
+			//console.log('user :', user);
+			//console.log('token :', token);
+			//console.log('role :', $rootScope.role);
 			
 			//if a user  came from a different webpage,
 			//but a token is still valid in local storage autheticate him
@@ -64,8 +71,8 @@
 				$rootScope.authenticated = true;
 				$rootScope.role = user.accesslevel;
                 $rootScope.userName = user.username;
-				console.log('role :', $rootScope.role);
-				console.log(toState);      
+				//console.log('role :', $rootScope.role);
+				//console.log(toState);      
             }else {
                 //if user is a guest, on a first state change assign him role 1
                 $rootScope.role = '1';
@@ -94,6 +101,7 @@
 				controller: '',
 				controllerAs: 'vm',
 				accesslevel: '',
+	})
 *
 *
 */

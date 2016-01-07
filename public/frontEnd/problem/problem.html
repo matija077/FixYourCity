@@ -1,0 +1,37 @@
+<div class="container-fluid">
+	<div class="row">
+		<div class="well well-sm pull-left col-md-1" > <!--style="width:3%"-->
+			<center>
+				<div class="glyphicon glyphicon-menu-up" role="button" ng-click="vm.toggleVote(vm.problem,1)"></div>
+				<div>{{vm.problem.votepositive-vm.problem.votenegative}}</div>
+				<div class="glyphicon glyphicon-menu-down" role="button" ng-click="vm.toggleVote(vm.problem,-1)"></div>
+			</center>
+		</div>
+				
+		<div class="well well-sm pull-left col-md-11" >  <!-- missing: mark, picture style="width:97%;"-->
+			<p class="title">
+				<a href="#/problem/{{problem.idproblem}}">
+					{{vm.problem.text}}
+				</a>
+				</p>
+				<p>Location: {{vm.problem.address}}</p>
+				<p>Category: {{vm.problem.ctgname}}<span style="float: right">Submitted by <a href="/user/{{vm.problem.iduser}}">{{vm.problem.username}}</a> on {{vm.problem.created}}<span></p>
+				<p>
+					<h6>
+						<a href="">Report</a>
+					</h6>
+				</p>
+		</div>
+	</div>
+	
+	<div class="row" ng-repeat="comment in vm.problem.comments">
+	
+		<div class="col-md-3">
+		</div>
+		
+		<div class="col-md-9 well well-sm">
+			{{comment.text}} by {{comment.username}} on {{comment.created}}
+		</div>
+	</div>
+	
+</div>

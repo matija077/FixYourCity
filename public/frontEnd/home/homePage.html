@@ -90,4 +90,48 @@
 		</div>
 		
 	</div>
+	<!--
+	<div class="">
+		</div>
+	-->
+	<hr />
+	<div class="row">
+	
+		<div class="col-md-1">
+		</div>
+		
+		<div class="col-md-10">
+		
+			<div class="row" ng-repeat="problem in vm.problems">
+				<div class="well well-sm pull-left cod-md-2">
+					<center>
+					<div class="glyphicon glyphicon-menu-up" role="button" ng-click="vm.toggle(problem,1)"></div>
+					<div>{{problem.votepositive-problem.votenegative}}</div>
+					<div class="glyphicon glyphicon-menu-down" role="button" ng-click="vm.toggle(problem,-1)"></div>
+					</center>
+				</div>
+				
+				<div class="well well-sm pull-left col-md-10">  <!-- missing: mark, picture -->
+					<p class="title">
+						<a href="/problem/{{problem.idproblem}}">   <!-- not leading anywhere yet -->
+						{{problem.text}}
+						</a>
+					</p>
+					<p>Location: {{problem.address}}</p>
+					<p>Category: {{problem.ctgname}}<span style="float: right">Submitted by <a href="/user/{{problem.iduser}}">{{problem.username}}</a> on {{problem.created}}<span></p>
+					<p>
+						<h6>
+						<a href="">{{problem.comments}} comments</a> | 
+						<a href="">Report</a>
+						</h6>
+					</p>
+				</div>
+			</div>
+			
+		</div>
+		
+		<div class="col-md-1">
+		</div>
+	
+	</div>
 </div>

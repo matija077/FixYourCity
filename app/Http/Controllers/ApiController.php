@@ -204,6 +204,11 @@ class ApiController extends Controller
         if ($time==NAN){
             return \Response::json('bantime is Nan', 400);
         }
+        /*time greater than 0, we add ban time to current time in seconds
+         *we recieve time in hours -> 1h = 3600 seconds
+         *if time is equal to 0, we leave like that
+         *if time is less than 0, we use current time
+        */
         if ($time>0) {
             $newtime = time()+$time*3600;
             $date =  date('Y-m-d H:i:s', $newtime);

@@ -55,6 +55,11 @@
         }
 
         function banUser(time){
+            /*
+            *pernamently banned = 0
+            *temporary banned   = days as hours + hours
+            *unban              = -1
+            */
             if (time.days>0 || time.hours>0){
                 //banned time is computed in hours
                 time = time.days*24 + time.hours;

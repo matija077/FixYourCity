@@ -2,9 +2,9 @@
 	<div class="row">
 		<div class="well well-sm pull-left col-md-1" > <!--style="width:3%"-->
 			<center>
-				<div class="glyphicon glyphicon-menu-up" role="button" ng-click="vm.toggleVote(vm.problem,1)"></div>
+				<div class="glyphicon glyphicon-menu-up" role="button" ng-click="vm.toggleVote(vm.problem,1)" ng-class="{'glyphvoted':vm.problem.voted==1}"></div>
 				<div>{{vm.problem.votepositive-vm.problem.votenegative}}</div>
-				<div class="glyphicon glyphicon-menu-down" role="button" ng-click="vm.toggleVote(vm.problem,-1)"></div>
+				<div class="glyphicon glyphicon-menu-down" role="button" ng-click="vm.toggleVote(vm.problem,-1)" ng-class="{'glyphvoted':vm.problem.voted==-1}"></div>
 			</center>
 		</div>
 				

@@ -47,4 +47,7 @@ html, body {
 	background-size:100%;
 	background-color:#eee;
 }
+.glyphvoted {
+	color: #f55;
+}
 

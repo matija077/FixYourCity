@@ -131,9 +131,9 @@
 			<div class="row" ng-repeat="problem in vm.problems">
 				<div class="well well-sm pull-left col-md-1">
 					<center>
-					<div class="glyphicon glyphicon-menu-up" role="button" ng-click="vm.toggleVote(problem,1)"></div>
+					<div class="glyphicon glyphicon-menu-up" role="button" ng-click="vm.toggleVote(problem,1)" ng-class="{'glyphvoted':problem.voted==1}"></div>
 					<div>{{problem.votepositive-problem.votenegative}}</div>
-					<div class="glyphicon glyphicon-menu-down" role="button" ng-click="vm.toggleVote(problem,-1)"></div>
+					<div class="glyphicon glyphicon-menu-down" role="button" ng-click="vm.toggleVote(problem,-1)" ng-class="{'glyphvoted':problem.voted==-1}"></div>
 					</center>
 				</div>
 				

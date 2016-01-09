@@ -53,6 +53,27 @@
 				controllerAs: 'vm',
 				accesslevel: '1',
 			})
+			.state('feedback', {
+				url: '/feedback',
+				templateUrl: 'frontend/home/feedback.html',
+				controller: 'feedbackController',
+				controllerAs: 'vm',
+				accesslevel: '1',
+			})
+			.state('suggestCity', {
+				url: '/suggestCity',
+				templateUrl: 'frontend/home/suggestCity.html',
+				controller: 'suggestCityController',
+				controllerAs: 'vm',
+				accesslevel: '1',
+			})
+			.state('suggestCategory', {
+				url: '/suggestCategory',
+				templateUrl: 'frontend/home/suggestCategory.html',
+				controller: 'suggestCategoryController',
+				controllerAs: 'vm',
+				accesslevel: '1',
+			})
 			$urlRouterProvider.otherwise( '/');
 
 	}

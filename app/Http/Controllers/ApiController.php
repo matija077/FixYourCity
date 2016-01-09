@@ -14,6 +14,9 @@ use App\Problem;
 use App\Comment;
 use App\User;
 use App\Subscribe;
+use App\suggestCity;
+use App\feedback;
+use App\suggestCategory;
 
 
 class ApiController extends Controller
@@ -284,6 +287,32 @@ class ApiController extends Controller
 		$comment = Comment::create($comment);
 		
 		return \Response::json($comment);
+	}
+	
+	public static function suggestCity(Request $request){
+		$suggestedCityArray = array(
+			'iduser' => $request->iduser,
+			'suggestcityname' => $request->suggestcityname,
+			'suggeststatename' => $request->suggeststatename,
+		);
+		$suggestedCityArray = suggestCity::create($suggestedCityArray);
+	}
+
+	public static function feedback(Request $request){
+		$enteredFeedback = array(
+			'iduser' => $request->iduser,
+			'feedbacksubject' => $request->feedbacksubject,
+			'feedbacktext' => $request->feedbacktext,
+		);
+		$enteredFeedback = feedback::create($enteredFeedback);
+	}
+
+	public static function suggestCategory(Request $request){
+		$suggestedCategory = array(
+			'iduser' => $request->iduser,
+			'suggestcategoryname' => $request->suggestcategoryname,
+		);
+		$suggestedCategory = suggestCategory::create($suggestedCategory);
 	}
 	
 	

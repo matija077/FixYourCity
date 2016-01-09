@@ -23,17 +23,17 @@ html, body {
     right: 0;
     left: 0;
     height: 170px;
-    min-width: 101% !important;
+    min-width: 100% !important;
     overflow: visible;
-    background: url(http://i.imgur.com/LbUnZvP.png) repeat;
+    background: url(http://i.imgur.com/Q9I4bnC.png) repeat;
     background-size: cover;
     background-position: center;
     border: 0;
    }
 
 .navbar-text {
-	padding-top: 110px;
-	padding-left: 20px;
+	padding-top: 100px;
+	padding-left: 25px;
 }
 
 .navbar-icons {

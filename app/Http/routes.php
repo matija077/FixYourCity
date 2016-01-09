@@ -26,6 +26,8 @@ Route::group(array('prefix' => 'api'), function()
 	Route::post('/signup', 'AuthenticateController@signup');
 	Route::get('/notification/{id}', 'ApiController@getNotifications');
 	Route::get('/problems/{idcity}/{idcategory}', 'ApiController@getProblems');
+	Route::get('/problem/{id}', 'ApiController@getProblem');
+	Route::post('/submitcomment', 'ApiController@submitComment');
 });
 
 

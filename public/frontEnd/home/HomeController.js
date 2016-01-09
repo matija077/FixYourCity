@@ -23,7 +23,9 @@
 		vm.proceedSubmit=proceedSubmit;
 		vm.getProblems=getProblems;
 		vm.problems= [];
-		vm.toggle=toggle;
+		vm.toggleVote=toggleVote;
+		vm.showsearch=true;
+		vm.showsearchToggle=showsearchToggle;
 		
 		activate();
 		
@@ -102,54 +104,22 @@
 		function getProblems(idcity,idcategory){
 			return dataservice.getProblems(idcity,idcategory).getAll().$promise
 				.then(function(problems){
-					console.log(problems.data);
+					//console.log(problems.data);
 					return vm.problems = problems.data;
 				});
 		}
 		
-		function toggle(problem,vote){
-			if(typeof problem.voted == 'undefined') problem.voted=0;
-			if(vote==1){
-				switch(problem.voted) {
-					case -1: {
-						problem.votenegative-=1;
-						problem.votepositive+=1;
-						problem.voted=1;
-						break;
-					}
-					case 0: {
-						problem.votepositive+=1;
-						problem.voted=1;
-						break;
-					}
-					case 1: {
-						problem.votepositive-=1;
-						problem.voted=0;
-						break;
-					}
-				}
-			}else{
-				switch(problem.voted){
-					case -1: {
-						problem.votenegative-=1;
-						//problem.votepositive+=1;
-						problem.voted=0;
-						break;
-					}
-					case 0: {
-						problem.votenegative+=1;
-						problem.voted=-1;
-						break;
-					}
-					case 1: {
-						problem.votepositive-=1;
-						problem.votenegative+=1;
-						problem.voted=-1;
-						break;
-					}
-				}
-			}
+		function toggleVote(problem,vote){
+			dataservice.toggleVote(problem,vote);
 		}
+		
+	function showsearchToggle(){
+		if(vm.showsearch){
+			vm.showsearch=false;;
+		}else{
+			vm.showsearch=true;;
+		}
+	}
 		
 	}
 })();

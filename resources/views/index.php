@@ -53,6 +53,8 @@
 	
 	<script src="frontend/signup/signupController.js"></script>
 	
+	<script src="frontend/problem/problemController.js"></script>
+	
 </body>
 
 </html>

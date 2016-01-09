@@ -118,7 +118,7 @@
 					email : vm.email,
 					password : vm.password,
 				}
-				console.log(credentials);
+				//console.log(credentials);
 				// Use Satellizer's $auth service to login
 				$auth.login(credentials)
 					.then(function(data) {
@@ -133,14 +133,14 @@
 								$rootScope.userName = userData.data.user.username;
 								//load data agian
 								dataservice.reload();
-								console.log($rootScope.role);
+								//console.log($rootScope.role);
 							})
 							.catch(function(userDataError){
-								console.log('error retriving');
+								//console.log('error retriving');
 							});
 					})
 					.catch(function(data) {
-						console.log(data + 'error');	
+						//console.log(data + 'error');	
 					});
 			}
 		}
@@ -171,6 +171,7 @@
                 userid = userid.iduser;
             }else{
                 userid = 0;
+				return;
             }
             dataservice.getNotifications(userid).getNotifications().$promise
                 .then(function(data){
@@ -189,11 +190,11 @@
 						//if there are new notifications we need to tell user about that
 						vm.seen = false;
 						//data is seen in this log
-						console.log(data);  
+						//console.log(data);  
 					}
                 })
                 .catch(function(data){
-                    console.log(data, vm.seen);
+                    //console.log(data, vm.seen);
                 });
         }
         

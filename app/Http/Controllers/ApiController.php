@@ -241,12 +241,51 @@ class ApiController extends Controller
 		
 		//following loop is to add number of comments for each problem that was found previously
 		while(isset($problems[$i])){
-			$problems[$i]['comments']=Comment::where('idproblem',$problems[$i]['idproblem'])->count();
+			$problems[$i]['comments'] = Comment::where('idproblem',$problems[$i]['idproblem'])->count();
 			$i++;
 		};
 		
 		return \Response::json($problems);
 	}
+	
+	public static function getProblem($idproblem){
+		if($idproblem){
+			$i = 0;
+			
+			$problem = Problem::where('idproblem',$idproblem)
+								->join('user','user.iduser','=','problem.iduser')
+								->join('category','category.idcategory','=','problem.idcategory')
+								->select('problem.*','user.username','category.ctgname')->firstOrFail();
+								
+			//adds all comments and usernames for selected problem					
+			$problem['comments'] = Comment::where('idproblem',$idproblem)
+											->join('user','user.iduser','=','comment.iduser')
+											->select('comment.*','user.username')
+											->get();
+											
+			return \Response::json($problem);
+		}
+		return \Response::json('Greska');
+		
+	}
+
+	public static function submitComment(Request $request){
+		if(!$request->iduser || !$request->idproblem || !$request->text){
+			return \Response::json('Missing parameters');
+		}
+		$comment = array(
+			'iduser' => $request->iduser,
+			'idproblem' => $request->idproblem,
+			'text' => $request->text,
+			'url' => $request->url,
+			'created' => date('Y-m-d H:i:s', time()),   //time isnt correct, need uniform assignment for all database tables
+		);
+		
+		$comment = Comment::create($comment);
+		
+		return \Response::json($comment);
+	}
+	
 	
 }
 	 

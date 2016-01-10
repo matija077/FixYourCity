@@ -13,7 +13,6 @@ use App\Category;
 use App\Problem;
 use App\User;
 use App\Comment;
-use App\User;
 use App\Subscribe;
 use App\suggestCity;
 use App\feedback;

@@ -3,13 +3,24 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use JWTAuth;
+
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use App\City;
 use App\Category;
 use App\Problem;
+<<<<<<< HEAD
 use App\User;
+=======
+use App\Comment;
+use App\User;
+use App\Subscribe;
+use App\suggestCity;
+use App\feedback;
+use App\suggestCategory;
+>>>>>>> master
 
 
 class ApiController extends Controller
@@ -175,6 +186,7 @@ class ApiController extends Controller
 			'text' => $request->text,
 			'votepositive' => '1',
 			'votenegative' => '0',
+			'lastactivity' => date('Y-m-d H:i:s', time()),
 		);
 		
 		$problem = Problem::create($problem);
@@ -259,5 +271,131 @@ class ApiController extends Controller
             return \Response::json('user '.$user->username. 'is unbanned', 200);
         }
     }
+	
+	public static function getNotifications($userId){
+        if ($userId!=0) {
+            $counter = 0;
+            $user = User::where('iduser', $userId)->first();
+            $userLastActivity = $user->lastactivity;
+            $subcribes = Subscribe::where('iduser', $userId)->get();
+            foreach($subcribes as $subcribe){
+                //maybe just use one query??
+                $problem = Problem::where('idproblem', $subcribe->idproblem)->first();
+                $problemLastActivity = $problem->lastactivity;
+                $probemText = $problem->text;
+                $categoryName = Category::where('idcategory', $problem->idcategory)->value('ctgname');
+                //$categoryname = Category::where('idcategory', $)
+                if ($problemLastActivity>$userLastActivity){
+                    $response[$counter++] = $probemText.' in category '.$categoryName.' has been updateded';
+                }
+            }
+            //every time we try to query notifications update user's lastactivity
+            $lastactivity = date('Y-m-d H:i:s', time());
+            $user->lastactivity = $lastactivity;
+            $user->save();
+
+            if ($counter>0){
+                return \Response::json($response, 200);
+            }else return \Response::json('No new notifications',200);
+
+        }
+		return \Response::json('', 400);
+	}
+
+	public static function getProblems($idcity,$idcategory){
+		$i = 0;
+		
+		// MARK isn't yet included in query
+		
+		//if idcategory is -1 it means category hasn't been selected -> querying only by city
+		if($idcategory!=-1){
+			$problems = Problem::where('idcity',$idcity)
+								->where('problem.idcategory',$idcategory)
+								->join('user','user.iduser','=','problem.iduser')
+								->join('category','category.idcategory','=','problem.idcategory')
+								->select('problem.*','user.username','category.ctgname')
+								->get();
+		}else{
+			$problems = Problem::where('idcity',$idcity)
+								->join('user','user.iduser','=','problem.iduser')
+								->join('category','category.idcategory','=','problem.idcategory')
+								->select('problem.*','user.username','category.ctgname')
+								->get();
+		}
+		
+		//following loop is to add number of comments for each problem that was found previously
+		while(isset($problems[$i])){
+			$problems[$i]['comments'] = Comment::where('idproblem',$problems[$i]['idproblem'])->count();
+			$i++;
+		};
+		
+		return \Response::json($problems);
+	}
+	
+	public static function getProblem($idproblem){
+		if($idproblem){
+			$i = 0;
+			
+			$problem = Problem::where('idproblem',$idproblem)
+								->join('user','user.iduser','=','problem.iduser')
+								->join('category','category.idcategory','=','problem.idcategory')
+								->select('problem.*','user.username','category.ctgname')->firstOrFail();
+								
+			//adds all comments and usernames for selected problem					
+			$problem['comments'] = Comment::where('idproblem',$idproblem)
+											->join('user','user.iduser','=','comment.iduser')
+											->select('comment.*','user.username')
+											->get();
+											
+			return \Response::json($problem);
+		}
+		return \Response::json('Greska');
+		
+	}
+
+	public static function submitComment(Request $request){
+		if(!$request->iduser || !$request->idproblem || !$request->text){
+			return \Response::json('Missing parameters');
+		}
+		$comment = array(
+			'iduser' => $request->iduser,
+			'idproblem' => $request->idproblem,
+			'text' => $request->text,
+			'url' => $request->url,
+			'created' => date('Y-m-d H:i:s', time()),   //time isnt correct, need uniform assignment for all database tables
+		);
+		
+		$comment = Comment::create($comment);
+		
+		return \Response::json($comment);
+	}
+	
+	public static function suggestCity(Request $request){
+		$suggestedCityArray = array(
+			'iduser' => $request->iduser,
+			'suggestcityname' => $request->suggestcityname,
+			'suggeststatename' => $request->suggeststatename,
+		);
+		$suggestedCityArray = suggestCity::create($suggestedCityArray);
+	}
+
+	public static function feedback(Request $request){
+		$enteredFeedback = array(
+			'iduser' => $request->iduser,
+			'feedbacksubject' => $request->feedbacksubject,
+			'feedbacktext' => $request->feedbacktext,
+		);
+		$enteredFeedback = feedback::create($enteredFeedback);
+	}
+
+	public static function suggestCategory(Request $request){
+		$suggestedCategory = array(
+			'iduser' => $request->iduser,
+			'suggestcategoryname' => $request->suggestcategoryname,
+		);
+		$suggestedCategory = suggestCategory::create($suggestedCategory);
+	}
+	
+	
 }
 	 

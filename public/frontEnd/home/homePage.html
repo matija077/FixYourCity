@@ -1,5 +1,5 @@
 <div class="container-fluid">
-	<div class="row">
+	<div class="row" ng-hide="!vm.showsearch">
 	
 		<div class="col-md-0">
 		</div>
@@ -79,6 +79,35 @@
 			<input type="button" value="Add city" ng-click="vm.insertCity()"/>
 			-->
 		</div>
+		<!-- MOVED --
+		<div class="col-md-4">
+			<center>
+			<input type="button" value="Proceed to report" ng-disabled="(!vm.selectedcity || !vm.selectedcategory)"/ ng-click="vm.proceedSubmit(vm.selectedcity,vm.selectedcategory)">
+			</center>
+		</div>
+		
+		<div class="col-md-4">
+		</div>
+		-->
+	</div>
+	<!--
+	<div class="">
+		</div>
+	-->
+	<hr style="padding: 0px; margin: 0px;"/>
+	<div class="row collapserow" ng-click="vm.showsearchToggle()">
+	
+		<center>
+			<div class="glyphicon glyphicon-triangle-bottom glyphcollapse" ng-if="!vm.showsearch"></div><div class="glyphicon glyphicon-triangle-top glyphcollapse" ng-if="vm.showsearch"></div>
+		</center>
+	
+	</div>
+	<hr style="padding: 0px; margin-top: 0px;"/>
+	
+	<div class="row">
+		
+		<div class="col-md-4">
+		</div>
 		
 		<div class="col-md-4">
 			<center>
@@ -89,5 +118,46 @@
 		<div class="col-md-4">
 		</div>
 		
+	</div>
+	<hr />
+	
+	<div class="row">
+	
+		<div class="col-md-1">
+		</div>
+		
+		<div class="col-md-10">
+		
+			<div class="row" ng-repeat="problem in vm.problems">
+				<div class="well well-sm pull-left col-md-1">
+					<center>
+					<div class="glyphicon glyphicon-menu-up" role="button" ng-click="vm.toggleVote(problem,1)" ng-class="{'glyphvoted':problem.voted==1}"></div>
+					<div>{{problem.votepositive-problem.votenegative}}</div>
+					<div class="glyphicon glyphicon-menu-down" role="button" ng-click="vm.toggleVote(problem,-1)" ng-class="{'glyphvoted':problem.voted==-1}"></div>
+					</center>
+				</div>
+				
+				<div class="well well-sm pull-left col-md-11">  <!-- missing: mark, picture -->
+					<p class="title">
+						<a href="#/problem/{{problem.idproblem}}">   
+						{{problem.text}}
+						</a>
+					</p>
+					<p>Location: {{problem.address}}</p>
+					<p>Category: {{problem.ctgname}}<span style="float: right">Submitted by <a href="/user/{{problem.iduser}}">{{problem.username}}</a> on {{problem.created}}<span></p>
+					<p>
+						<h6>
+						<a href="#/problem/{{problem.idproblem}}">{{problem.comments}} comments</a> | 
+						<a href="">Report</a>
+						</h6>
+					</p>
+				</div>
+			</div>
+			
+		</div>
+		
+		<div class="col-md-1">
+		</div>
+	
 	</div>
 </div>

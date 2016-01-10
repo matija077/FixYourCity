@@ -20,12 +20,19 @@ Route::group(array('prefix' => 'api'), function()
 	Route::get('/categories', 'ApiController@getCategories');
 	Route::get('/categories/{id}', 'ApiController@getCategory');
 	Route::post('/insertcity', 'ApiController@insertCity');
-	Route::post('/submitproblem', 'ApiController@submitProblem')->middleware('check:3');
+	Route::post('/submitproblem', 'ApiController@submitProblem')->middleware('check:2');
 	Route::get('/authenticate/user', 'AuthenticateController@getAuthenticatedUser');
 	Route::post('/authenticate', 'AuthenticateController@authenticate');
 	Route::post('/signup', 'AuthenticateController@signup');
     Route::get('/users/{username?}/{email?}/{accesslevel?}/{banned?}', 'ApiController@getUsers');
     Route::post('/ban/{id}/{time}', 'ApiController@banUser');
+	Route::get('/notification/{id}', 'ApiController@getNotifications');
+	Route::get('/problems/{idcity}/{idcategory}', 'ApiController@getProblems');
+	Route::get('/problem/{id}', 'ApiController@getProblem');
+	Route::post('/submitcomment', 'ApiController@submitComment');
+	Route::post('/suggestCity', 'ApiController@suggestCity');
+	Route::post('/feedback', 'ApiController@feedback');
+	Route::post('/suggestCategory', 'ApiController@suggestCategory');
 });
 
 

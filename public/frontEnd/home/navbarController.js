@@ -11,11 +11,15 @@
 		var vm = this;
 		vm.email = '';
 		vm.password = '';
+		vm.notifications = [];
+		vm.numberOfNotifications = 0;
+        vm.seen = true;
 		vm.renderTab=renderTab;
 		vm.login = login;
 		vm.signUp = signUp;
 		vm.logout = logout;
         vm.goPath = goPath;
+        vm.seenNotifications = seenNotifications;
 		
 		vm.tabs=[
 			//BEGIN TABS
@@ -83,6 +87,19 @@
 			* END OF TABS
 			*/
 		
+		activate();
+		
+		function activate(){
+			getNotifications();	
+			var localStorageNotifications = localStorage.getItem('notifications');
+			var localStorageNotificationsCounter = localStorage.getItem('notifications counter');
+			if (localStorageNotifications!=null){
+				vm.notifications = localStorageNotifications;
+			}
+			if (localStorageNotificationsCounter!=null){
+				vm.numberOfNotifications = localStorageNotificationsCounter;
+			}
+		}
 		
 		function renderTab(tab){     //called for each tab in navbar from html using ng-repeat
 			var retval=''; 
@@ -102,7 +119,7 @@
 					email : vm.email,
 					password : vm.password,
 				}
-				console.log(credentials);
+				//console.log(credentials);
 				// Use Satellizer's $auth service to login
 				$auth.login(credentials)
 					.then(function(data) {
@@ -117,14 +134,14 @@
 								$rootScope.userName = userData.data.user.username;
 								//load data agian
 								dataservice.reload();
-								console.log($rootScope.role);
+								//console.log($rootScope.role);
 							})
 							.catch(function(userDataError){
-								console.log('error retriving');
+								//console.log('error retriving');
 							});
 					})
 					.catch(function(data) {
-						console.log(data + 'error');	
+						//console.log(data + 'error');	
 					});
 			}
 		}
@@ -150,6 +167,51 @@
             dataservice.goPath(state, params);
         }
 		
+		function getNotifications(){
+            var userid;
+            var array = [];
+            //array is needed because vm.notifications is actually not a variable.
+            userid = JSON.parse(localStorage.getItem('user'));
+            //if there is no user authenticated, we are still making a call to backend.
+            if (userid!=null){
+                userid = userid.iduser;
+            }else{
+                userid = 0;
+				return;
+            }
+            dataservice.getNotifications(userid).getNotifications().$promise
+                .then(function(data){
+					if(data.data!="No new notifications"){
+						//we are saving notifications and number of notifications
+						angular.forEach(data.data, function(value, key){
+							//javascript considers this variable as string, so parsing is needed
+							vm.numberOfNotifications = parseInt(vm.numberOfNotifications, 10) + 1;
+							vm.numberOfNotifications = parseInt(vm.numberOfNotifications, 10);
+							//new notifications are prepended.
+							array.unshift(value)
+						})
+						vm.notifications = array.concat(vm.notifications);
+						localStorage.setItem('notifications', vm.notifications);
+						localStorage.setItem('notifications counter', vm.numberOfNotifications);
+						//if there are new notifications we need to tell user about that
+						vm.seen = false;
+						//data is seen in this log
+						//console.log(data);  
+					}
+                })
+                .catch(function(data){
+                    //console.log(data, vm.seen);
+                });
+        }
+        
+        function seenNotifications(){
+            //we have seen notifications, so we will remove everything.
+            localStorage.removeItem('notifications');
+            localStorage.removeItem('notifications counter');
+            vm.notifications = [];
+            vm.numberOfNoticiations = 0;
+            vm.seen = true;
+        }
 		
 	}
 

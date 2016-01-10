@@ -6,6 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="frontend/stylesheet.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 </head>
 <body>
 	
@@ -53,6 +54,14 @@
 	<script src="frontend/signup/signupController.js"></script>
     
     <script src="frontend/admin page/adminPageController.js"></script>
+	
+	<script src="frontend/problem/problemController.js"></script>
+	
+	<script src="frontend/home/feedbackController.js"></script>
+
+	<script src="frontend/home/suggestCityController.js"></script>
+
+	<script src="frontend/home/suggestCategoryController.js"></script>
 	
 </body>
 

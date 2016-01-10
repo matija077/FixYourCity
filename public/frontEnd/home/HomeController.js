@@ -21,6 +21,11 @@
 		vm.selectCategory=selectCategory;
 		vm.selectedcategory;
 		vm.proceedSubmit=proceedSubmit;
+		vm.getProblems=getProblems;
+		vm.problems= [];
+		vm.toggleVote=toggleVote;
+		vm.showsearch=true;
+		vm.showsearchToggle=showsearchToggle;
 		
 		activate();
 		
@@ -73,17 +78,48 @@
 		}
 		
 		function selectCity(param){
-			vm.selectedcity=param;
+			if(vm.selectedcity!=param){
+				vm.selectedcity=param;
+				if(vm.selectedcategory){
+					getProblems(param,vm.selectedcategory);
+				}else{
+					getProblems(param,-1);
+				}
+			}
 		}
 		
 		function selectCategory(param){
-			vm.selectedcategory=param;
+			if(vm.selectedcategory!=param){
+				vm.selectedcategory=param;
+				if(vm.selectedcity){
+					getProblems(vm.selectedcity,param);
+				}
+			}
 		}
 	
 		function proceedSubmit(idcity,idcategory){
 			dataservice.goPath('submit', {"idcity": idcity, "idcategory": idcategory});
 		}
 		
+		function getProblems(idcity,idcategory){
+			return dataservice.getProblems(idcity,idcategory).getAll().$promise
+				.then(function(problems){
+					//console.log(problems.data);
+					return vm.problems = problems.data;
+				});
+		}
+		
+		function toggleVote(problem,vote){
+			dataservice.toggleVote(problem,vote);
+		}
+		
+	function showsearchToggle(){
+		if(vm.showsearch){
+			vm.showsearch=false;;
+		}else{
+			vm.showsearch=true;;
+		}
+	}
 		
 	}
 })();

@@ -1,0 +1,28 @@
+<div ng-controller="suggestCityController" align="center">
+  <!--<form name="forma" novalidate class="form">-->
+  <form class="well well-lg" novalidate name="forma" role="form">
+  	<div ng-hide="vm.hajdaj">
+  		<div class="form-group" ng-class="{ 'has-error' : forma.cityName.$invalid }">
+		    <h1>Suggest city and state</h1> <br/>
+		    <label>Enter city name:</label>
+		     <input type="text" class="form-control" name="cityName" style="width:250px; margin-bottom:10px" ng-model="vm.suggestCityValue" required> 
+		    	<p ng-show="forma.cityName.$invalid" class="help-block">This field is required.</p>
+		</div>
+		<div class="form-group" ng-class="{ 'has-error' : forma.stateName.$invalid }">
+		    <label>Enter state name:</label>
+		    <input type="text" class="form-control" name="stateName" style="width:250px; margin-bottom:10px" ng-model="vm.suggestStateValue" ng-change="vm.usa()" required> 
+		    <p ng-show="forma.stateName.$invalid" class="help-block">This field is required.</p>
+			    <div ng-show="vm.showUSA" class="alert alert-info">
+			    <strong>Info!</strong> For USA, please enter state name.
+				</div>
+		    <input type="submit" class="btn btn-primary" ng-click="vm.suggestCity()" value="Suggest city" 
+		   			 ng-disabled="forma.cityName.$invalid || forma.stateName.$invalid">
+		</div>
+	</div>
+	<div ng-show="vm.showaj">
+		<h1>City suggested</h1>
+		<h3>City name has been suggested.</h3>
+	</div>
+  </form>
+</div>
+

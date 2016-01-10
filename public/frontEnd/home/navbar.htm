@@ -21,6 +21,15 @@
             <div class="admin page col-md-2" ng-if="(role==4)">
                 <button type="button" class="btn btn-primary" ng-click="navbar.goPath('admin page');">Admin</button>
             </div>
+			<div class="notification" ng-if="(authenticated)">
+				<div class="notification.exists col-md-2" ng-show="(!navbar.seen)" ng-style="{'color': 'red'}"
+                    ng-click="navbar.seenNotifications();">
+					notifications <span class="badge">{{ navbar.numberOfNotifications }}</span>
+				</div>
+				<div class="notification.default col-md-2" ng-show="(navbar.seen)">
+					notifications
+				</div>
+			</div>
 			<div class="logout col-md-2" ng-if="(authenticated)">
 				<button type="button" class="btn btn-info"  ng-click="navbar.logout();">Log out</button>
 			</div>							

@@ -1,0 +1,113 @@
+<div class="nav col-md-12">
+    <ul class="nav nav-tabs">
+    <li role="presentation" ><a href="" ng-click="vm.renderParts('searchUser');">Users</a></li>
+    <li role="presentation"><a href="" ng-click="vm.renderParts('feedback');">Feedback</a></li>
+    <li role="presentation"><a href="" ng-click="vm.renderParts('feedback');">Feedback</a></li>
+    <li role="presentation"><a href="" ng-click="vm.renderParts('feedback');">Feedback</a></li>
+    </ul>
+</div>
+<div class="col-md-10" ng-switch="vm.chosenPart">
+    <div class="user" ng-switch-when="searchUser">
+        <div class="row">
+            <form class="col-md-12">
+                <div class="col-md-3">
+                     Username: <input type="text" name="user" ng-model="vm.user.username" 
+                        ng-change="vm.returnUsers(vm.user);">
+                </div>
+                <div class="col-md-3">
+                    Email: <input type="text" name="email" ng-model="vm.user.email"
+                        ng-change="vm.returnUsers(vm.user);">
+                </div>
+                <div class="col-md-3">
+                    Accesslevel: <input type="number" name="accesslevel" ng-model="vm.user.accesslevel"
+                        ng-change="vm.returnUsers(vm.user);">
+                </div>
+                <div class="col-md-3">
+                    <div class="radio">
+                        <label><input type="radio" name="banned" ng-model="vm.user.bannedString"
+                            value="temporary" ng-change="vm.returnUsers();">Temporary</label>
+                    </div>
+                    <div class="radio">
+                        <label><input type="radio" name="baneed" ng-model="vm.user.bannedString"
+                            value="pernamently" ng-change="vm.returnUsers();">Pernamenty</label>
+                    </div>
+                    <div class="radio">
+                        <label><input type="radio" name="banned" ng-model="vm.user.bannedString"
+                            value="No" ng-change="vm.returnUsers();">No</label>
+                    </div>
+                     <div class="radio">
+                        <label><input type="radio" name="banned" ng-model="vm.user.bannedString"
+                            ng-value="null" ng-change="vm.returnUsers();" ng-click="vm.emptyUsers();">Dont' use</label>
+                    </div>
+                </div>
+                    
+            </form>
+        </div><br><br>
+        <div class="row">
+            <table class="col-md-12" border="1">
+                <tr>
+                    <th>username</th><th>email</th><th>accesslevel</th><th>banned</th>
+                </tr>
+                <tr ng-repeat="user in vm.usersReturned | limitTo: 5" ng-click="vm.choseUser(user);"
+                    ng-class="{'lightgraybg':user.iduser === vm.userChosed.iduser}">
+                    <td>{{ user.username }}</td><td>{{ user.email }}</td>
+                    <td>{{ user.accesslevel }}</td><td>{{ user.banned }}</td>
+                </tr>
+            </table>
+        </div><br>
+        <div class="col-md-11"></div>
+        <button type="button" class="btn btn-success" ng-disabled="vm.userChosed==''"
+            ng-click="vm.renderParts('banUser');">Go {{  vm.userChosen.username }}!
+        </button>
+    </div>
+    <div class="banUser" ng-switch-when="banUser">
+        <div class="row">
+            <div class="col-md-2">
+                Username
+            </div>
+            <div class="col-md-2">
+                Email
+            </div>
+            <div class="col-md-2">
+                accesslevel
+            </div>
+            <div class="col-md-2">
+                banned
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                {{ vm.userChosed.username }}
+            </div>
+            <div class="col-md-2">
+                {{ vm.userChosed.email }}
+            </div>
+            <div class="col-md-2">
+                {{ vm.userChosed.accesslevel }}
+            </div>
+            <div class="col-md-2">
+                {{ vm.userChosed.bannedString }}
+            </div>
+            <span ng-show="vm.userChosed.bannedString=='No'" style="color: red;">Are you sure you wanna ban this user?</span>
+            <span ng-show="vm.userChosed.bannedString!='No'" style="color: red;"><h4>This user is banned</h4></span>
+        </div> <br> <br>
+        <div class="row">
+            <div class="col-md-6">
+                <button type="button" class="btn btn-info" ng-click="vm.renderParts('searchUser');">
+                    Go back</button>
+                <button type="button" class="btn btn-success" ng-click="vm.banUser(-1);" ng-hide="vm.userChosed.banned=='No'">
+                    Unban user</button>
+                <button type="button" class="btn btn-warning" ng-click="vm.banUser(vm.temporaryBanTime);">Temporary ban</button>
+                <button type="button" class="btn btn-danger" ng-click="vm.banUser(0);">Ban!</button>
+            </div>
+            <div class="col-md-3">
+                <div class="input-group">
+                    <span class="input-group-addon" id="days-addon">Days</span>
+                    <input type="text" class="form-control" ng-model="vm.temporaryBanTime.days">
+                    <span class="input-group-addon" id="hours-addon">Hours</span>
+                    <input type="text" class="form-control" ng-model="vm.temporaryBanTime.hours">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

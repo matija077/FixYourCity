@@ -127,42 +127,58 @@ class ApiController extends Controller
 	}
 	
 	public static function insertCity(Request $request){
-		if(!$request->cityname || !$request->state){ 
+		//if(!$request->cityname || !$request->state){ 
+		if (!$request->suggestcityname || !$request->suggeststatename){
 			return \Response::json('Missing parameters');
 		}
-
-		$temp=City::where('cityname',$request->cityname)->where('state',$request->state)->first();
+		
+		$temp=City::where('cityname',$request->suggestcityname)->where('state',$request->suggeststatename)->first();
 		if(!count($temp)) {  //ne postoji vec u bazi
 			
-			if(self::isUSA($request->state)){
+			if(self::isUSA($request->suggeststatename)){
 				$numbah=9; // USA has id 9 in the API
-				$region=$request->state;
+				$region=$request->suggeststatename;
 			}else{
-				if($request->state=="USA") return \Response::json("Enter state name");
-				$name = $request->state;
+				if($request->suggeststatename=="USA") return \Response::json("Enter state name");
+				$name = $request->suggeststatename;
 				$name = implode(' ', array_map('ucfirst', explode(' ', $name)));
 				$numbah = self::checkCountry($name);
 				$region = "";
 			}
 			
 			if (!empty($numbah)){
-				$cityToInsert = self::checkCity($request->cityname, $numbah, $region);
+				$cityToInsert = self::checkCity($request->suggestcityname, $numbah, $region);
 				if (!empty($cityToInsert)) {
-					$stateToInsert = implode(' ', array_map('ucfirst', explode(' ', $request->state)));
+					$stateToInsert = implode(' ', array_map('ucfirst', explode(' ', $request->suggeststatename)));
 					$newcity=array(
 						'cityname' => $cityToInsert,
 						'state' => $stateToInsert,
 					);
 					$newcity = City::create($newcity)->idcity;
-					return \Response::json($newcity);
+					//return \Response::json($newcity);
+					return \Response::json('City inserted successfully!');
 				}else{
-					return \Response::json('Ne postoji');
+					$temp=suggestCity::where('suggestcityname',$request->suggestcityname)->where('suggeststatename',$request->suggeststatename)->first();
+					if(!count($temp)) {  //ne postoji vec u bazi
+						self::suggestCity($request);
+						return \Response::json('Ne postoji');
+					} else {
+						return \Response::json('City already suggested.');
+					}
 				};
 			}else{
-				return \Response::json('Country or state does not exist');
-			}
+					$temp=suggestCity::where('suggestcityname',$request->suggestcityname)->where('suggeststatename',$request->suggeststatename)->first();
+					if (!count($temp)) {  //ne postoji vec u bazi
+						self::suggestCity($request); 
+						return \Response::json('City name suggested, Admin notified!');
+					} else {
+						return \Response::json('City already suggested.');
+					}
 
+			}
 			
+		} else {
+			return \Response::json('City is already in database.');
 		}
 	}
 	

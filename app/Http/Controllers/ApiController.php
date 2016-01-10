@@ -315,6 +315,11 @@ class ApiController extends Controller
 		$suggestedCategory = suggestCategory::create($suggestedCategory);
 	}
 	
+	public static function upload(/*Request $request*/){
+		
+		
+		return \Response::json($_FILES['file']['tmp_name']);
+	}
 	
 }
 	 

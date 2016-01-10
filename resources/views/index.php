@@ -61,6 +61,10 @@
 
 	<script src="frontend/home/suggestCategoryController.js"></script>
 	
+	<!-- <script src="angular(.min).js"></script> -->
+	<script src="frontend/ng-file-upload-bower-11.0.2/ng-file-upload-shim.min.js"></script> <!-- for no html5 browsers support -->
+	<script src="frontend/ng-file-upload-bower-11.0.2/ng-file-upload.min.js"></script>
+	
 </body>
 
 </html>

@@ -5,9 +5,9 @@
 		.module('FixYourCityApp')
 		.controller('submitissueController', submitissueController);
 		
-		submitissueController.$inject = ['dataservice', '$stateParams'];
+		submitissueController.$inject = ['dataservice', '$stateParams', 'Upload'];
 		
-	function submitissueController(dataservice, $stateParams){
+	function submitissueController(dataservice, $stateParams, Upload){
 		var vm = this;
 		vm.city = [];
 		vm.category = [];
@@ -18,6 +18,7 @@
 		vm.getCategory = getCategory;
 		vm.submitissue = submitissue;
 		vm.init = init;
+		vm.uploadFile = uploadFile;
 		
 		init();
 		
@@ -53,6 +54,16 @@
 				});
 		};
 		
+		function uploadFile($file){
+			Upload.upload({
+				url: 'api/upload',
+				file: $file,
+				progress: function(e){}
+			}).then(function(data, status, headers, config) {
+				// file is uploaded successfully
+				console.log(data);
+			}); 
+		};
 		
 		
 	}

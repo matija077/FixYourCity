@@ -31,6 +31,7 @@ Route::group(array('prefix' => 'api'), function()
 	Route::post('/suggestCity', 'ApiController@suggestCity');
 	Route::post('/feedback', 'ApiController@feedback');
 	Route::post('/suggestCategory', 'ApiController@suggestCategory');
+	Route::post('/upload', 'ApiController@upload');
 });
 
 

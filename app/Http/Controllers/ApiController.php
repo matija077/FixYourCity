@@ -11,16 +11,13 @@ use App\Http\Controllers\Controller;
 use App\City;
 use App\Category;
 use App\Problem;
-<<<<<<< HEAD
 use App\User;
-=======
 use App\Comment;
 use App\User;
 use App\Subscribe;
 use App\suggestCity;
 use App\feedback;
 use App\suggestCategory;
->>>>>>> master
 
 
 class ApiController extends Controller

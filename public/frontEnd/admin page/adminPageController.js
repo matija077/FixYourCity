@@ -37,6 +37,7 @@
             if (vm.user.username!=null || vm.user.email!=null || vm.user.accesslevel!=null || vm.user.bannedString!=null){
                 return dataservice.getUsers(vm.user).getUsers().$promise
                     .then(function(data){
+                        console.log(data.data); 
                         return vm.usersReturned = data.data; 
                     })
                     .catch(function(data){

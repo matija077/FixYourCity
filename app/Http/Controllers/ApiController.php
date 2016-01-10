@@ -192,15 +192,15 @@ class ApiController extends Controller
                     //$arrayOfQueries[$counter] = User::where($key, $value);
                     unset($QueryParametars->$key);
                 } else if ($key=='username' || $key=='email') {
-                    $query->orWhere($key, 'like', $value.'%');
+                    $query->where($key, 'like', $value.'%');
                 }  else if ($value=='pernamently') {
-                     $query->orWhere($key, 0);
+                     $query->where($key, 0);
                 }  else if ($value=='temporary') {
-                    $query->orWhere($key, '>', $date);
+                    $query->where($key, '>', $date);
                 }  else if ($value=='No') {
-                    $query->orWhere($key, '<=', $date);
+                    $query->where($key, '<=', $date)->where($key, '!=', 0);
                 }   else {
-                    $query->orWhere($key, $value);
+                    $query->where($key, $value);
                 }
                 
             }
@@ -221,7 +221,7 @@ class ApiController extends Controller
             if ($user->banned>$date){
                 $user->bannedString = 'temporary';
             } else if ($user->banned==0) {
-                $user->bannedString = 'pernamently';
+                $user->bannedString = 'pernamently';  
             } else { 
                 $user->bannedString = 'No';
             }

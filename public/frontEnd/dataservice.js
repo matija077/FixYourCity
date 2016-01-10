@@ -91,7 +91,7 @@
                } else {
                    tempUser[key] = value;
                }
-               console.log(value, key, tempUser);
+               //console.log(value, key, tempUser);
             });
             console.log(tempUser);
             return $resource("api/users/:username/:email/:accesslevel/:banned", {username: -1, email: -1, accesslevel: -1, banned: -1}, {

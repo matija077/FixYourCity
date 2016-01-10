@@ -127,7 +127,6 @@ class ApiController extends Controller
 	}
 	
 	public static function insertCity(Request $request){
-		//if(!$request->cityname || !$request->state){ 
 		if (!$request->suggestcityname || !$request->suggeststatename){
 			return \Response::json('Missing parameters');
 		}
@@ -155,7 +154,6 @@ class ApiController extends Controller
 						'state' => $stateToInsert,
 					);
 					$newcity = City::create($newcity)->idcity;
-					//return \Response::json($newcity);
 					return \Response::json('City inserted successfully!');
 				}else{
 					$temp=suggestCity::where('suggestcityname',$request->suggestcityname)->where('suggeststatename',$request->suggeststatename)->first();
@@ -174,7 +172,6 @@ class ApiController extends Controller
 					} else {
 						return \Response::json('City already suggested.');
 					}
-
 			}
 			
 		} else {

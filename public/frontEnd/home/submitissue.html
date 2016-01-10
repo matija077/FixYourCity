@@ -23,7 +23,7 @@
 					<!-- <input type="file" ng-disabled="0" /> -->
 					<!-- <img ngf-thumbnail="file || '/thumb.jpg'"> -->
 					
-					<input type="file" ngf-select="vm.uploadFile($files)" ngf-pattern="'image/*'" ngf-accept="'image/*'" ngf-max-size="5MB"/>
+					<input type="file" name="file" ngf-select="vm.uploadFile($file)" ngf-pattern="'image/*'" ngf-accept="'image/*'" ngf-max-size="9MB"/>
 					
 					<!-- Supposed to be for tracking progress, but cannot get return value if upload is successfull
 					<br />{{vm.imgsent}} | 

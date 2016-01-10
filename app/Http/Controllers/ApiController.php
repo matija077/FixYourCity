@@ -316,7 +316,9 @@ class ApiController extends Controller
 	}
 	
 	public static function uploadImage(){
-		
+		/*
+		*		UPLOAD TO SERVER
+		*
 		$target_file = __DIR__ .'/../../../storage/img_upload/' . basename($_FILES["file"]["name"][0]);
 		
 		$check = getimagesize($_FILES["file"]["tmp_name"][0]);
@@ -334,6 +336,39 @@ class ApiController extends Controller
 		}else{
 			return \Response::json('Error uploading');
 		};
+		
+		*/
+		
+		
+		
+		/*
+		*		UPLOAD TO IMGUR
+		*/
+		
+		// add size and other checks
+		
+		$filename = $_FILES['file']['tmp_name'];
+		$client_id = env('CLIENT_ID');
+	
+		$handle = fopen($filename, "r");
+		$data = fread($handle, filesize($filename));
+		$pvars = array('image' => base64_encode($data));
+		$timeout = 30;
+		
+		$curl = curl_init();
+		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);  //test if this line works on modulo
+		curl_setopt($curl, CURLOPT_URL, 'https://api.imgur.com/3/image');
+		curl_setopt($curl, CURLOPT_TIMEOUT, $timeout);
+		curl_setopt($curl, CURLOPT_HTTPHEADER, array('Authorization: Client-ID ' . $client_id));
+		curl_setopt($curl, CURLOPT_POST, 1);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($curl, CURLOPT_POSTFIELDS, $pvars);
+		$out = curl_exec($curl);
+		curl_close ($curl);
+		
+		$pms = json_decode($out,true);
+		// do stuff
+		return \Response::json($pms['data']);
 	}
 	
 }

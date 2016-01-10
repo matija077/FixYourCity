@@ -18,14 +18,16 @@
 			<div class="row">
 				<div class="col-md-6">
 				
-					<b>Issue image:</b>
+					<b>Issue image:</b> <!-- make it required -->
 					<br />
 					<!-- <input type="file" ng-disabled="0" /> -->
 					<!-- <img ngf-thumbnail="file || '/thumb.jpg'"> -->
 					<input type="file" ngf-select="vm.uploadFile($files)" ngf-pattern="'image/*'" ngf-accept="'image/*'" ngf-max-size="5MB"/>
-					<!-- <div class="button" ngf-select ng-model="file" name="file" ngf-pattern="'image/*'"
-    ngf-accept="'image/*'" ngf-max-size="20MB" ngf-min-height="100" 
-    ngf-resize="{width: 100, height: 100}">Select</div> -->
+					<!-- 
+					<div class="button" ngf-select ng-model="file" name="file" ngf-pattern="'image/*'"
+					ngf-accept="'image/*'" ngf-max-size="20MB" ngf-min-height="100" 
+					ngf-resize="{width: 100, height: 100}">Select</div> 
+					-->
 					<br />
 					
 					<b>Location:</b> (required)

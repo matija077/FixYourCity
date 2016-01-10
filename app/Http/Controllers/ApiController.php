@@ -315,10 +315,16 @@ class ApiController extends Controller
 		$suggestedCategory = suggestCategory::create($suggestedCategory);
 	}
 	
-	public static function upload(/*Request $request*/){
+	public static function uploadImage(){
 		
+		$target_file = __DIR__ .'/../../../storage/img_upload/' . basename($_FILES["file"]["name"][0]);
+		if (move_uploaded_file($_FILES["file"]["tmp_name"][0], $target_file)){
+			return \Response::json($target_file);
+		}else{
+			return \Response::json('Error uploading');
+		}
 		
-		return \Response::json($_FILES['file']['tmp_name']);
+		//return \Response::json(basename($_FILES['file']['name'][0]));
 	}
 	
 }

@@ -22,7 +22,14 @@
 					<br />
 					<!-- <input type="file" ng-disabled="0" /> -->
 					<!-- <img ngf-thumbnail="file || '/thumb.jpg'"> -->
+					
 					<input type="file" ngf-select="vm.uploadFile($files)" ngf-pattern="'image/*'" ngf-accept="'image/*'" ngf-max-size="5MB"/>
+					
+					<!-- Supposed to be for tracking progress, but cannot get return value if upload is successfull
+					<br />{{vm.imgsent}} | 
+					<span ng-if="vm.imgsent==0">Uploading...</span><span ng-if="vm.imgsent==1">Finished uploading!</span><span ng-if="vm.imgsent==-2">Failed to upload</span>
+					-->
+					
 					<!-- 
 					<div class="button" ngf-select ng-model="file" name="file" ngf-pattern="'image/*'"
 					ngf-accept="'image/*'" ngf-max-size="20MB" ngf-min-height="100" 

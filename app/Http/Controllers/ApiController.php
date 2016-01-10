@@ -318,13 +318,22 @@ class ApiController extends Controller
 	public static function uploadImage(){
 		
 		$target_file = __DIR__ .'/../../../storage/img_upload/' . basename($_FILES["file"]["name"][0]);
+		
+		$check = getimagesize($_FILES["file"]["tmp_name"][0]);
+		if (!$check){
+			return \Response::json('Not a file');
+		};
+		
+		$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
+		if(($_FILES["file"]["size"][0] > 5242880) || ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg")){
+			return \Response::json('File too big or not an image! Extension: '. $imageFileType .'');
+		};
+		
 		if (move_uploaded_file($_FILES["file"]["tmp_name"][0], $target_file)){
-			return \Response::json($target_file);
+			return \Response::json('Image upload succesfull');
 		}else{
 			return \Response::json('Error uploading');
-		}
-		
-		//return \Response::json(basename($_FILES['file']['name'][0]));
+		};
 	}
 	
 }

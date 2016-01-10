@@ -5,9 +5,9 @@
 		.module('FixYourCityApp')
 		.factory('dataservice', dataservice);
 		
-		dataservice.$inject = ['$http', '$resource', '$stateParams', '$urlRouter','$state'];
+		dataservice.$inject = ['$http', '$resource', '$stateParams', '$urlRouter', '$state', 'Upload'];
 		
-	function dataservice($http, $resource, $stateParams, $urlRouter, $state){
+	function dataservice($http, $resource, $stateParams, $urlRouter, $state, Upload){
 
 		var service = {
 			getCities : getCities,
@@ -26,6 +26,7 @@
 			suggestCity : suggestCity,
 			feedback : feedback,
 			suggestCategory : suggestCategory,
+			uploadFile : uploadFile,
 		}
 		
 		/*var token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjQsImlzcyI6Imh0dHA6XC9cL2xvY2FsaG9zdFwvUldBXC9wdWJsaWNcL2FwaVwvYXV0aGVudGljYXRlIiwiaWF0IjoiMTQ0ODU1MzIzOCIsImV4cCI6IjE0NDg1NTY4MzgiLCJuYmYiOiIxNDQ4NTUzMjM4IiwianRpIjoiYjZmMjk0N2U0ODQ1ZDljOGE2OTU4ZDZhZGNlZGUwNTAifQ.5CbF03PUe1fr-gK2xQMlCjdCQ2LioWOizc6bqsLBiKY';*/
@@ -172,5 +173,26 @@
 			return $resource("api/suggestCategory", {}, {
 			});
 		}
+		
+		function uploadFile($file){
+			//var fin= -2;
+			Upload.upload({
+				url: 'api/upload',
+				file: $file,
+				progress: function(e){}
+			}).then(function(data, status, headers, config) {
+				// file is uploaded successfully
+				console.log(data);
+				//return 1;
+			});
+			
+			// return value if successfull?
+			
+			/*.finally(function(){
+				fin=1;
+			});
+			return fin;
+			*/
+		};
 	}
 })();

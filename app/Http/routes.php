@@ -28,6 +28,9 @@ Route::group(array('prefix' => 'api'), function()
 	Route::get('/problems/{idcity}/{idcategory}', 'ApiController@getProblems');
 	Route::get('/problem/{id}', 'ApiController@getProblem');
 	Route::post('/submitcomment', 'ApiController@submitComment');
+	Route::post('/suggestCity', 'ApiController@suggestCity');
+	Route::post('/feedback', 'ApiController@feedback');
+	Route::post('/suggestCategory', 'ApiController@suggestCategory');
 });
 
 

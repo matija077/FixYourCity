@@ -1,0 +1,28 @@
+<div ng-controller="feedbackController" align="center">
+  <!--<form name="forma" novalidate class="form">-->
+  <form class="well well-lg" novalidate name="forma" role="form">
+  	<div style="margin:0 auto;" ng-hide="vm.hajdaj">
+  		<div class="form-group" ng-class="{ 'has-error' : forma.subject.$invalid }">
+		    <h1>Feedback</h1><br/>
+		    <label>Enter subject:</label><br/> 	
+		     <input type="text" class="form-control" name="subject" style="width:250px" ng-model="vm.feedbackSubject" required> 
+		    	<p ng-show="forma.subject.$invalid" class="help-block">This field is required.</p>
+		</div>
+		<div class="form-group" ng-class="{ 'has-error' : forma.textArea.$invalid }">
+		     <label>Enter feedback text:</label><br/> 	
+		    <textarea class="form-control" name="textArea" placeholder="Enter feedback text here" rows="10" style="width:250px; margin-bottom:10px" 
+		    ng-model="vm.feedbackTextarea" required></textarea>
+		    <p ng-show="forma.textArea.$invalid" class="help-block">This field is required.</p>
+		    <input type="submit" class="btn btn-primary" ng-click="vm.feedback()" value="Send feedback" 
+		    		ng-disabled="forma.textArea.$invalid || forma.subject.$invalid">
+		</div>
+	</div>
+	<div ng-show="vm.showaj">
+		<h1>Thanks for your feedback</h1>
+		<!--{{feedbackSubject}}-->
+		<h3>Your message has been sent!</h3>
+	</div>
+  </form>
+</div>
+
+

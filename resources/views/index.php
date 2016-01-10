@@ -55,6 +55,12 @@
 	
 	<script src="frontend/problem/problemController.js"></script>
 	
+	<script src="frontend/home/feedbackController.js"></script>
+
+	<script src="frontend/home/suggestCityController.js"></script>
+
+	<script src="frontend/home/suggestCategoryController.js"></script>
+	
 </body>
 
 </html>

@@ -1,0 +1,21 @@
+<div ng-controller="suggestCategoryController" align="center">
+  <!--<form name="forma" novalidate class="form">-->
+   <form class="well well-lg" novalidate name="forma" role="form">
+  	<div ng-hide="vm.hajdaj">
+	  	<div class="form-group" ng-class="{ 'has-error' : forma.newCategory.$invalid }">
+		    <h1>Suggest new category</h1> <br/>
+		    <label>Enter new category:</label>
+		     <input type="text" class="form-control" name="newCategory" style="width:250px; margin-bottom:10px" ng-model="vm.suggestCategoryName" required> 
+		      <p ng-show="forma.newCategory.$invalid" class="help-block">This field is required.</p>
+		      <input type="submit" class="btn btn-primary" ng-click="vm.suggestCategory()" value="Suggest category"
+		             ng-disabled="forma.newCategory.$invalid || forma.newCategory.$invalid">
+		</div>
+	</div>
+	<div ng-show="vm.showaj">
+		<h1>Category suggested</h1>
+		<!--{{feedbackSubject}}-->
+		<h3>New category has been suggested.</h3>
+	</div>
+  </form>
+</div>
+

@@ -24,7 +24,7 @@ Route::group(array('prefix' => 'api'), function()
 	Route::get('/authenticate/user', 'AuthenticateController@getAuthenticatedUser');
 	Route::post('/authenticate', 'AuthenticateController@authenticate');
 	Route::post('/signup', 'AuthenticateController@signup');
-    Route::get('/users', 'ApiController@getUsers');
+    Route::get('/users/{username?}/{email?}/{accesslevel?}/{banned?}', 'ApiController@getUsers');
     Route::post('/ban/{id}/{time}', 'ApiController@banUser');
 });
 

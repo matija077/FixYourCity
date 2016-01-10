@@ -11,17 +11,36 @@
         <div class="row">
             <form class="col-md-12">
                 <div class="col-md-3">
-                     Username: <input type="text" name="user" ng-model="vm.user.username">
+                     Username: <input type="text" name="user" ng-model="vm.user.username" 
+                        ng-change="vm.returnUsers(vm.user);">
                 </div>
                 <div class="col-md-3">
-                    Email: <input type="text" name="email" ng-model="vm.user.email">
+                    Email: <input type="text" name="email" ng-model="vm.user.email"
+                        ng-change="vm.returnUsers(vm.user);">
                 </div>
                 <div class="col-md-3">
-                    Accesslevel: <input type="number" name="accesslevel" ng-model="vm.user.accesslevel">
+                    Accesslevel: <input type="number" name="accesslevel" ng-model="vm.user.accesslevel"
+                        ng-change="vm.returnUsers(vm.user);">
                 </div>
                 <div class="col-md-3">
-                     Banned: <input type="text" name="banned" ng-model="vm.user.banned">
+                    <div class="radio">
+                        <label><input type="radio" name="banned" ng-model="vm.user.bannedString"
+                            value="temporary" ng-change="vm.returnUsers();">Temporary</label>
+                    </div>
+                    <div class="radio">
+                        <label><input type="radio" name="baneed" ng-model="vm.user.bannedString"
+                            value="pernamently" ng-change="vm.returnUsers();">Pernamenty</label>
+                    </div>
+                    <div class="radio">
+                        <label><input type="radio" name="banned" ng-model="vm.user.bannedString"
+                            value="No" ng-change="vm.returnUsers();">No</label>
+                    </div>
+                     <div class="radio">
+                        <label><input type="radio" name="banned" ng-model="vm.user.bannedString"
+                            ng-value="null" ng-change="vm.returnUsers();" ng-click="vm.emptyUsers();">Dont' use</label>
+                    </div>
                 </div>
+                    
             </form>
         </div><br><br>
         <div class="row">
@@ -67,7 +86,7 @@
                 {{ vm.userChosed.accesslevel }}
             </div>
             <div class="col-md-2">
-                {{ vm.userChosed.banned }}
+                {{ vm.userChosed.bannedString }}
             </div>
             <span ng-show="vm.userChosed.banned=='No'" style="color: red;">Are you sure you wanna ban this user?</span>
             <span ng-show="vm.userChosed.banned!='No'" style="color: red;"><h4>This user is banned</h4></span>

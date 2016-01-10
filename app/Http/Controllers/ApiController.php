@@ -183,16 +183,47 @@ class ApiController extends Controller
 		
 	}
     
-    public static function getUsers(Request $request){
-        $users = User::all();
+    public static function getUsers($username=NULL, $email=NULL, $accesslevel=NULL, $banned=NUll){
+        $QueryParametars = (object)array('username' => $username, 'email' => $email, 'accesslevel' => $accesslevel, 'banned' => $banned);
+        $query = User::where(function($query) use (&$QueryParametars){
+            $date =  date('Y-m-d H:i:s', time());
+            foreach($QueryParametars as $key => $value){
+                if ($value==-1){
+                    //$arrayOfQueries[$counter] = User::where($key, $value);
+                    unset($QueryParametars->$key);
+                } else if ($key=='username' || $key=='email') {
+                    $query->orWhere($key, 'like', $value.'%');
+                }  else if ($value=='pernamently') {
+                     $query->orWhere($key, 0);
+                }  else if ($value=='temporary') {
+                    $query->orWhere($key, '>', $date);
+                }  else if ($value=='No') {
+                    $query->orWhere($key, '<=', $date);
+                }   else {
+                    $query->orWhere($key, $value);
+                }
+                
+            }
+            //dd($query); 
+        })
+        ->get();
+        /*$finalQuery = User::where('iduser', '!=', -1) ;
+        $finalQuery->unionAll($arrayOfQueries);*/
+        /*$query = User::where(function($query){
+            foreach($QueryParametars as $key => $value){
+                $query->where($key, $value);
+            }
+        })
+        ->get();*/
+        $users = $query;
         $date = date('Y-m-d H:i:s', time());
         foreach($users as $user){
             if ($user->banned>$date){
-                $user->banned = 'temporary';
+                $user->bannedString = 'temporary';
             } else if ($user->banned==0) {
-                $user->banned = 'pernamently';
+                $user->bannedString = 'pernamently';
             } else { 
-                $user->banned = 'No';
+                $user->bannedString = 'No';
             }
         }
         

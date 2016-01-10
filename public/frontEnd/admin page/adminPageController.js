@@ -10,7 +10,7 @@
 	function AdminPageController(dataservice){
 		var vm = this;
         vm.chosenPart = "searchUser";
-        vm.user = {};
+        vm.user = {'username': null, 'email': null, 'accesslevel': null, 'banned': null, 'bannedString': null};
         vm.usersReturned = {};
         vm.userChosed = '';
         vm.temporaryBanTime = {};
@@ -18,11 +18,11 @@
         vm.returnUsers = returnUsers;
         vm.choseUser = choseUser;
         vm.banUser = banUser;
+        vm.emptyUsers = emptyUsers;
 		
         activate();
 
         function activate(){
-            returnUsers();
         }
 
         function renderParts(part){
@@ -34,14 +34,15 @@
         }
 
         function returnUsers(){
-            return dataservice.getUsers().getUsers().$promise
-                .then(function(data){
-                    console.log(data );
-                    return vm.usersReturned = data.data; 
-                })
-                .catch(function(data){
-                    return console.log(data.error);
-                });
+            if (vm.user.username!=null || vm.user.email!=null || vm.user.accesslevel!=null || vm.user.bannedString!=null){
+                return dataservice.getUsers(vm.user).getUsers().$promise
+                    .then(function(data){
+                        return vm.usersReturned = data.data; 
+                    })
+                    .catch(function(data){
+                        return console.log(data.error);
+                    });
+            }
         }
 
         function choseUser(user){
@@ -72,6 +73,10 @@
                 .catch(function(data){
                     console.log(data);
                 });
+        }
+        
+        function emptyUsers(){
+            vm.usersReturned = {};
         }
 
 	}

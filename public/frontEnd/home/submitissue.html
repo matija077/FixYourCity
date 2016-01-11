@@ -18,23 +18,12 @@
 			<div class="row">
 				<div class="col-md-6">
 				
-					<b>Issue image:</b> <!-- make it required -->
+					<b>Issue image:</b> <!-- make it required? -->
 					<br />
-					<!-- <input type="file" ng-disabled="0" /> -->
 					<!-- <img ngf-thumbnail="file || '/thumb.jpg'"> -->
-					
-					<input type="file" name="file" ngf-select="vm.uploadFile($file)" ngf-pattern="'image/*'" ngf-accept="'image/*'" ngf-max-size="9MB"/>
-					
-					<!-- Supposed to be for tracking progress, but cannot get return value if upload is successfull
-					<br />{{vm.imgsent}} | 
-					<span ng-if="vm.imgsent==0">Uploading...</span><span ng-if="vm.imgsent==1">Finished uploading!</span><span ng-if="vm.imgsent==-2">Failed to upload</span>
-					-->
-					
-					<!-- 
-					<div class="button" ngf-select ng-model="file" name="file" ngf-pattern="'image/*'"
-					ngf-accept="'image/*'" ngf-max-size="20MB" ngf-min-height="100" 
-					ngf-resize="{width: 100, height: 100}">Select</div> 
-					-->
+					<input type="file" class="btn" ng-class="{'btn-success':vm.file !== undefined, 'btn-warning':vm.file == undefined}" 
+						ngf-select ng-model="vm.file" name="file" ngf-pattern="'image/*'"
+						ngf-accept="'image/*'" ngf-max-size="9MB" ngf-min-height="100" style="max-width:100%;"/>
 					<br />
 					
 					<b>Location:</b> (required)
@@ -56,8 +45,10 @@
 			<div class="row">
 				<hr />
 				<center>
-					<input type="submit" value="  Submit  " ng-disabled="(!vm.address) || (role<=1) || (!authenticated)" ng-click="vm.submitissue()" ng-if="!vm.sent" />
-					<span ng-if="vm.sent"><h3>Issue successfully reported!</h3></span>
+					<!-- (vm.file !== undefined) &&  /////  vm.file == undefined || -->
+					<input class="btn" ng-class="{'btn-success':(vm.address),'btn-warning':(!vm.address)}"
+						type="submit" value="  Submit  " ng-disabled="(!vm.address) || (role<=1) || (!authenticated)" ng-click="vm.submitissue()" ng-if="vm.sent==0" />
+					<h3><span ng-if="vm.sent==1">Uploading...</span><span ng-if="vm.sent==-1">Failed to upload</span><span ng-if="vm.sent==2">Issue successfully reported!</span></h3>
 				</center>
 			</div>
 			

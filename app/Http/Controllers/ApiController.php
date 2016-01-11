@@ -17,6 +17,7 @@ use App\Subscribe;
 use App\suggestCity;
 use App\feedback;
 use App\suggestCategory;
+use App\Imgurlink;
 
 
 class ApiController extends Controller
@@ -166,20 +167,29 @@ class ApiController extends Controller
 		}
 	}
 	
-	public static function submitProblem(Request $request){
-		if(!$request->iduser || !$request->idcity || !$request->idcategory || !$request->address){
-			return \Response::json('Missing parameters');
-		}
-			
+	public static function submitProblem(){
 		//exact duplicate check needed!
 		
-		$problem=array(
-			'iduser' => $request->iduser,
-			'idcity' => $request->idcity,
-			'idcategory' => $request->idcategory,
-			'address' => $request->address,
-			'url' => NULL,
-			'text' => $request->text,
+		if(!$_POST['params']['idcity'] || !$_POST['params']['idcategory'] || !$_POST['params']['iduser'] || !$_POST['params']['address']){
+			return \Response::json('Missing parameters');
+		};
+		
+		$files = $_FILES;
+		$link = self::uploadImage($files);
+		
+		if ($link==-1 || $link==-2 || $link==-3){
+			$link = null;
+		}else{
+			$link = $link['data']['link'];
+		};
+		
+		$problem = array(
+			'iduser' => $_POST['params']['iduser'],
+			'idcity' => $_POST['params']['idcity'],
+			'idcategory' => $_POST['params']['idcategory'],
+			'address' => $_POST['params']['address'],
+			'url' => $link,
+			'text' => $_POST['params']['text'],
 			'votepositive' => '1',
 			'votenegative' => '0',
 			'lastactivity' => date('Y-m-d H:i:s', time()),
@@ -187,7 +197,9 @@ class ApiController extends Controller
 		
 		$problem = Problem::create($problem);
 		
-		//destroy $problem?
+		//add image deletion from imgur (imgurlink table, deletehash) if problem insert is unsuccessful
+		
+		return \Response::json($problem);
 		
 	}
 	
@@ -315,7 +327,7 @@ class ApiController extends Controller
 		$suggestedCategory = suggestCategory::create($suggestedCategory);
 	}
 	
-	public static function uploadImage(){
+	public static function uploadImage($files){
 		/*
 		*		UPLOAD TO SERVER
 		*
@@ -342,10 +354,12 @@ class ApiController extends Controller
 		
 		
 		/*
-		*		UPLOAD TO IMGUR
-		*/
+		*		UPLOAD TO IMGUR (original, if called directly api/upload, now deprecated)
+		*
 		
 		// add size and other checks
+		//return \Response::json($_POST);
+		
 		
 		$filename = $_FILES['file']['tmp_name'];
 		$client_id = env('CLIENT_ID');
@@ -368,7 +382,52 @@ class ApiController extends Controller
 		
 		$pms = json_decode($out,true);
 		// do stuff
-		return \Response::json($pms['data']);
+		return \Response::json($pms['data']['link']);
+		
+		*/
+		
+		$check = getimagesize($files['file']['tmp_name']);
+		if (!$check){
+			return -1;
+		};
+		
+		$imageFileType = pathinfo(basename($files['file']['name']),PATHINFO_EXTENSION);
+		if(($files["file"]["size"] > 9437184) || ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg")){
+			return -2;
+		};
+		
+		$filename = $files['file']['tmp_name'];
+		$client_id = env('CLIENT_ID');
+	
+		$handle = fopen($filename, "r");
+		$data = fread($handle, filesize($filename));
+		$pvars = array('image' => base64_encode($data));
+		
+		$timeout = 30;
+		
+		$curl = curl_init();
+		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);  //test if this line works on modulo
+		curl_setopt($curl, CURLOPT_URL, 'https://api.imgur.com/3/image');
+		curl_setopt($curl, CURLOPT_TIMEOUT, $timeout);
+		curl_setopt($curl, CURLOPT_HTTPHEADER, array('Authorization: Client-ID ' . $client_id));
+		curl_setopt($curl, CURLOPT_POST, 1);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($curl, CURLOPT_POSTFIELDS, $pvars);
+		$out = curl_exec($curl);
+		curl_close ($curl);
+		
+		$pms = json_decode($out,true);
+		
+		if($pms['success']){
+			$dat = array(
+				'url' => $pms['data']['link'],
+				'deletehash' => $pms['data']['deletehash'],
+			);
+			Imgurlink::create($dat);
+			return $pms;
+		}
+		return -3;
+		
 	}
 	
 }

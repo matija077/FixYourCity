@@ -26,7 +26,7 @@
 			suggestCity : suggestCity,
 			feedback : feedback,
 			suggestCategory : suggestCategory,
-			uploadFile : uploadFile,
+			//uploadFile : uploadFile,
 		}
 		
 		/*var token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjQsImlzcyI6Imh0dHA6XC9cL2xvY2FsaG9zdFwvUldBXC9wdWJsaWNcL2FwaVwvYXV0aGVudGljYXRlIiwiaWF0IjoiMTQ0ODU1MzIzOCIsImV4cCI6IjE0NDg1NTY4MzgiLCJuYmYiOiIxNDQ4NTUzMjM4IiwianRpIjoiYjZmMjk0N2U0ODQ1ZDljOGE2OTU4ZDZhZGNlZGUwNTAifQ.5CbF03PUe1fr-gK2xQMlCjdCQ2LioWOizc6bqsLBiKY';*/
@@ -80,12 +80,12 @@
 		function reload(){
 			$state.reload();
 		}
-		
+		/*
 		function submitProblem(){
 			return $resource("api/submitproblem", {}, {
 			});
 		}	
-		
+		*/
 		function getNotifications(userid){
 			return $resource("api/notification/:id", {}, {
 				getNotifications: {method: 'GET', params: {id: userid}, isArray:false,
@@ -174,25 +174,20 @@
 			});
 		}
 		
-		function uploadFile($file){
-			//var fin= -2;
-			Upload.upload({
-				url: 'api/upload',
+		function submitProblem($file,params){
+			return Upload.upload({
+				url: 'api/submitproblem',
+				data: {'params':params},
 				file: $file,
-				progress: function(e){}
+				progress: function(e){
+					//var progressPercentage = parseInt(100.0 * e.loaded / e.total);
+					//console.log('progress: ' + progressPercentage + '% ' + e.config.data.file.name);
+					//console.log(e);  //literally nothing
+				}
 			}).then(function(data, status, headers, config) {
-				// file is uploaded successfully
-				console.log(data);
-				//return 1;
+				return data.data;
 			});
-			
-			// return value if successfull?
-			
-			/*.finally(function(){
-				fin=1;
-			});
-			return fin;
-			*/
 		};
+		
 	}
 })();

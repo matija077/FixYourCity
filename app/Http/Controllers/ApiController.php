@@ -1,9 +1,13 @@
 <?php
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
+
 use JWTAuth;
+
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+
 use App\City;
 use App\Category;
 use App\Problem;
@@ -13,6 +17,8 @@ use App\Subscribe;
 use App\suggestCity;
 use App\feedback;
 use App\suggestCategory;
+
+
 class ApiController extends Controller
 {
     //add jwt token to every api route
@@ -38,11 +44,13 @@ class ApiController extends Controller
         
 		return \Response::json($categories);
 	}
+
 	public static function getCategory($idcategory){
 		$category = Category::where('idcategory', '=', $idcategory)->firstOrFail();
         
 		return \Response::json($category);
 	}
+
 	private static function checkCountry($name){
 		$countries = file_get_contents('http://api.vk.com/method/database.getCountries?need_all=1&count=1000&lang=en');
 		$pozicija = strpos($countries, $name);
@@ -62,6 +70,7 @@ class ApiController extends Controller
 		$cyrilicString = str_replace($lat, $cyr, $latinString);
 		return $cyrilicString;
 	}
+
 	private static function cleanString($text){
 		$utf8 = array(
 			'/[áàâãªä]/u'   =>   'a',
@@ -85,6 +94,7 @@ class ApiController extends Controller
 		);
 		return preg_replace(array_keys($utf8), array_values($utf8), $text);
 	}
+
 	private static function checkCity($grad, $numbah, $region){
 		$grad = implode(' ', array_map('ucfirst', explode(' ', $grad)));
 		$string_to_search = $grad;
@@ -117,13 +127,13 @@ class ApiController extends Controller
 	}
 	
 	public static function insertCity(Request $request){
-		//if(!$request->cityname || !$request->state){ 
 		if (!$request->suggestcityname || !$request->suggeststatename){
 			return \Response::json('Missing parameters');
 		}
 		
-		$temp=City::where('cityname',$request->suggestcityname)->where('state',$request->suggeststatename)->first();
-		if(!count($temp)) {  //ne postoji vec u bazi
+		$temp=City::where('cityname',$request->suggestcityname)->where('state',$request->suggeststatename)->first();  //city exists and already in DB
+		$temp2=suggestCity::where('suggestcityname',$request->suggestcityname)->where('suggeststatename',$request->suggeststatename)->first(); //city does not exists and already in DB
+		if(!count($temp) && !count($temp2)) {  //ne postoji vec u bazi
 			
 			if(self::isUSA($request->suggeststatename)){
 				$numbah=9; // USA has id 9 in the API
@@ -145,26 +155,14 @@ class ApiController extends Controller
 						'state' => $stateToInsert,
 					);
 					$newcity = City::create($newcity)->idcity;
-					//return \Response::json($newcity);
 					return \Response::json('City inserted successfully!');
 				}else{
-					$temp=suggestCity::where('suggestcityname',$request->suggestcityname)->where('suggeststatename',$request->suggeststatename)->first();
-					if(!count($temp)) {  //ne postoji vec u bazi
-						self::suggestCity($request);
-						return \Response::json('Ne postoji');
-					} else {
-						return \Response::json('City already suggested.');
-					}
+					self::suggestCity($request);
+					return \Response::json('Ne postoji, suggested!');
 				};
 			}else{
-					$temp=suggestCity::where('suggestcityname',$request->suggestcityname)->where('suggeststatename',$request->suggeststatename)->first();
-					if (!count($temp)) {  //ne postoji vec u bazi
-						self::suggestCity($request); 
-						return \Response::json('City name suggested, Admin notified!');
-					} else {
-						return \Response::json('City already suggested.');
-					}
-
+				self::suggestCity($request); 
+				return \Response::json('City name suggested, Admin notified!');
 			}
 			
 		} else {
@@ -243,6 +241,7 @@ class ApiController extends Controller
         
         return \Response::json($users, 200);
     }
+
     public static function banUser(Request $request, $idUser, $time){
         //if time is 0, user is perma banned
         if ($time==NAN){
@@ -294,12 +293,15 @@ class ApiController extends Controller
             $lastactivity = date('Y-m-d H:i:s', time());
             $user->lastactivity = $lastactivity;
             $user->save();
+
             if ($counter>0){
                 return \Response::json($response, 200);
             }else return \Response::json('No new notifications',200);
+
         }
 		return \Response::json('', 400);
 	}
+
 	public static function getProblems($idcity,$idcategory){
 		$i = 0;
 		
@@ -350,6 +352,7 @@ class ApiController extends Controller
 		return \Response::json('Greska');
 		
 	}
+
 	public static function submitComment(Request $request){
 		if(!$request->iduser || !$request->idproblem || !$request->text){
 			return \Response::json('Missing parameters');
@@ -368,13 +371,14 @@ class ApiController extends Controller
 	}
 	
 	public static function suggestCity(Request $request){
-		$suggestedCityArray = array(
-			'iduser' => $request->iduser,
-			'suggestcityname' => $request->suggestcityname,
-			'suggeststatename' => $request->suggeststatename,
-		);
-		$suggestedCityArray = suggestCity::create($suggestedCityArray);
+			$suggestedCityArray = array(
+				'iduser' => $request->iduser,
+				'suggestcityname' => $request->suggestcityname,
+				'suggeststatename' => $request->suggeststatename,
+			);
+			$suggestedCityArray = suggestCity::create($suggestedCityArray);
 	}
+
 	public static function feedback(Request $request){
 		$enteredFeedback = array(
 			'iduser' => $request->iduser,
@@ -383,6 +387,7 @@ class ApiController extends Controller
 		);
 		$enteredFeedback = feedback::create($enteredFeedback);
 	}
+
 	public static function suggestCategory(Request $request){
 		$suggestedCategory = array(
 			'iduser' => $request->iduser,
@@ -393,3 +398,4 @@ class ApiController extends Controller
 	
 	
 }
+	 

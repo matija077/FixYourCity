@@ -65,7 +65,7 @@
 				templateUrl: 'frontend/home/feedback.html',
 				controller: 'feedbackController',
 				controllerAs: 'vm',
-				accesslevel: '1',
+				accesslevel: '2',
 			})
 			.state('suggestCity', {
 				url: '/suggestCity',
@@ -79,7 +79,7 @@
 				templateUrl: 'frontend/home/suggestCategory.html',
 				controller: 'suggestCategoryController',
 				controllerAs: 'vm',
-				accesslevel: '1',
+				accesslevel: '2',
 			})
 			$urlRouterProvider.otherwise( '/');
 

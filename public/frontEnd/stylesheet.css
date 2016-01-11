@@ -51,3 +51,6 @@ html, body {
 	color: #f55;
 }
 
+.forbidden {
+    background: url(http://i.imgur.com/Q4a7Msh.png) repeat;
+}

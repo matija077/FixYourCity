@@ -62,6 +62,8 @@
 	<script src="frontend/home/suggestCityController.js"></script>
 
 	<script src="frontend/home/suggestCategoryController.js"></script>
+
+	<script src="frontend/home/forbiddenController.js"></script>
 	
 </body>
 

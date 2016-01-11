@@ -25,7 +25,7 @@
 				suggestcityname: vm.suggestCityValue,
 				suggeststatename : vm.suggestStateValue,
 			};
-			dataservice.suggestCity().save(suggestedcity);
+			dataservice.insertCity().save(suggestedcity);
 		}
 
 		function usa() {

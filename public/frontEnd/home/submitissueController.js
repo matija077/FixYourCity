@@ -49,7 +49,6 @@
 			vm.sent=1;
 			dataservice.submitProblem(vm.file,problem)
 				.then(function(data){
-					//console.log(data);
 					if(data.idproblem!='undefined' && data.idproblem>0){
 						vm.sent=2;
 					}

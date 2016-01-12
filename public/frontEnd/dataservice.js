@@ -153,12 +153,12 @@
 				}
 			}
 		}
-		
+		/*
 		function submitComment(){
 			return $resource("api/submitcomment", {}, {
 			});
 		}
-		
+		*/
 		function suggestCity(){
 			return $resource("api/suggestCity", {}, {
 			});
@@ -189,5 +189,17 @@
 			});
 		};
 		
+		function submitComment($file,params){
+			return Upload.upload({
+				url: 'api/submitcomment',
+				data: {'params':params},
+				file: $file,
+				progress: function(e){
+				}
+			}).then(function(data, status, headers, config) {
+				return data.data;
+			});
+		};
+		// put both problem and comment in one function?
 	}
 })();

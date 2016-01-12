@@ -168,14 +168,19 @@ class ApiController extends Controller
 	}
 	
 	public static function submitProblem(){
+		
 		//exact duplicate check needed!
 		
 		if(!$_POST['params']['idcity'] || !$_POST['params']['idcategory'] || !$_POST['params']['iduser'] || !$_POST['params']['address']){
 			return \Response::json('Missing parameters');
 		};
 		
-		$files = $_FILES;
-		$link = self::uploadImage($files);
+		if(!empty($_FILES)){
+			$files = $_FILES;
+			$link = self::uploadImage($files);
+		}else{
+			$link=-1;
+		};
 		
 		if ($link==-1 || $link==-2 || $link==-3){
 			$link = null;
@@ -284,15 +289,30 @@ class ApiController extends Controller
 		
 	}
 
-	public static function submitComment(Request $request){
-		if(!$request->iduser || !$request->idproblem || !$request->text){
+	public static function submitComment(){
+		
+		if(!$_POST['params']['iduser'] || !$_POST['params']['idproblem'] || !$_POST['params']['text']){
 			return \Response::json('Missing parameters');
-		}
+		};
+		
+		if(!empty($_FILES)){
+			$files = $_FILES;
+			$link = self::uploadImage($files);
+		}else{
+			$link=-1;
+		};
+		
+		if ($link==-1 || $link==-2 || $link==-3){
+			$link = null;
+		}else{
+			$link = $link['data']['link'];
+		};
+		
 		$comment = array(
-			'iduser' => $request->iduser,
-			'idproblem' => $request->idproblem,
-			'text' => $request->text,
-			'url' => $request->url,
+			'iduser' => $_POST['params']['iduser'],
+			'idproblem' => $_POST['params']['idproblem'],
+			'text' => $_POST['params']['text'],
+			'url' => $link,
 			'created' => date('Y-m-d H:i:s', time()),   //time isnt correct, need uniform assignment for all database tables
 		);
 		

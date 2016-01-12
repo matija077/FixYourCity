@@ -42,7 +42,7 @@
 		<div class="col-md-9 well well-sm">
 		
 			<div class="row col-md-12">
-				Reply:
+				Reply: <small>(required)</small>
 			</div>
 			
 			<div class="row">
@@ -50,16 +50,26 @@
 				<textarea style="height:100px;width:400px;" class="form-control" placeholder="Type your comment here" ng-model="vm.textcomment"></textarea>
 				</div>
 				<div class="col-md-6">
-					<b>Comment image:</b>
+					<b>Comment image:</b> <small>(optional)</small>
 					<br />
+					<!--
 					<input type="file" ng-disabled="1" />
+					-->
+					<input type="file" class="btn" ng-class="{'btn-success':vm.file !== undefined, 'btn-warning':vm.file == undefined}" 
+						ngf-select ng-model="vm.file" name="file" ngf-pattern="'image/*'"
+						ngf-accept="'image/*'" ngf-max-size="9MB" ngf-min-height="100" style="max-width:100%;"/>
 				</div>
 			</div>
 		
 			<div class="row col-md-12">
 				<br />
+				<!--
 				<input type="button" value="Comment" ng-disabled="!vm.textcomment || !vm.user" ng-if="!vm.sent" ng-click="vm.submitComment()" />
 				<span ng-if="vm.sent">Comment sent!</span>
+				-->
+				<input class="btn" ng-class="{'btn-success':(vm.textcomment),'btn-warning':(!vm.textcomment)}"
+						type="submit" value="  Submit  " ng-disabled="(!vm.textcomment) || (role<=1) || (!authenticated)" ng-click="vm.submitComment()" ng-if="vm.sent==0" />
+				<span ng-if="vm.sent==1">Uploading...</span><span ng-if="vm.sent==-1">Failed to comment</span><span ng-if="vm.sent==2">Comment sent!</span>
 			</div>
 			
 			

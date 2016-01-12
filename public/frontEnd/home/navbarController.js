@@ -18,6 +18,7 @@
 		vm.login = login;
 		vm.signUp = signUp;
 		vm.logout = logout;
+        vm.goPath = goPath;
         vm.seenNotifications = seenNotifications;
 		
 		vm.tabs=[
@@ -160,6 +161,11 @@
 				dataservice.reload();
 			});
 		}
+        
+        function goPath(state){
+            var params = "";
+            dataservice.goPath(state, params);
+        }
 		
 		function getNotifications(){
             var userid;

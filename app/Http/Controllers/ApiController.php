@@ -11,8 +11,8 @@ use App\Http\Controllers\Controller;
 use App\City;
 use App\Category;
 use App\Problem;
-use App\Comment;
 use App\User;
+use App\Comment;
 use App\Subscribe;
 use App\suggestCity;
 use App\feedback;
@@ -128,42 +128,46 @@ class ApiController extends Controller
 	}
 	
 	public static function insertCity(Request $request){
-		if(!$request->cityname || !$request->state){ 
+		if (!$request->suggestcityname || !$request->suggeststatename){
 			return \Response::json('Missing parameters');
 		}
-
-		$temp=City::where('cityname',$request->cityname)->where('state',$request->state)->first();
-		if(!count($temp)) {  //ne postoji vec u bazi
+		
+		$temp=City::where('cityname',$request->suggestcityname)->where('state',$request->suggeststatename)->first();  //city exists and already in DB
+		$temp2=suggestCity::where('suggestcityname',$request->suggestcityname)->where('suggeststatename',$request->suggeststatename)->first(); //city does not exists and already in DB
+		if(!count($temp) && !count($temp2)) {  //ne postoji vec u bazi
 			
-			if(self::isUSA($request->state)){
+			if(self::isUSA($request->suggeststatename)){
 				$numbah=9; // USA has id 9 in the API
-				$region=$request->state;
+				$region=$request->suggeststatename;
 			}else{
-				if($request->state=="USA") return \Response::json("Enter state name");
-				$name = $request->state;
+				if($request->suggeststatename=="USA") return \Response::json("Enter state name");
+				$name = $request->suggeststatename;
 				$name = implode(' ', array_map('ucfirst', explode(' ', $name)));
 				$numbah = self::checkCountry($name);
 				$region = "";
 			}
 			
 			if (!empty($numbah)){
-				$cityToInsert = self::checkCity($request->cityname, $numbah, $region);
+				$cityToInsert = self::checkCity($request->suggestcityname, $numbah, $region);
 				if (!empty($cityToInsert)) {
-					$stateToInsert = implode(' ', array_map('ucfirst', explode(' ', $request->state)));
+					$stateToInsert = implode(' ', array_map('ucfirst', explode(' ', $request->suggeststatename)));
 					$newcity=array(
 						'cityname' => $cityToInsert,
 						'state' => $stateToInsert,
 					);
 					$newcity = City::create($newcity)->idcity;
-					return \Response::json($newcity);
+					return \Response::json('City inserted successfully!');
 				}else{
-					return \Response::json('Ne postoji');
+					self::suggestCity($request);
+					return \Response::json('Ne postoji, suggested!');
 				};
 			}else{
-				return \Response::json('Country or state does not exist');
+				self::suggestCity($request); 
+				return \Response::json('City name suggested, Admin notified!');
 			}
-
 			
+		} else {
+			return \Response::json('City is already in database.');
 		}
 	}
 	
@@ -207,6 +211,83 @@ class ApiController extends Controller
 		return \Response::json($problem);
 		
 	}
+    
+    public static function getUsers($username=NULL, $email=NULL, $accesslevel=NULL, $banned=NUll){
+        $QueryParametars = (object)array('username' => $username, 'email' => $email, 'accesslevel' => $accesslevel, 'banned' => $banned);
+        $query = User::where(function($query) use (&$QueryParametars){
+            $date =  date('Y-m-d H:i:s', time());
+            foreach($QueryParametars as $key => $value){
+                if ($value==-1){
+                    //$arrayOfQueries[$counter] = User::where($key, $value);
+                    unset($QueryParametars->$key);
+                } else if ($key=='username' || $key=='email') {
+                    $query->where($key, 'like', $value.'%');
+                }  else if ($value=='pernamently') {
+                     $query->where($key, 0);
+                }  else if ($value=='temporary') {
+                    $query->where($key, '>', $date);
+                }  else if ($value=='No') {
+                    $query->where($key, '<=', $date)->where($key, '!=', 0);
+                }   else {
+                    $query->where($key, $value);
+                }
+                
+            }
+            //dd($query); 
+        })
+        ->get();
+        /*$finalQuery = User::where('iduser', '!=', -1) ;
+        $finalQuery->unionAll($arrayOfQueries);*/
+        /*$query = User::where(function($query){
+            foreach($QueryParametars as $key => $value){
+                $query->where($key, $value);
+            }
+        })
+        ->get();*/
+        $users = $query;
+        $date = date('Y-m-d H:i:s', time());
+        foreach($users as $user){
+            if ($user->banned>$date){
+                $user->bannedString = 'temporary';
+            } else if ($user->banned==0) {
+                $user->bannedString = 'pernamently';  
+            } else { 
+                $user->bannedString = 'No';
+            }
+        }
+        
+        return \Response::json($users, 200);
+    }
+
+    public static function banUser(Request $request, $idUser, $time){
+        //if time is 0, user is perma banned
+        if ($time==NAN){
+            return \Response::json('bantime is Nan', 400);
+        }
+        /*time greater than 0, we add ban time to current time in seconds
+         *we recieve time in hours -> 1h = 3600 seconds
+         *if time is equal to 0, we leave like that
+         *if time is less than 0, we use current time
+        */
+        if ($time>0) {
+            $newtime = time()+$time*3600;
+            $date =  date('Y-m-d H:i:s', $newtime);
+        } else if ($time==0) {
+            $date = 0;
+        } else {
+            $date = date('Y-m-d H:i:s', time());
+        }
+        $user = User::where('iduser', $idUser)->first();
+        $user->banned = $date;
+        $user->save();
+        if ($time==0){
+            return \Response::json('user '.$user->username. 'has been perma banned', 200);
+        }else if ($time>0) {
+            return \Response::json('user '.$user->username. 'has been temporary banned', 200);
+        } else {
+            return \Response::json('user '.$user->username. 'is unbanned', 200);
+        }
+    }
 	
 	public static function getNotifications($userId){
         if ($userId!=0) {
@@ -322,12 +403,12 @@ class ApiController extends Controller
 	}
 	
 	public static function suggestCity(Request $request){
-		$suggestedCityArray = array(
-			'iduser' => $request->iduser,
-			'suggestcityname' => $request->suggestcityname,
-			'suggeststatename' => $request->suggeststatename,
-		);
-		$suggestedCityArray = suggestCity::create($suggestedCityArray);
+			$suggestedCityArray = array(
+				'iduser' => $request->iduser,
+				'suggestcityname' => $request->suggestcityname,
+				'suggeststatename' => $request->suggeststatename,
+			);
+			$suggestedCityArray = suggestCity::create($suggestedCityArray);
 	}
 
 	public static function feedback(Request $request){

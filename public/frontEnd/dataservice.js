@@ -18,6 +18,8 @@
 			signUp: signUp,
 			getUser: getUser,
 			reload : reload,
+            getUsers: getUsers,
+            banUser: banUser,
 			getNotifications: getNotifications,
 			getProblems: getProblems,
 			getProblem: getProblem,
@@ -86,6 +88,43 @@
 			});
 		}	
 		*/
+        function getUsers(user){
+            /*javascript passes objects by reference, so we need to assing each
+            *key, value pair of an object separately
+            */
+            var tempUser = Object.create(user);
+            angular.forEach(user, function(value, key){
+                
+               if (value==null || value=='null' || value==''){
+                   tempUser[key] = -1;
+               } else {
+                   tempUser[key] = value;
+               }
+               //console.log(value, key, tempUser);
+            });
+            console.log(tempUser);
+            return $resource("api/users/:username/:email/:accesslevel/:banned", {username: -1, email: -1, accesslevel: -1, banned: -1}, {
+                getUsers: {method: 'GET', params:{username: tempUser.username, email: tempUser.email,
+                    accesslevel: tempUser.accesslevel, banned: tempUser.bannedString}, isArray:false,
+                transformResponse: function(data, headers){
+                    return { data: angular.fromJson(data)};
+                },
+                stripTrailingSlashes: false
+                },
+                
+            });
+        }
+
+        function banUser(iduser, time){
+            console.log(iduser, time);
+            return $resource("api/ban/:id/:time", {id: "@iduser"}, {
+                banUser: {method: 'POST', params:{id: iduser, time: time}, isArray:false,
+                transformResponse: function(data, headers){
+                    return { data: angular.fromJson(data)};
+                }},
+            });
+        }	
+		
 		function getNotifications(userid){
 			return $resource("api/notification/:id", {}, {
 				getNotifications: {method: 'GET', params: {id: userid}, isArray:false,
@@ -203,3 +242,4 @@
 		// put both problem and comment in one function?
 	}
 })();
+

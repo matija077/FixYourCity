@@ -52,6 +52,8 @@
 	<script src="frontend/about/aboutController.js"></script>
 	
 	<script src="frontend/signup/signupController.js"></script>
+    
+    <script src="frontend/admin page/adminPageController.js"></script>
 	
 	<script src="frontend/problem/problemController.js"></script>
 	

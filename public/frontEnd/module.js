@@ -46,6 +46,13 @@
 				controllerAs: 'vm',
 				accesslevel: '1',
 			})
+            .state('admin page', {
+                url: '/admin',
+                templateUrl: 'frontend/admin page/admin_page.html',
+                controller: 'AdminPageController',
+                controllerAs: 'vm',
+                accesslevel: '4',
+            })
 			.state('problem', {
 				url: '/problem/:id',
 				templateUrl: 'frontend/problem/problem.html',
@@ -58,7 +65,7 @@
 				templateUrl: 'frontend/home/feedback.html',
 				controller: 'feedbackController',
 				controllerAs: 'vm',
-				accesslevel: '1',
+				accesslevel: '2',
 			})
 			.state('suggestCity', {
 				url: '/suggestCity',
@@ -72,7 +79,7 @@
 				templateUrl: 'frontend/home/suggestCategory.html',
 				controller: 'suggestCategoryController',
 				controllerAs: 'vm',
-				accesslevel: '1',
+				accesslevel: '2',
 			})
 			$urlRouterProvider.otherwise( '/');
 

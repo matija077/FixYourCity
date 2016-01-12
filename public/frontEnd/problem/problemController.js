@@ -11,9 +11,10 @@
 		var vm = this;
 		vm.problem = [];
 		vm.textcomment;
-		vm.sent=false;
+		vm.sent=0;
 		vm.user = JSON.parse(localStorage.getItem("user"));
 		vm.retval=false;
+		vm.file;
 		
 		vm.init=init;
 		vm.toggleVote=toggleVote;
@@ -45,8 +46,9 @@
 				iduser: vm.user.iduser,
 				idproblem: vm.problem.idproblem,
 				text: vm.textcomment,
-				url: null,
+				//url: null,
 			};
+			/*
 			dataservice.submitComment().save(comment).$promise
 				.then(function(response){
 					var topush = {
@@ -62,7 +64,23 @@
 					console.log(data);
 				//TODO: add error message	
 				});
-
+			*/
+			vm.sent=1;
+			dataservice.submitComment(vm.file,comment)
+				.then(function(data){
+					if(data.idcomment!='undefined' && data.idcomment>0){
+						vm.problem.comments.push({
+							username: vm.user.username,
+							created: data.created,
+							text: data.text,
+							url: data.url,
+						});
+						vm.sent=2;
+					}
+				})
+				.catch(function(data){
+					vm.sent=-1;
+				});
 		};
 	}
 })();

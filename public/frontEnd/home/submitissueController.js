@@ -12,7 +12,9 @@
 		vm.city = [];
 		vm.category = [];
 		vm.address='';
-		vm.sent=false;
+		vm.text='';
+		vm.sent=0;
+		vm.file;
 		
 		vm.getCity = getCity;
 		vm.getCategory = getCategory;
@@ -43,17 +45,27 @@
 				address : vm.address,
 				text : vm.text,
 			};
+			
+			vm.sent=1;
+			dataservice.submitProblem(vm.file,problem)
+				.then(function(data){
+					if(data.idproblem!='undefined' && data.idproblem>0){
+						vm.sent=2;
+					}
+				})
+				.catch(function(data){
+					vm.sent=-1;
+				});
+			/*
 			dataservice.submitProblem().save(problem).$promise
 				.then(function(data){
 					vm.sent=true;
 				})
 				.catch(function(data){
 					console.log(data);
-				//TODO: add error message	
 				});
+			*/		
 		};
-		
-		
 		
 	}
 })();

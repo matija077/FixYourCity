@@ -5,9 +5,9 @@
 		.module('FixYourCityApp')
 		.factory('dataservice', dataservice);
 		
-		dataservice.$inject = ['$http', '$resource', '$stateParams', '$urlRouter','$state'];
+		dataservice.$inject = ['$http', '$resource', '$stateParams', '$urlRouter', '$state', 'Upload'];
 		
-	function dataservice($http, $resource, $stateParams, $urlRouter, $state){
+	function dataservice($http, $resource, $stateParams, $urlRouter, $state, Upload){
 
 		var service = {
 			getCities : getCities,
@@ -28,6 +28,7 @@
 			suggestCity : suggestCity,
 			feedback : feedback,
 			suggestCategory : suggestCategory,
+			//uploadFile : uploadFile,
 		}
 		
 		/*var token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjQsImlzcyI6Imh0dHA6XC9cL2xvY2FsaG9zdFwvUldBXC9wdWJsaWNcL2FwaVwvYXV0aGVudGljYXRlIiwiaWF0IjoiMTQ0ODU1MzIzOCIsImV4cCI6IjE0NDg1NTY4MzgiLCJuYmYiOiIxNDQ4NTUzMjM4IiwianRpIjoiYjZmMjk0N2U0ODQ1ZDljOGE2OTU4ZDZhZGNlZGUwNTAifQ.5CbF03PUe1fr-gK2xQMlCjdCQ2LioWOizc6bqsLBiKY';*/
@@ -81,12 +82,12 @@
 		function reload(){
 			$state.reload();
 		}
-		
+		/*
 		function submitProblem(){
 			return $resource("api/submitproblem", {}, {
 			});
-		}
-        
+		}	
+		*/
         function getUsers(user){
             /*javascript passes objects by reference, so we need to assing each
             *key, value pair of an object separately
@@ -191,12 +192,12 @@
 				}
 			}
 		}
-		
+		/*
 		function submitComment(){
 			return $resource("api/submitcomment", {}, {
 			});
 		}
-		
+		*/
 		function suggestCity(){
 			return $resource("api/suggestCity", {}, {
 			});
@@ -211,6 +212,34 @@
 			return $resource("api/suggestCategory", {}, {
 			});
 		}
+		
+		function submitProblem($file,params){
+			return Upload.upload({
+				url: 'api/submitproblem',
+				data: {'params':params},
+				file: $file,
+				progress: function(e){
+					//var progressPercentage = parseInt(100.0 * e.loaded / e.total);
+					//console.log('progress: ' + progressPercentage + '% ' + e.config.data.file.name);
+					//console.log(e);  //literally nothing
+				}
+			}).then(function(data, status, headers, config) {
+				return data.data;
+			});
+		};
+		
+		function submitComment($file,params){
+			return Upload.upload({
+				url: 'api/submitcomment',
+				data: {'params':params},
+				file: $file,
+				progress: function(e){
+				}
+			}).then(function(data, status, headers, config) {
+				return data.data;
+			});
+		};
+		// put both problem and comment in one function?
 	}
 })();
 

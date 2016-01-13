@@ -13,12 +13,17 @@
         vm.user = {'username': null, 'email': null, 'accesslevel': null, 'banned': null, 'bannedString': null};
         vm.usersReturned = {};
         vm.userChosed = '';
+        vm.categories = {};
+        vm.categoriesToAdd = [];
         vm.temporaryBanTime = {};
         vm.renderParts = renderParts;
         vm.returnUsers = returnUsers;
         vm.choseUser = choseUser;
         vm.banUser = banUser;
         vm.emptyUsers = emptyUsers;
+        vm.getCategories = getCategories;
+        vm.addCategory = addCategory;
+        vm.saveCategories = saveCategories;
 		
         activate();
 
@@ -29,6 +34,9 @@
             //we use ng-switch, so we need to reinitialize variables
             if (vm.temporaryBanTime.days != 0) {
                 vm.temporaryBanTime = {'days' : 0, 'hours' : 24};
+            }
+              if (part=='category'){
+                getCategories();
             }
             return vm.chosenPart = part;
         }
@@ -78,6 +86,42 @@
         
         function emptyUsers(){
             vm.usersReturned = {};
+        }
+        
+        function getCategories(){
+            dataservice.suggestCategory().getAll().$promise
+                .then(function(data){
+                    vm.categories = data.data;
+                });
+        }
+        
+        function addCategory(idsuggestCategory, namesuggestCategory){
+            var array = [];
+            console.log(vm.categoriesToAdd.length);
+            for (var counter = vm.categoriesToAdd.length; counter>0; counter--){
+                //console.log(vm.categoriesToAdd[counter-1][0], idsuggestCategory);
+                //console.log(vm.categoriesToAdd);
+                if (vm.categoriesToAdd[counter-1][0]==idsuggestCategory){
+                    vm.categoriesToAdd.splice(counter-1, 1);
+                }
+                //console.log(vm.categoriesToAdd);
+            }
+            array.push([idsuggestCategory, namesuggestCategory]);
+            vm.categoriesToAdd = array.concat(vm.categoriesToAdd);
+            console.log(vm.categoriesToAdd);
+
+        }
+        
+        function saveCategories(){
+            console.log(vm.categoriesToAdd);
+            dataservice.addCategory().save(vm.categoriesToAdd).$promise
+                 .then(function(data){
+                     //initalize suggested categories again
+                     renderParts('category');
+                     vm.categoriesToAdd = [];
+                     console.log(vm.categoriesToAdd);
+                     console.log(data);
+                });
         }
 
 	}

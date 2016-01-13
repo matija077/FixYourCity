@@ -34,6 +34,8 @@ Route::group(array('prefix' => 'api'), function()
 	Route::post('/feedback', 'ApiController@feedback');
 	Route::post('/suggestCategory', 'ApiController@suggestCategory');
 	//Route::post('/upload', 'ApiController@uploadImage')->middleware('check:2');
+    Route::get('/suggestCategory', 'ApiController@getSuggestCategories');
+    Route::post('/addCategory', 'ApiController@addCategory');
 });
 
 

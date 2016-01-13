@@ -84,8 +84,6 @@
 			.state('forbidden', {
 				url: '/forbidden',
 				templateUrl: 'frontend/home/forbidden.html',
-				controller: 'forbiddenController',
-				controllerAs: 'vm',
 				accesslevel: '1',
 			})
 			$urlRouterProvider.otherwise( '/');

@@ -62,8 +62,6 @@
 	<script src="frontend/home/suggestCityController.js"></script>
 
 	<script src="frontend/home/suggestCategoryController.js"></script>
-
-	<script src="frontend/home/forbiddenController.js"></script>
 	
 	<script src="frontend/ng-file-upload/ng-file-upload-shim.min.js"></script> <!-- for no html5 browsers support -->
 	<script src="frontend/ng-file-upload/ng-file-upload.min.js"></script>

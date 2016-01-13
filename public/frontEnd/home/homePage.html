@@ -95,7 +95,7 @@
 		</div>
 	-->
 	<hr style="padding: 0px; margin: 0px;"/>
-	<div class="row collapserow" ng-click="vm.showsearchToggle()">
+	<div role="button" class="row collapserow" ng-click="vm.showsearchToggle()">
 	
 		<center>
 			<div class="glyphicon glyphicon-triangle-bottom glyphcollapse" ng-if="!vm.showsearch"></div><div class="glyphicon glyphicon-triangle-top glyphcollapse" ng-if="vm.showsearch"></div>
@@ -121,6 +121,47 @@
 	</div>
 	<hr />
 	
+	<!-- SORT -->
+	<div class="row">
+		<div class="col-md-1">
+		</div>
+		<div class="col-md-10">
+			<!-- bootstrap dropdown doesn't work (firefox issue?)
+			<div class="container">
+			<div class="dropdown">
+				
+				<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Dropdown Example
+					<span class="caret"></span></button>
+				
+				<ul class="dropdown-menu">
+					<li><a href="#">HTML</a></li>
+					<li><a href="#">CSS</a></li>
+					<li><a href="#">JavaScript</a></li>
+				</ul>
+			</div>
+			</div>
+			-->
+			<div class="row" ng-if="vm.selectedcity">  <!-- only show if the necessary requirement is selected -->
+				<b>Sort by:</b>
+				<select>
+					<!-- <option ng-click="vm.sort('')">Relevance*</option> -->
+					<option ng-click="vm.sort('created')" selected>Date</option>
+					<option ng-click="vm.sort('votepositive - votenegative')">Vote score</option>
+					<option ng-click="vm.sort('votepositive + votenegative')">Num. votes</option>
+					<!-- <option ng-click="vm.sort('')">In progress*</option> -->
+					<!-- <option ng-click="vm.sort('')">Solved*</option> -->
+				</select>
+				
+				<!-- reverse -->
+				<div role="button" class="glyphicon glyphicon-sort-by-attributes" ng-click="vm.reverse=!vm.reverse" ng-if="!vm.reverse"></div>
+				<div role="button" class="glyphicon glyphicon-sort-by-attributes-alt" ng-click="vm.reverse=!vm.reverse" ng-if="vm.reverse"></div>
+				
+			</div>
+		</div>
+		<div class="col-md-1">
+		</div>
+	</div>
+	<br />	
 	<div class="row">
 	
 		<div class="col-md-1">
@@ -128,7 +169,7 @@
 		
 		<div class="col-md-10">
 		
-			<div class="row" ng-repeat="problem in vm.problems">
+			<div class="row" ng-repeat="problem in vm.problems | orderBy: vm.sortpick : vm.reverse">
 				<div class="well well-sm pull-left col-md-1">
 					<center>
 					<div class="glyphicon glyphicon-menu-up" role="button" ng-click="vm.toggleVote(problem,1)" ng-class="{'glyphvoted':problem.voted==1}"></div>

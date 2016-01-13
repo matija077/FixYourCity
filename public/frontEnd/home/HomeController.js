@@ -26,6 +26,9 @@
 		vm.toggleVote=toggleVote;
 		vm.showsearch=true;
 		vm.showsearchToggle=showsearchToggle;
+		vm.sort=sort;
+		vm.reverse=true;
+		vm.sortpick='created';  //DEFAULT sort
 		
 		activate();
 		
@@ -82,6 +85,7 @@
 				vm.selectedcity=param;
 				if(vm.selectedcategory){
 					getProblems(param,vm.selectedcategory);
+					showsearchToggle(); //automatically collapses city+category search only once both are selected
 				}else{
 					getProblems(param,-1);
 				}
@@ -93,6 +97,7 @@
 				vm.selectedcategory=param;
 				if(vm.selectedcity){
 					getProblems(vm.selectedcity,param);
+					showsearchToggle(); //automatically collapses city+category search only once both are selected
 				}
 			}
 		}
@@ -113,13 +118,17 @@
 			dataservice.toggleVote(problem,vote);
 		}
 		
-	function showsearchToggle(){
-		if(vm.showsearch){
-			vm.showsearch=false;;
-		}else{
-			vm.showsearch=true;;
+		function showsearchToggle(){
+			if(vm.showsearch){
+				vm.showsearch=false;;
+			}else{
+				vm.showsearch=true;;
+			}
 		}
-	}
+		
+		function sort(pick){
+			vm.sortpick=pick;
+		}
 		
 	}
 })();

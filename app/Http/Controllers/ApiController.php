@@ -422,7 +422,7 @@ class ApiController extends Controller
 
 	public static function suggestCategory(Request $request){
 		$temp=suggestCategory::where('suggestcategoryname',$request->suggestcategoryname)->first();
-+		if (!$temp) {
+		if (!$temp) {
 			$suggestedCategory = array(
 				'iduser' => $request->iduser,
 				'suggestcategoryname' => $request->suggestcategoryname,

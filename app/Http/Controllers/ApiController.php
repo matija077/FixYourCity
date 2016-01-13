@@ -421,11 +421,14 @@ class ApiController extends Controller
 	}
 
 	public static function suggestCategory(Request $request){
-		$suggestedCategory = array(
-			'iduser' => $request->iduser,
-			'suggestcategoryname' => $request->suggestcategoryname,
-		);
-		$suggestedCategory = suggestCategory::create($suggestedCategory);
+		$temp=suggestCategory::where('suggestcategoryname',$request->suggestcategoryname)->first();
++		if (!$temp) {
+			$suggestedCategory = array(
+				'iduser' => $request->iduser,
+				'suggestcategoryname' => $request->suggestcategoryname,
+			);
+			$suggestedCategory = suggestCategory::create($suggestedCategory);
+		} else return \Response::json('Duplicate category name.');
 	}
 	
 	public static function uploadImage($files){

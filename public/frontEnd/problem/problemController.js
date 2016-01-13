@@ -5,9 +5,9 @@
 		.module('FixYourCityApp')
 		.controller('problemController', problemController);
 		
-		problemController.$inject = ['dataservice', '$stateParams'];
+		problemController.$inject = ['dataservice', '$stateParams', 'lightbox'];
 		
-	function problemController(dataservice, $stateParams){
+	function problemController(dataservice, $stateParams, lightbox){
 		var vm = this;
 		vm.problem = [];
 		vm.textcomment;
@@ -20,20 +20,34 @@
 		vm.toggleVote=toggleVote;
 		vm.getProblem=getProblem;
 		vm.submitComment=submitComment;
-		
+		vm.openImg=openImg;
+		vm.getThumb=getThumb;
 		
 		init();
 		
 		function init(){
-			vm.problem = getProblem();
+			/*vm.problem = getProblem();
+			console.log(vm.problem);*/
+			getProblem(function(res){
+				console.log('dada');
+			});
 			//console.log(vm.problem);
+			//console.log(vm.problem.url);
+			//console.log("url" in vm.problem);
+			//vm.problem = asd;
 		};
 		
 		function getProblem(){
-			return dataservice.getProblem().getProblem({id:$stateParams.id});
+			return dataservice.getProblem().getProblem({id:$stateParams.id}, function(res){
+				console.log(res);
+				vm.problem = res;
+				vm.problem.turl = getThumb(vm.problem.url);
+			});
 		};
 		
 		function toggleVote(problem,vote){
+			//console.log(vm.problem.url);
+			//console.log(getThumb(vm.problem.url));
 			dataservice.toggleVote(problem,vote);
 		};
 		
@@ -81,6 +95,54 @@
 				.catch(function(data){
 					vm.sent=-1;
 				});
+		};
+		
+		function openImg($index){
+			var options = {
+				fadeDuration : 0.7,
+				resizeDuration : 0.5,
+				fitImageInViewPort : false,
+				positionFromTop : 50,  
+				showImageNumberLabel : false,
+				alwaysShowNavOnTouchDevices :false,
+				wrapAround : false
+			};
+			/*
+			album = [{
+				src : '1.png',
+				thumb : '1-thumb.png',
+				caption : 'Optional caption 1'
+			},{
+				src : '2.png',
+				thumb : '2-thumb.png',
+				caption : 'Optional caption 2'
+			},{
+				src : '3.png', 
+				thumb : '3-thumb.png',
+				caption : 'Optional caption 3'
+			}]; 
+			*/
+			//var th = getThumb(vm.problem.url);
+			var album = [{
+				src: vm.problem.url,
+				//thumb: th,
+				caption : 'ayyy'
+			}];
+			//console.log(album[0].thumb);
+			//this.open = function($index){
+			lightbox.open(album, $index, options);
+			//	}
+		};
+		
+		function getThumb(param){
+		
+			if(typeof param == 'undefined'){
+				//console.log(param);
+				return null; 
+			}
+			//console.log(param);
+			var inx = param.lastIndexOf(".");
+			return param.slice(0,inx)+'t'+param.slice(inx);
 		};
 	}
 })();

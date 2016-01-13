@@ -9,6 +9,9 @@
 		</div>
 				
 		<div class="well well-sm pull-left col-md-11" >  <!-- missing: mark, picture style="width:97%;"-->
+			<div>
+				<img ng-src="{{vm.problem.turl}}" ng-click = "vm.openImg($index)"/>
+			</div>
 			<p class="title">
 				<a href="#/problem/{{problem.idproblem}}">
 					{{vm.problem.text}}

@@ -2,7 +2,7 @@
     <ul class="nav nav-tabs">
     <li role="presentation" ><a href="" ng-click="vm.renderParts('searchUser');">Users</a></li>
     <li role="presentation"><a href="" ng-click="vm.renderParts('feedback');">Feedback</a></li>
-    <li role="presentation"><a href="" ng-click="vm.renderParts('feedback');">Feedback</a></li>
+    <li role="presentation"><a href="" ng-click="vm.renderParts('category');">Feedback</a></li>
     <li role="presentation"><a href="" ng-click="vm.renderParts('feedback');">Feedback</a></li>
     </ul>
 </div>
@@ -109,5 +109,18 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="aproveCategory" ng-switch-when="category">
+        <table class="table table-striped">
+            <tr>
+                <th>Category name</th><th>Username</th><th>Add category</th><th>Remove category</th>
+            </tr>
+                <tr ng-repeat="category in vm.categories">
+                    <td>{{ category.suggestcategoryname }}</td><td>{{ category.username }}</td>
+                    <td><input type="radio" name="{{ category.idsuggestcategory }}" ng-click="vm.addCategory(category.idsuggestcategory, category.suggestcategoryname);"></td>
+                    <td><input type="radio" name="{{ category.idsuggestcategory }}" ng-click="vm.addCategory(category.idsuggestcategory, -1);"></td>
+                </tr>
+        </table>
+        <button type="button" class="btn btn-success" ng-click="vm.saveCategories();" ng-disabled="vm.categoriesToAdd==''  ">submit</button>
     </div>
 </div>

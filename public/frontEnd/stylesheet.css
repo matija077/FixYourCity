@@ -13,7 +13,7 @@ html {
 
 html, body {
     margin: 0 0 0 0px; /* bottom = footer height */ 
-    padding-bottom: 100px;
+    padding-bottom: 130px;
     min-width: 100% !important;
 }
 
@@ -25,7 +25,8 @@ html, body {
     height: 170px;
     min-width: 100% !important;
     overflow: visible;
-    background: url(http://i.imgur.com/68SvZvC.png) repeat;
+    /*background: url(http://i.imgur.com/Q9I4bnC.png) repeat; ->deprecated*/
+    background: url(http://i.imgur.com/0ivteuO.png) repeat;
     background-size: cover;
     background-position: center;
     border: 0;
@@ -33,7 +34,7 @@ html, body {
 
 .navbar-text {
     padding-top: 100px;
-    padding-left: 25px;
+    padding-left: 20px;
 }
 
 .navbar-icons {

@@ -28,6 +28,7 @@
 			suggestCity : suggestCity,
 			feedback : feedback,
 			suggestCategory : suggestCategory,
+			getThumb : getThumb,
 			//uploadFile : uploadFile,
             addCategory: addCategory,
             promoteUser: promoteUser,
@@ -257,6 +258,14 @@
             return $resource("api/promoteUser", {}, {            
             });
         }
+		
+		function getThumb(param){
+			if(typeof param == 'undefined' || !param){
+				return null; 
+			};
+			var inx = param.lastIndexOf(".");
+			return param.slice(0,inx)+'t'+param.slice(inx);
+		};
 	}
 })();
 

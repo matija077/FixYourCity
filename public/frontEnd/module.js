@@ -2,7 +2,7 @@
 	'use strict';
 	
 	angular
-		.module('FixYourCityApp', [ 'ui.router','ngResource','satellizer','ngFileUpload'])
+		.module('FixYourCityApp', [ 'ui.router','ngResource','satellizer','ngFileUpload','ngBootstrapLightbox'])
 		.config(routeConfig)
 		.run(routeInterceptor);
 		

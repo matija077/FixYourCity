@@ -421,11 +421,14 @@ class ApiController extends Controller
 	}
 
 	public static function suggestCategory(Request $request){
-		$suggestedCategory = array(
-			'iduser' => $request->iduser,
-			'suggestcategoryname' => $request->suggestcategoryname,
-		);
-		$suggestedCategory = suggestCategory::create($suggestedCategory);
+		$temp=suggestCategory::where('suggestcategoryname',$request->suggestcategoryname)->first();
+		if (!$temp) {
+			$suggestedCategory = array(
+				'iduser' => $request->iduser,
+				'suggestcategoryname' => $request->suggestcategoryname,
+			);
+			$suggestedCategory = suggestCategory::create($suggestedCategory);
+		} else return \Response::json('Duplicate category name.');
 	}
 	
 	public static function uploadImage($files){
@@ -529,6 +532,37 @@ class ApiController extends Controller
 		}
 		return -3;
 		
+	}
+    
+    public static function getSuggestCategories(Request $request){
+        $suggestedCategory = suggestCategory::get();
+        foreach($suggestedCategory as $category){
+            $category['username'] = User::where('iduser', $category->iduser)->value('username'); 
+        }
+        
+        Return \Response::json($suggestedCategory, 200);
+    }
+    
+    public static function addCategory(Request $request){
+		$suggestCategories = $request->input();
+        //0 is id, 1 is categoryname
+        //if categoryname is -1 ->category is not aproved
+        foreach($suggestCategories as $suggestCategory){
+            $categoryDeleted = suggestCategory::where('idsuggestcategory', $suggestCategory[0]);
+            $categoryDeleted->delete();
+            
+            if ($suggestCategory[1]!=-1){
+                $categoryAdd = array(
+                    'ctgname' => $suggestCategory[1],
+                );
+                try {
+                    $categoryAdd = Category::create($categoryAdd);
+            } catch(Exception $e){
+                
+            }
+            }
+        }
+        Return \Response::json($categoryAdd, 200);
 	}
 	
 }

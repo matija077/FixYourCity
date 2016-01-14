@@ -30,6 +30,7 @@
 			suggestCategory : suggestCategory,
 			getThumb : getThumb,
 			//uploadFile : uploadFile,
+            addCategory: addCategory,
 		}
 		
 		/*var token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjQsImlzcyI6Imh0dHA6XC9cL2xvY2FsaG9zdFwvUldBXC9wdWJsaWNcL2FwaVwvYXV0aGVudGljYXRlIiwiaWF0IjoiMTQ0ODU1MzIzOCIsImV4cCI6IjE0NDg1NTY4MzgiLCJuYmYiOiIxNDQ4NTUzMjM4IiwianRpIjoiYjZmMjk0N2U0ODQ1ZDljOGE2OTU4ZDZhZGNlZGUwNTAifQ.5CbF03PUe1fr-gK2xQMlCjdCQ2LioWOizc6bqsLBiKY';*/
@@ -211,8 +212,18 @@
 
 		function suggestCategory(){
 			return $resource("api/suggestCategory", {}, {
+                getAll: {method: 'GET', params: {}, isArray:false,
+                    transformResponse: function(data, header){
+                        return { data: angular.fromJson(data) };
+                    }
+                }
 			});
 		}
+        
+        function addCategory(){
+            return $resource("api/addCategory", {}, {
+			});
+        }
 		
 		function submitProblem($file,params){
 			return Upload.upload({

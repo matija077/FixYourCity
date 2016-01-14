@@ -72,7 +72,7 @@
 				templateUrl: 'frontend/home/suggestCity.html',
 				controller: 'suggestCityController',
 				controllerAs: 'vm',
-				accesslevel: '1',
+				accesslevel: '2',
 			})
 			.state('suggestCategory', {
 				url: '/suggestCategory',
@@ -80,6 +80,11 @@
 				controller: 'suggestCategoryController',
 				controllerAs: 'vm',
 				accesslevel: '2',
+			})
+			.state('forbidden', {
+				url: '/forbidden',
+				templateUrl: 'frontend/home/forbidden.html',
+				accesslevel: '1',
 			})
 			$urlRouterProvider.otherwise( '/');
 
@@ -114,7 +119,7 @@
             //will have accesslevel > 1
             if (toState.accesslevel>$rootScope.role){
                 event.preventDefault();
-                $state.go('about');
+                $state.go('forbidden');
             }
 		});
 	}

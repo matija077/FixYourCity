@@ -11,4 +11,6 @@ class Category extends Model
 	 protected $primaryKey = 'idcategory';
      
      protected $guarded = ['idcategory'];
+     
+     public $timestamps = false;
 }

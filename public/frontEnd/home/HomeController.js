@@ -145,7 +145,6 @@
 				wrapAround : false
 			};
 			var filledalbum=[];
-			var counter=0;
 			var found=false;
 			/* 
 			*  Here (different than problemController.js) we do not make an album (for all problem images) but rather make it only that the selected/clicked image is displayed

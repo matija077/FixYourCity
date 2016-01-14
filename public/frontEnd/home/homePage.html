@@ -169,7 +169,7 @@
 		
 		<div class="col-md-10">
 		
-			<div class="row" ng-repeat="problem in vm.problems  | orderBy: vm.sortpick : vm.reverse">
+			<div class="row" ng-repeat="problem in vm.problems | orderBy: vm.sortpick : vm.reverse">
 				<div class="well well-sm pull-left col-md-1">
 					<center>
 					<div class="glyphicon glyphicon-menu-up" role="button" ng-click="vm.toggleVote(problem,1)" ng-class="{'glyphvoted':problem.voted==1}"></div>

@@ -10,23 +10,23 @@
 				
 		<div class="well well-sm pull-left col-md-11" >  <!-- missing: mark, picture style="width:97%;"-->
 			<div class="row col-md-12">
-			<div class="pull-left">
-				<img ng-src="{{vm.album[0].thumb}}" ng-click="vm.openImg(0)"/>
-			</div>
-			<div class="pull-left margin-l-5">
-				<p class="title">
-					<a href="#/problem/{{problem.idproblem}}">
-						{{vm.problem.text}}
-					</a>
-				</p>
-				<p>Location: {{vm.problem.address}}</p>
-				<p>Category: {{vm.problem.ctgname}}<span style="float: right">Submitted by <a href="/user/{{vm.problem.iduser}}">{{vm.problem.username}}</a> on {{vm.problem.created}}<span></p>
-				<p>
-					<h6>
-						<a href="">Report</a>
-					</h6>
-				</p>
-			</div>
+				<div class="pull-left">
+					<img ng-src="{{vm.album[0].thumb}}" ng-click="vm.openImg(0)"/>
+				</div>
+				<div class="pull-left margin-l-5">
+					<p class="title">
+						<a href="#/problem/{{problem.idproblem}}">
+							{{vm.problem.text}}
+						</a>
+					</p>
+					<p>Location: {{vm.problem.address}}</p>
+					<p>Category: {{vm.problem.ctgname}}<span style="float: right">Submitted by <a href="/user/{{vm.problem.iduser}}">{{vm.problem.username}}</a> on {{vm.problem.created}}<span></p>
+					<p>
+						<h6>
+							<a href="">Report</a>
+						</h6>
+					</p>
+				</div>
 			</div>
 		</div>
 	</div>

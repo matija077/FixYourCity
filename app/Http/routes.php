@@ -36,6 +36,7 @@ Route::group(array('prefix' => 'api'), function()
 	//Route::post('/upload', 'ApiController@uploadImage')->middleware('check:2');
     Route::get('/suggestCategory', 'ApiController@getSuggestCategories');
     Route::post('/addCategory', 'ApiController@addCategory');
+    Route::post('/promoteUser', 'ApiController@promoteUser');
 });
 
 

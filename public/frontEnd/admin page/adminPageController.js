@@ -16,6 +16,7 @@
         vm.categories = {};
         vm.categoriesToAdd = [];
         vm.temporaryBanTime = {};
+        vm.error = '';
         vm.renderParts = renderParts;
         vm.returnUsers = returnUsers;
         vm.choseUser = choseUser;
@@ -24,6 +25,7 @@
         vm.getCategories = getCategories;
         vm.addCategory = addCategory;
         vm.saveCategories = saveCategories;
+        vm.promoteUser = promoteUser;
 		
         activate();
 
@@ -122,6 +124,23 @@
                      console.log(vm.categoriesToAdd);
                      console.log(data);
                 });
+        }
+        
+        function promoteUser(step){
+            var user ={
+                iduser: vm.userChosed.iduser,
+                step: step,
+            };
+            console.log(vm.userChosed);
+            dataservice.promoteUser().save(user).$promise
+                .then(function(data){
+                    console.log(data);
+                    dataservice.reload();
+                })
+                .catch(function(data){
+                    console.log(data);
+                    vm.error = data;
+                })
         }
 
 	}

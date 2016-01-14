@@ -10,6 +10,7 @@
 	function problemController(dataservice, $stateParams, lightbox){
 		var vm = this;
 		vm.problem = [];
+		vm.album = [];
 		vm.textcomment;
 		vm.sent=0;
 		vm.user = JSON.parse(localStorage.getItem("user"));
@@ -21,33 +22,32 @@
 		vm.getProblem=getProblem;
 		vm.submitComment=submitComment;
 		vm.openImg=openImg;
-		vm.getThumb=getThumb;
 		
 		init();
 		
 		function init(){
-			/*vm.problem = getProblem();
-			console.log(vm.problem);*/
-			getProblem(function(res){
-				console.log('dada');
-			});
-			//console.log(vm.problem);
-			//console.log(vm.problem.url);
-			//console.log("url" in vm.problem);
-			//vm.problem = asd;
+			getProblem();
 		};
 		
 		function getProblem(){
 			return dataservice.getProblem().getProblem({id:$stateParams.id}, function(res){
-				console.log(res);
 				vm.problem = res;
-				vm.problem.turl = getThumb(vm.problem.url);
+				vm.album.push({
+					src: vm.problem.url,
+					thumb: dataservice.getThumb(vm.problem.url),
+					caption: vm.problem.text,
+				});
+				angular.forEach(vm.problem.comments, function(comment){
+					vm.album.push({
+						src: comment.url,
+						thumb: dataservice.getThumb(comment.url),
+						caption: comment.text,
+					});
+				});
 			});
 		};
 		
 		function toggleVote(problem,vote){
-			//console.log(vm.problem.url);
-			//console.log(getThumb(vm.problem.url));
 			dataservice.toggleVote(problem,vote);
 		};
 		
@@ -60,7 +60,6 @@
 				iduser: vm.user.iduser,
 				idproblem: vm.problem.idproblem,
 				text: vm.textcomment,
-				//url: null,
 			};
 			/*
 			dataservice.submitComment().save(comment).$promise
@@ -97,52 +96,35 @@
 				});
 		};
 		
-		function openImg($index){
+		function openImg(index){
 			var options = {
 				fadeDuration : 0.7,
 				resizeDuration : 0.5,
 				fitImageInViewPort : false,
 				positionFromTop : 50,  
 				showImageNumberLabel : false,
-				alwaysShowNavOnTouchDevices :false,
+				alwaysShowNavOnTouchDevices :true,
 				wrapAround : false
 			};
-			/*
-			album = [{
-				src : '1.png',
-				thumb : '1-thumb.png',
-				caption : 'Optional caption 1'
-			},{
-				src : '2.png',
-				thumb : '2-thumb.png',
-				caption : 'Optional caption 2'
-			},{
-				src : '3.png', 
-				thumb : '3-thumb.png',
-				caption : 'Optional caption 3'
-			}]; 
+			/* Due to how 'ngBootstrapLightbox' works, it requires the array sent as 'album' to have all image source 'src' fields filled, but since it is not a requirement...
+			*	...for either a problem or comment on problem to have an image, array 'filledalbum' is sent, which contains only those objects that do have an image set.
+			*  For same reason, 'index' variable has to be translated to match the object/image it is referencing in the new array.
+			*  It is not possible to add required fields to 'vm.problem' because it does not match the needed array order (because of the 'comments' section)!
+			*
+			*  All problem images (problem+comments) are stored in an album which can be navigated through
 			*/
-			//var th = getThumb(vm.problem.url);
-			var album = [{
-				src: vm.problem.url,
-				//thumb: th,
-				caption : 'ayyy'
-			}];
-			//console.log(album[0].thumb);
-			//this.open = function($index){
-			lightbox.open(album, $index, options);
-			//	}
+			var filledalbum=[];
+			var counter=index;
+			angular.forEach(vm.album, function(album){
+					if(album.src){
+						filledalbum.push(album);
+					}else{
+						if(counter>0) index--;
+					};
+					counter--;
+			});
+			lightbox.open(filledalbum, index, options);
 		};
 		
-		function getThumb(param){
-		
-			if(typeof param == 'undefined'){
-				//console.log(param);
-				return null; 
-			}
-			//console.log(param);
-			var inx = param.lastIndexOf(".");
-			return param.slice(0,inx)+'t'+param.slice(inx);
-		};
 	}
 })();

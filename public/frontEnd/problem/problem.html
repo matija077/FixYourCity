@@ -9,13 +9,15 @@
 		</div>
 				
 		<div class="well well-sm pull-left col-md-11" >  <!-- missing: mark, picture style="width:97%;"-->
-			<div>
-				<img ng-src="{{vm.problem.turl}}" ng-click = "vm.openImg($index)"/>
+			<div class="row col-md-12">
+			<div class="pull-left">
+				<img ng-src="{{vm.album[0].thumb}}" ng-click="vm.openImg(0)"/>
 			</div>
-			<p class="title">
-				<a href="#/problem/{{problem.idproblem}}">
-					{{vm.problem.text}}
-				</a>
+			<div class="pull-left margin-l-5">
+				<p class="title">
+					<a href="#/problem/{{problem.idproblem}}">
+						{{vm.problem.text}}
+					</a>
 				</p>
 				<p>Location: {{vm.problem.address}}</p>
 				<p>Category: {{vm.problem.ctgname}}<span style="float: right">Submitted by <a href="/user/{{vm.problem.iduser}}">{{vm.problem.username}}</a> on {{vm.problem.created}}<span></p>
@@ -24,6 +26,8 @@
 						<a href="">Report</a>
 					</h6>
 				</p>
+			</div>
+			</div>
 		</div>
 	</div>
 	
@@ -33,6 +37,9 @@
 		</div>
 		
 		<div class="col-md-9 well well-sm">
+			<div class="pull-left">
+				<img ng-src="{{vm.album[$index+1].thumb}}" ng-click="vm.openImg($index+1)"/>
+			</div>
 			{{comment.text}} by {{comment.username}} on {{comment.created}}
 		</div>
 	</div>

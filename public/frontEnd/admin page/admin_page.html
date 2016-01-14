@@ -111,8 +111,8 @@
         </div>
         <div class="row">
             <div class="col-md-4">
-                <button type="button" class="btn" ng-class="{'btn-success':vm.userChosed.accesslevel>1, 'btn-warning':vm.userChosed.accesslevel<=1}" 
-                    ng-click="vm.promoteUser(-1);" ng-disabled="vm.userChosed.accesslevel<=1">Demote user</button>
+                <button type="button" class="btn" ng-class="{'btn-success':vm.userChosed.accesslevel>1, 'btn-warning':vm.userChosed.accesslevel<=2}" 
+                    ng-click="vm.promoteUser(-1);" ng-disabled="vm.userChosed.accesslevel<=2">Demote user</button>
                 <button type="button" class="btn" ng-class="{'btn-success':vm.userChosed.accesslevel<4, 'btn-warning':vm.userChosed.accesslevel>=4}"
                     ng-click="vm.promoteUser(+1);" ng-disabled="vm.userChosed.accesslevel>=4">Promote user</button>
             </div>

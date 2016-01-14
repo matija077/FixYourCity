@@ -5,9 +5,9 @@
 		.module('FixYourCityApp')
 		.controller('HomeController', HomeController);
 		
-		HomeController.$inject = ['dataservice', '$auth', '$rootScope', '$state'];
+		HomeController.$inject = ['dataservice', '$auth', '$rootScope', '$state', 'lightbox'];
 		
-	function HomeController(dataservice, $auth, $rootScope, $state){
+	function HomeController(dataservice, $auth, $rootScope, $state, lightbox){
 		var vm = this;
 		vm.cities = [];
 		vm.citiesToShow = [];
@@ -29,6 +29,7 @@
 		vm.sort=sort;
 		vm.reverse=true;
 		vm.sortpick='created';  //DEFAULT sort
+		vm.openImg=openImg;
 		
 		activate();
 		
@@ -110,7 +111,10 @@
 			return dataservice.getProblems(idcity,idcategory).getAll().$promise
 				.then(function(problems){
 					//console.log(problems.data);
-					return vm.problems = problems.data;
+					vm.problems = problems.data;
+					angular.forEach(vm.problems, function(problem){
+						problem.thumb = dataservice.getThumb(problem.url);
+					});
 				});
 		}
 		
@@ -129,6 +133,35 @@
 		function sort(pick){
 			vm.sortpick=pick;
 		}
+		
+		function openImg(id){
+			var options = {
+				fadeDuration : 0.7,
+				resizeDuration : 0.5,
+				fitImageInViewPort : false,
+				positionFromTop : 50,  
+				showImageNumberLabel : false,
+				alwaysShowNavOnTouchDevices :true,
+				wrapAround : false
+			};
+			var filledalbum=[];
+			var found=false;
+			/* 
+			*  Here (different than problemController.js) we do not make an album (for all problem images) but rather make it only that the selected/clicked image is displayed
+			*  'id' (idproblem) is sent because '$index' is not consistent as a result of sorting 
+			*/
+			angular.forEach(vm.problems, function(problem){
+				if(!found && problem.idproblem==id && problem.url){
+					filledalbum.push({
+						src: problem.url,
+						thumb: problem.thumb,
+						caption: problem.text,
+					});
+					found=true;
+				};
+			});
+			lightbox.open(filledalbum, 0, options); // image index is 0 because it is a single image album
+		};
 		
 	}
 })();

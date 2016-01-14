@@ -179,23 +179,27 @@
 				</div>
 				
 				<div class="well well-sm pull-left col-md-11">  <!-- missing: mark, picture -->
-					<p class="title">
-						<a href="#/problem/{{problem.idproblem}}">   
-						{{problem.text}}
-						</a>
-					</p>
-					<p>Location: {{problem.address}}</p>
-					<p>Category: {{problem.ctgname}}<span style="float: right">Submitted by <a href="/user/{{problem.iduser}}">{{problem.username}}</a> on {{problem.created}}<span></p>
-					<p>
-						<h6>
-						<a href="#/problem/{{problem.idproblem}}">{{problem.comments}} comments</a> | 
-						<a href="">Report</a>
-						</h6>
-					</p>
+					<div class="pull-left">
+						<img ng-src="{{problem.thumb}}" ng-click="vm.openImg(problem.idproblem)"/>
+					</div>
+					<div class="pull-left margin-l-5">
+						<p class="title">
+							<a href="#/problem/{{problem.idproblem}}">   
+							{{problem.text}}
+							</a>
+						</p>
+						<p>Location: {{problem.address}}</p>
+						<p>Category: {{problem.ctgname}}<span style="float: right">Submitted by <a href="/user/{{problem.iduser}}">{{problem.username}}</a> on {{problem.created}}<span></p>
+						<p>
+							<h6>
+							<a href="#/problem/{{problem.idproblem}}">{{problem.comments}} comments</a> | 
+							<a href="">Report</a>
+							</h6>
+						</p>
+					</div>
 				</div>
-			</div>
 			
-		</div>
+			</div>
 		
 		<div class="col-md-1">
 		</div>

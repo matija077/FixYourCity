@@ -31,6 +31,7 @@
 			getThumb : getThumb,
 			//uploadFile : uploadFile,
             addCategory: addCategory,
+            promoteUser: promoteUser,
 		}
 		
 		/*var token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjQsImlzcyI6Imh0dHA6XC9cL2xvY2FsaG9zdFwvUldBXC9wdWJsaWNcL2FwaVwvYXV0aGVudGljYXRlIiwiaWF0IjoiMTQ0ODU1MzIzOCIsImV4cCI6IjE0NDg1NTY4MzgiLCJuYmYiOiIxNDQ4NTUzMjM4IiwianRpIjoiYjZmMjk0N2U0ODQ1ZDljOGE2OTU4ZDZhZGNlZGUwNTAifQ.5CbF03PUe1fr-gK2xQMlCjdCQ2LioWOizc6bqsLBiKY';*/
@@ -117,10 +118,10 @@
             });
         }
 
-        function banUser(iduser, time){
-            console.log(iduser, time);
+        function banUser(iduser, timeToSend){
+            console.log(iduser, timeToSend);
             return $resource("api/ban/:id/:time", {id: "@iduser"}, {
-                banUser: {method: 'POST', params:{id: iduser, time: time}, isArray:false,
+                banUser: {method: 'POST', params:{id: iduser, time: timeToSend}, isArray:false,
                 transformResponse: function(data, headers){
                     return { data: angular.fromJson(data)};
                 }},
@@ -252,6 +253,11 @@
 			});
 		};
 		// put both problem and comment in one function?
+        
+        function promoteUser(){
+            return $resource("api/promoteUser", {}, {            
+            });
+        }
 		
 		function getThumb(param){
 			if(typeof param == 'undefined' || !param){

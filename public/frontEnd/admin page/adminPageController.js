@@ -16,6 +16,7 @@
         vm.categories = {};
         vm.categoriesToAdd = [];
         vm.temporaryBanTime = {};
+        vm.error = '';
         vm.renderParts = renderParts;
         vm.returnUsers = returnUsers;
         vm.choseUser = choseUser;
@@ -24,6 +25,7 @@
         vm.getCategories = getCategories;
         vm.addCategory = addCategory;
         vm.saveCategories = saveCategories;
+        vm.promoteUser = promoteUser;
 		
         activate();
 
@@ -45,7 +47,6 @@
             if (vm.user.username!=null || vm.user.email!=null || vm.user.accesslevel!=null || vm.user.bannedString!=null){
                 return dataservice.getUsers(vm.user).getUsers().$promise
                     .then(function(data){
-                        console.log(data.data); 
                         return vm.usersReturned = data.data; 
                     })
                     .catch(function(data){
@@ -70,14 +71,15 @@
             *temporary banned   = days as hours + hours
             *unban              = -1
             */
+            console.log(time);
             if (time.days>0 || time.hours>0){
                 //banned time is computed in hours
                 time = time.days*24 + time.hours;
             }
+            
             dataservice.banUser(vm.userChosed.iduser, time).banUser().$promise
                 .then(function(data){
                     dataservice.reload();
-                    console.log(data);
                 })
                 .catch(function(data){
                     console.log(data);
@@ -122,6 +124,23 @@
                      console.log(vm.categoriesToAdd);
                      console.log(data);
                 });
+        }
+        
+        function promoteUser(step){
+            var user ={
+                iduser: vm.userChosed.iduser,
+                step: step,
+            };
+            console.log(vm.userChosed);
+            dataservice.promoteUser().save(user).$promise
+                .then(function(data){
+                    console.log(data);
+                    dataservice.reload();
+                })
+                .catch(function(data){
+                    console.log(data);
+                    vm.error = data;
+                })
         }
 
 	}

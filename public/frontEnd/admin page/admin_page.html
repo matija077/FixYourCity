@@ -2,7 +2,7 @@
     <ul class="nav nav-tabs">
     <li role="presentation" ><a href="" ng-click="vm.renderParts('searchUser');">Users</a></li>
     <li role="presentation"><a href="" ng-click="vm.renderParts('feedback');">Feedback</a></li>
-    <li role="presentation"><a href="" ng-click="vm.renderParts('category');">Feedback</a></li>
+    <li role="presentation"><a href="" ng-click="vm.renderParts('category');">Category</a></li>
     <li role="presentation"><a href="" ng-click="vm.renderParts('feedback');">Feedback</a></li>
     </ul>
 </div>
@@ -28,7 +28,7 @@
                             value="temporary" ng-change="vm.returnUsers();">Temporary</label>
                     </div>
                     <div class="radio">
-                        <label><input type="radio" name="baneed" ng-model="vm.user.bannedString"
+                        <label><input type="radio" name="banned" ng-model="vm.user.bannedString"
                             value="pernamently" ng-change="vm.returnUsers();">Pernamenty</label>
                     </div>
                     <div class="radio">
@@ -51,7 +51,7 @@
                 <tr ng-repeat="user in vm.usersReturned | limitTo: 5" ng-click="vm.choseUser(user);"
                     ng-class="{'lightgraybg':user.iduser === vm.userChosed.iduser}">
                     <td>{{ user.username }}</td><td>{{ user.email }}</td>
-                    <td>{{ user.accesslevel }}</td><td>{{ user.banned }}</td>
+                    <td>{{ user.accesslevel }}</td><td>{{ user.bannedString }}</td>
                 </tr>
             </table>
         </div><br>
@@ -107,6 +107,14 @@
                     <span class="input-group-addon" id="hours-addon">Hours</span>
                     <input type="text" class="form-control" ng-model="vm.temporaryBanTime.hours">
                 </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <button type="button" class="btn" ng-class="{'btn-success':vm.userChosed.accesslevel>1, 'btn-warning':vm.userChosed.accesslevel<=2}" 
+                    ng-click="vm.promoteUser(-1);" ng-disabled="vm.userChosed.accesslevel<=2">Demote user</button>
+                <button type="button" class="btn" ng-class="{'btn-success':vm.userChosed.accesslevel<4, 'btn-warning':vm.userChosed.accesslevel>=4}"
+                    ng-click="vm.promoteUser(+1);" ng-disabled="vm.userChosed.accesslevel>=4">Promote user</button>
             </div>
         </div>
     </div>

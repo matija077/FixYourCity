@@ -564,6 +564,15 @@ class ApiController extends Controller
         }
         Return \Response::json($categoryAdd, 200);
 	}
+    
+    public static function promoteUser(Request $request){
+        $step = $request->step;
+        $userId = $request->iduser;
+        $user = User::where('iduser', $userId)->first();
+        $user->accesslevel = $user->accesslevel + $step;
+        $user->save();
+        return \Response::json('user has benn successfully promoted', 200);
+    }
 	
 }
 	 

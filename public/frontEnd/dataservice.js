@@ -117,10 +117,10 @@
             });
         }
 
-        function banUser(iduser, time){
-            console.log(iduser, time);
+        function banUser(iduser, timeToSend){
+            console.log(iduser, timeToSend);
             return $resource("api/ban/:id/:time", {id: "@iduser"}, {
-                banUser: {method: 'POST', params:{id: iduser, time: time}, isArray:false,
+                banUser: {method: 'POST', params:{id: iduser, time: timeToSend}, isArray:false,
                 transformResponse: function(data, headers){
                     return { data: angular.fromJson(data)};
                 }},

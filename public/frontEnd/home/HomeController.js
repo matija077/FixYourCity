@@ -60,7 +60,7 @@
 			vm.cities.forEach(function(element) {
 				if (angular.lowercase(element.cityname).indexOf(angular.lowercase(inputCityName))!=-1){
 					vm.citiesToShow.push(element);
-				}
+				};
 			});
 		}
 		
@@ -69,7 +69,7 @@
 			vm.categories.forEach(function(element) {
 				if (angular.lowercase(element.ctgname).indexOf(angular.lowercase(inputCategoryName))!=-1){
 					vm.categoriesToShow.push(element);
-				}
+				};
 			});
 		} 
 	

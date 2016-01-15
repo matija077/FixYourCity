@@ -23,7 +23,12 @@
 					<td>
 						{{city.state}}
 					</td>
-				</tr>	
+				</tr>
+				<tr ng-if="!vm.citiesToShow[0]">
+					<td>
+						<b>Can't find your city? <a href="#/suggestCity">Suggest it!</a></b>
+					</td>
+				</tr>
 					<!--<ol class="cities">
 						<li ng-repeat="city in vm.citiesToShow">
 						<a href="#/city/{{city.idcity}}">{{city.cityname}}</a>
@@ -53,6 +58,11 @@
 						{{ category.ctgname}}
 					</td>
 					<td></td>
+				</tr>
+				<tr ng-if="!vm.categoriesToShow[0]">
+					<td>
+						<b>Can't find appropriate category? <a href="#/suggestCategory">Suggest it!</a></b>
+					</td>
 				</tr>
 					<!--<ol class="categories">
 						<li ng-repeat="category in vm.categoriesToShow">

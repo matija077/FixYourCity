@@ -24,18 +24,12 @@
 		vm.tabs=[
 			//BEGIN TABS
 			// NOTE: , INSTAD OF ;
-				{
+				/*{
 					url: '#/',
 					target: '',  
 					icoSrc: 'https://upload.wikimedia.org/wikipedia/commons/6/63/Number_sign.svg',
 					innerDesc: 'Home',
-				},
-				{
-					url: 'https://www.google.com/?q=angular',
-					target: '_blank',  
-					icoSrc: 'https://www.google.hr/images/branding/product/ico/googleg_lodp.ico',
-					innerDesc: 'Google<sup> Angular</sup>',
-				},
+				},*/
 				{
 					url: 'https://github.com/matija077/FixYourCity',
 					target: '_blank',   
@@ -47,18 +41,6 @@
 					target: '_blank', 
 					icoSrc: 'https://github.com/fluidicon.png',
 					innerDesc: 'Styleguide',
-				},
-				{
-					url: 'http://laravel.com/docs/5.1/',
-					target: '_blank',  
-					icoSrc: 'http://laravel.com/favicon.png',
-					innerDesc: 'Laravel<sup> Documentation</sup>',																
-				},
-				{
-					url: 'http://getbootstrap.com/components/',
-					target: '_blank',   
-					icoSrc: 'http://getbootstrap.com/favicon.ico',
-					innerDesc: 'Bootstrap',
 				},
 				{
 					url: '#/about',

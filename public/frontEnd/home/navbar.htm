@@ -30,7 +30,7 @@
 					<div class="glyphicon glyphicon-list navbar-btn btn" style="color:#999"><!--
 					--><span class="badge" style="margin-top:-15px;margin-left:-5px;background-color:#f33">{{ navbar.numberOfNotifications }}</span></div>
 				</div>
-				<div class="notification.default" ng-show="(navbar.seen)">
+				<div class="notification.default" ng-show="(navbar.seen)" ng-click="navbar.sh();">
 					<!--<p class="navbar-text">notifications</p>-->
 					<div class="glyphicon glyphicon-list navbar-btn btn" style="color:#999"></div>
 				</div>
@@ -50,3 +50,9 @@
 		
 	</div>
 </nav>
+<div class="container notif well well-sm" ng-show="notifshow">
+	<ul>
+		<li></li>
+		<li></li>
+	</ul>
+</div>

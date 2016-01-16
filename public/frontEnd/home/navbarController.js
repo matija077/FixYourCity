@@ -20,6 +20,8 @@
 		vm.logout = logout;
         vm.goPath = goPath;
         vm.seenNotifications = seenNotifications;
+		vm.sh=sh;
+		//vm.notifshow=true;
 		
 		vm.tabs=[
 			//BEGIN TABS
@@ -195,6 +197,13 @@
             vm.seen = true;
         }
 		
+		function sh(){
+			if($rootScope.notifshow){
+				$rootScope.notifshow=false;
+			}else{
+				$rootScope.notifshow=true;
+			}
+		};
 	}
 
 })();

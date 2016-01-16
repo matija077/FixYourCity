@@ -62,3 +62,16 @@ html, body {
 .margin-l-5 {
 	margin-left: 5px;
 }
+.notif{
+	position: absolute;
+	overflow: auto;
+	display: block;
+	/*border: 2px solid;*/
+	/*background-color: #fff;*/
+	padding: 5px;
+	z-index: 1;
+	top: 55px;
+	left: 50%;
+	width: 250px;
+	height: 420px;
+}

@@ -1,10 +1,12 @@
 .lightgraybg{
     background-color: lightgray;
 }
-.navbar-text > a > p {
+
+.footer-text > a > p {
     color: blue;
     text-decoration: none;
 }
+
 html {
     position: relative;
     min-height: 100%;
@@ -19,9 +21,10 @@ html, body {
 
 .navbar-fixed-bottom {
     position: absolute;
+	/*
     bottom: 0;
     right: 0;
-    left: 0;
+    left: 0;*/
     height: 170px;
     min-width: 100% !important;
     overflow: visible;
@@ -32,12 +35,17 @@ html, body {
     border: 0;
    }
 
-.navbar-text {
+.footer-text {
     padding-top: 100px;
     padding-left: 20px;
 }
+.footer-text-c {
+    padding-top: 140px;
+    padding-left: 20px;
+	color: #fff;
+}
 
-.navbar-icons {
+.footer-icons {
     padding-top: 120px;
     padding-right: 100px;
 }

@@ -1,38 +1,52 @@
-<nav class="navbar navbar-inverse" ng-controller="navbarController as navbar"> 
+<nav class="navbar navbar-inverse navbar-fixed-top" ng-controller="navbarController as navbar"> 
 	<div class="container">		
+	
 		<div class="navbar-header">		
-		
-			<ul class="nav nav-pills">
-				<li class="active" ng-repeat="tab in navbar.tabs"  ng-bind-html="navbar.renderTab(tab)"></li>
-			</ul>
-			
-			<div class="login col-md-7" ng-if="(!authenticated)">
-			<input type="text" placeholder="email" name="username" ng-model="navbar.email">
-			<input type="password" placeholder="password" name="pasword" ng-model="navbar.password">
-			<button type="submit" class="btn btn-info"  ng-click="navbar.login();"
-				 ng-disabled="(navbar.email=='') || (navbar.password=='')">Login</button>
-			</div>
-			<div class="signup col-md-2" ng-if="(!authenticated)">
-				<button type="button" class="btn btn-info"  ng-click="navbar.signUp();">Sign up!</button>
-			</div>
-			<div class="username col-md-2" ng-if="(authenticated)">
-				{{ userName }}		
-			</div>
-			<div class="notification" ng-if="(authenticated)">
-				<div class="notification.exists col-md-2" ng-show="(!navbar.seen)" ng-style="{'color': 'red'}"
-                    ng-click="navbar.seenNotifications();">
-					notifications <span class="badge">{{ navbar.numberOfNotifications }}</span>
-				</div>
-				<div class="notification.default col-md-2" ng-show="(navbar.seen)">
-					notifications
-				</div>
-			</div>
-             <div class="admin page col-md-2" ng-if="(role==4)">
-                <button type="button" class="btn btn-primary" ng-click="navbar.goPath('admin page');">Admin</button>
-            </div>
-			<div class="logout col-md-2" ng-if="(authenticated)">
-				<button type="button" class="btn btn-info"  ng-click="navbar.logout();">Log out</button>
-			</div>							
+			<a href="#" class="navbar-brand">FixYourCity</a>
 		</div>
+		
+		<ul class="nav navbar-nav"> <!--  nav-pills -->
+			<li class="" ng-repeat="tab in navbar.tabs"  ng-bind-html="navbar.renderTab(tab)"></li>
+
+			<li class="navbar-form" ng-if="(!authenticated)"> <!--  navbar-left -->
+				<input class="form-control" style="background-color:#eee" type="text" placeholder="Email" name="username" ng-model="navbar.email">
+				<input class="form-control" style="background-color:#eee" type="password" placeholder="Password" name="pasword" ng-model="navbar.password">
+				<button type="submit" class="btn btn-default"  ng-click="navbar.login();"
+					ng-disabled="(navbar.email=='') || (navbar.password=='')">Log in</button>
+			</li>
+			
+			<li ng-if="(!authenticated)">
+				<button type="button" class="navbar-btn btn btn-info"  ng-click="navbar.signUp();">Sign up!</button>
+			</li>
+			
+			<li class="navbar-right" ng-if="(authenticated)">
+				<button type="button" class="navbar-btn btn btn-default"  ng-click="navbar.logout();">Log out</button>
+			</li>
+			
+			<li class="navbar-right" ng-if="(authenticated)">
+				<div class="notification.exists" ng-show="(!navbar.seen)" ng-style="{'color': 'red'}"
+                    ng-click="navbar.seenNotifications();">
+					<!-- <p class="navbar-text">notifications <span class="badge">{{ navbar.numberOfNotifications }}</span></p> -->
+					<div class="glyphicon glyphicon-list navbar-btn btn" style="color:#999"><!--
+					--><span class="badge" style="margin-top:-15px;margin-left:-5px;background-color:#f33">{{ navbar.numberOfNotifications }}</span></div>
+				</div>
+				<div class="notification.default" ng-show="(navbar.seen)">
+					<!--<p class="navbar-text">notifications</p>-->
+					<div class="glyphicon glyphicon-list navbar-btn btn" style="color:#999"></div>
+				</div>
+			</li>
+			
+			<li class="navbar-right" ng-if="(authenticated)">
+				<p class="navbar-text">{{ userName }}</p>
+				<!--<a href="#" class="glyphicon glyphicon-cog"></a>-->
+				<!-- WORKING but with too much spaces -- <div class="glyphicon glyphicon-cog navbar-btn btn" style="color:#eee"></div> -->
+			</li>
+			
+            <li class="navbar-right" ng-if="(role==4)">
+                <button type="button" class="navbar-btn btn btn-info" ng-click="navbar.goPath('admin page');">Admin</button>
+            </li>
+			
+		</ul> 
+		
 	</div>
 </nav>

@@ -13,13 +13,13 @@
 		vm.password = '';
 		vm.notifications = [];
 		vm.numberOfNotifications = 0;
-        vm.seen = true;
+		vm.seen = true;
 		vm.renderTab=renderTab;
 		vm.login = login;
 		vm.signUp = signUp;
 		vm.logout = logout;
-        vm.goPath = goPath;
-        vm.seenNotifications = seenNotifications;
+		vm.goPath = goPath;
+		vm.seenNotifications = seenNotifications;
 		vm.showNotifs=showNotifs;
 		vm.notifshow = false;
 		
@@ -125,25 +125,25 @@
         }
 		
 		function getNotifications(){
-            var userid = JSON.parse(localStorage.getItem('user')).iduser;
+			var userid = JSON.parse(localStorage.getItem('user')).iduser;
 			if(typeof userid == 'undefined' || !userid){
 				return;
 			};
-            dataservice.getNotifications(userid).getNotifications().$promise
-                .then(function(data){
+			dataservice.getNotifications(userid).getNotifications().$promise
+				.then(function(data){
 					if(data.data!="No new notifications"){
 						angular.forEach(data.data, function(value, key){
 							vm.notifications.push(value);
 							vm.numberOfNotifications++;
 						});
-						vm.seen = false;
-						//console.log(vm.notifications);  
+					vm.seen = false;
+					//console.log(vm.notifications);  
 					};
-                })
-                .catch(function(data){
-                    //console.log(data, vm.seen);
-                });
-        }
+				})
+				.catch(function(data){
+				//console.log(data, vm.seen);
+				});
+		}
         
         function seenNotifications(){
 			showNotifs();
@@ -154,7 +154,7 @@
 						//we do not clear notifications because they might be opened again
 					};
 				});
-        }
+		}
 		
 		function showNotifs(){
 			if(vm.notifshow){

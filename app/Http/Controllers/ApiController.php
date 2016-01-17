@@ -291,10 +291,8 @@ class ApiController extends Controller
 	
 	public static function getNotifications($userId){
         if ($userId!=0) {
-			
-            $user = User::where('iduser', $userId)->select('lastactivity')->first();
+			$user = User::where('iduser', $userId)->select('lastactivity')->first();
 			//check if it really is that user?
-			
 			$response = Subscribe::where('subscribe.iduser', $userId)
 							->join('problem','problem.idproblem','=','subscribe.idproblem')
 							->where('problem.lastactivity','>=',$user['lastactivity'])
@@ -314,7 +312,7 @@ class ApiController extends Controller
 		if(!empty($iduser)){
 			$user = User::where('iduser', $iduser)->first();
 			$user->lastactivity = date('Y-m-d H:i:s', time());
-            $user->save();
+			$user->save();
 			return \Response::json('',200);
 		}
 		return \Response::json($iduser, 400);

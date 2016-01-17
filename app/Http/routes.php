@@ -24,8 +24,8 @@ Route::group(array('prefix' => 'api'), function()
 	Route::get('/authenticate/user', 'AuthenticateController@getAuthenticatedUser');
 	Route::post('/authenticate', 'AuthenticateController@authenticate');
 	Route::post('/signup', 'AuthenticateController@signup');
-    Route::get('/users/{username?}/{email?}/{accesslevel?}/{banned?}', 'ApiController@getUsers');
-    Route::post('/ban/{id}/{time}', 'ApiController@banUser');
+	Route::get('/users/{username?}/{email?}/{accesslevel?}/{banned?}', 'ApiController@getUsers');
+	Route::post('/ban/{id}/{time}', 'ApiController@banUser');
 	Route::get('/notification/{id}', 'ApiController@getNotifications');
 	Route::post('/notification/{id}', 'ApiController@hasSeenNotifications');
 	Route::get('/problems/{idcity}/{idcategory}', 'ApiController@getProblems');
@@ -34,9 +34,9 @@ Route::group(array('prefix' => 'api'), function()
 	Route::post('/suggestCity', 'ApiController@suggestCity');
 	Route::post('/feedback', 'ApiController@feedback');
 	Route::post('/suggestCategory', 'ApiController@suggestCategory');
-    Route::get('/suggestCategory', 'ApiController@getSuggestCategories');
-    Route::post('/addCategory', 'ApiController@addCategory');
-    Route::post('/promoteUser', 'ApiController@promoteUser');
+	Route::get('/suggestCategory', 'ApiController@getSuggestCategories');
+	Route::post('/addCategory', 'ApiController@addCategory');
+	Route::post('/promoteUser', 'ApiController@promoteUser');
 });
 
 

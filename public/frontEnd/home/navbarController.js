@@ -125,9 +125,11 @@
         }
 		
 		function getNotifications(){
-			var userid = JSON.parse(localStorage.getItem('user')).iduser;
+			var userid = JSON.parse(localStorage.getItem('user'));
 			if(typeof userid == 'undefined' || !userid){
 				return;
+			}else{
+				userid=userid.iduser;
 			};
 			dataservice.getNotifications(userid).getNotifications().$promise
 				.then(function(data){

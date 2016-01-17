@@ -429,15 +429,6 @@ class ApiController extends Controller
 			$suggestedCategory = suggestCategory::create($suggestedCategory);
 		} else return \Response::json('Duplicate category name.');
 	}
-
-	public static function suggestCR(Request $request){
-			$suggestedCRarray = array(
-				'idcity' => $request->idcity,
-				'iduser' => $request->iduser,
-				'text' => $request->text,
-			);
-			$suggestedCRarray = suggestCR::create($suggestedCRarray);
-	}
 	
 	public static function uploadImage($files){
 		/*
@@ -581,6 +572,15 @@ class ApiController extends Controller
         $user->save();
         return \Response::json('user has benn successfully promoted', 200);
     }
+
+    public static function suggestCR(Request $request){
+			$suggestedCRarray = array(
+				'idcity' => $request->idcity,
+				'iduser' => $request->iduser,
+				'text' => $request->text,
+			);
+			$suggestedCRarray = suggestCR::create($suggestedCRarray);
+	}
 	
 }
 	 

@@ -20,18 +20,11 @@
 		vm.logout = logout;
         vm.goPath = goPath;
         vm.seenNotifications = seenNotifications;
-		vm.sh=sh;
-		//vm.notifshow=true;
+		vm.showNotifs=showNotifs;
+		vm.notifshow = false;
 		
 		vm.tabs=[
 			//BEGIN TABS
-			// NOTE: , INSTAD OF ;
-				/*{
-					url: '#/',
-					target: '',  
-					icoSrc: 'https://upload.wikimedia.org/wikipedia/commons/6/63/Number_sign.svg',
-					innerDesc: 'Home',
-				},*/
 				{
 					url: 'https://github.com/matija077/FixYourCity',
 					target: '_blank',   
@@ -50,22 +43,6 @@
 					icoSrc: '',
 					innerDesc: 'About',
 				},
-				
-		/*
-		*
-		*		GENERIC TEMPLATE FOR TABS
-		*		target '' (empty) or '_blank'
-		*
-		
-				{
-					url: '',
-					target: '',   
-					icoSrc: '',
-					innerDesc: '',
-				},
-		
-		*	
-		*/
 				];
 			/*
 			* END OF TABS
@@ -74,15 +51,7 @@
 		activate();
 		
 		function activate(){
-			getNotifications();	
-			var localStorageNotifications = localStorage.getItem('notifications');
-			var localStorageNotificationsCounter = localStorage.getItem('notifications counter');
-			if (localStorageNotifications!=null){
-				vm.notifications = localStorageNotifications;
-			}
-			if (localStorageNotificationsCounter!=null){
-				vm.numberOfNotifications = localStorageNotificationsCounter;
-			}
+			getNotifications();
 		}
 		
 		function renderTab(tab){     //called for each tab in navbar from html using ng-repeat
@@ -131,7 +100,7 @@
 		}
 		
 		function signUp(){
-			dataservice.goPath('signup');
+			dataservice.goPath('signup',-1); //-1 = no parameters
 		}
 		
 		function logout(){
@@ -146,42 +115,30 @@
 			});
 		}
         
-        function goPath(state){
-            var params = "";
+        function goPath(state,num){
+			var params = "";
+			if(num>0){ //specifically for calling from notification window - redirects to /problem/id
+				showNotifs();
+				params = {'id':num};
+			};
             dataservice.goPath(state, params);
         }
 		
 		function getNotifications(){
-            var userid;
-            var array = [];
-            //array is needed because vm.notifications is actually not a variable.
-            userid = JSON.parse(localStorage.getItem('user'));
-            //if there is no user authenticated, we are still making a call to backend.
-            if (userid!=null){
-                userid = userid.iduser;
-            }else{
-                userid = 0;
+            var userid = JSON.parse(localStorage.getItem('user')).iduser;
+			if(typeof userid == 'undefined' || !userid){
 				return;
-            }
+			};
             dataservice.getNotifications(userid).getNotifications().$promise
                 .then(function(data){
 					if(data.data!="No new notifications"){
-						//we are saving notifications and number of notifications
 						angular.forEach(data.data, function(value, key){
-							//javascript considers this variable as string, so parsing is needed
-							vm.numberOfNotifications = parseInt(vm.numberOfNotifications, 10) + 1;
-							vm.numberOfNotifications = parseInt(vm.numberOfNotifications, 10);
-							//new notifications are prepended.
-							array.unshift(value)
-						})
-						vm.notifications = array.concat(vm.notifications);
-						localStorage.setItem('notifications', vm.notifications);
-						localStorage.setItem('notifications counter', vm.numberOfNotifications);
-						//if there are new notifications we need to tell user about that
+							vm.notifications.push(value);
+							vm.numberOfNotifications++;
+						});
 						vm.seen = false;
-						//data is seen in this log
-						//console.log(data);  
-					}
+						//console.log(vm.notifications);  
+					};
                 })
                 .catch(function(data){
                     //console.log(data, vm.seen);
@@ -189,19 +146,22 @@
         }
         
         function seenNotifications(){
-            //we have seen notifications, so we will remove everything.
-            localStorage.removeItem('notifications');
-            localStorage.removeItem('notifications counter');
-            vm.notifications = [];
-            vm.numberOfNoticiations = 0;
-            vm.seen = true;
+			showNotifs();
+			dataservice.getNotifications(JSON.parse(localStorage.getItem('user')).iduser).hasSeenNotifications().$promise
+				.then(function(data){
+					if(data.$resolved){
+						vm.numberOfNotifications = 0;
+						//we do not clear notifications because they might be opened again
+					};
+				});
         }
 		
-		function sh(){
-			if($rootScope.notifshow){
-				$rootScope.notifshow=false;
+		function showNotifs(){
+			if(vm.notifshow){
+				vm.notifshow=false;
 			}else{
-				$rootScope.notifshow=true;
+				vm.notifshow=true;
+				vm.seen = true;
 			}
 		};
 	}

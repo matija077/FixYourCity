@@ -291,34 +291,35 @@ class ApiController extends Controller
 	
 	public static function getNotifications($userId){
         if ($userId!=0) {
-            $counter = 0;
-            $user = User::where('iduser', $userId)->first();
-            $userLastActivity = $user->lastactivity;
-            $subcribes = Subscribe::where('iduser', $userId)->get();
-            foreach($subcribes as $subcribe){
-                //maybe just use one query??
-                $problem = Problem::where('idproblem', $subcribe->idproblem)->first();
-                $problemLastActivity = $problem->lastactivity;
-                $probemText = $problem->text;
-                $categoryName = Category::where('idcategory', $problem->idcategory)->value('ctgname');
-                //$categoryname = Category::where('idcategory', $)
-                if ($problemLastActivity>$userLastActivity){
-                    $response[$counter++] = $probemText.' in category '.$categoryName.' has been updateded';
-                }
-            }
-            //every time we try to query notifications update user's lastactivity
-            $lastactivity = date('Y-m-d H:i:s', time());
-            $user->lastactivity = $lastactivity;
-            $user->save();
-
-            if ($counter>0){
+			
+            $user = User::where('iduser', $userId)->select('lastactivity')->first();
+			//check if it really is that user?
+			
+			$response = Subscribe::where('subscribe.iduser', $userId)
+							->join('problem','problem.idproblem','=','subscribe.idproblem')
+							->where('problem.lastactivity','>=',$user['lastactivity'])
+							->join('category','category.idcategory','=','problem.idcategory')
+							->join('city','city.idcity','=','problem.idcity')
+							->select('problem.lastactivity','problem.text','problem.idproblem','category.ctgname','city.cityname')
+							->get();
+			
+            if (!empty($response[0])){
                 return \Response::json($response, 200);
             }else return \Response::json('No new notifications',200);
-
         }
 		return \Response::json('', 400);
 	}
-
+	
+	public static function hasSeenNotifications($iduser){
+		if(!empty($iduser)){
+			$user = User::where('iduser', $iduser)->first();
+			$user->lastactivity = date('Y-m-d H:i:s', time());
+            $user->save();
+			return \Response::json('',200);
+		}
+		return \Response::json($iduser, 400);
+	}
+	
 	public static function getProblems($idcity,$idcategory){
 		$i = 0;
 		

@@ -63,15 +63,31 @@ html, body {
 	margin-left: 5px;
 }
 .notif{
-	position: absolute;
+	position: fixed;
 	overflow: auto;
 	display: block;
-	/*border: 2px solid;*/
+	/*border: 1px solid;*/
 	/*background-color: #fff;*/
 	padding: 5px;
 	z-index: 1;
 	top: 55px;
 	left: 50%;
-	width: 250px;
-	height: 420px;
+	width: 300px;
+	max-height: 300px;
+	background-color:#eee;
+}
+.notif_li{
+	height: 50px;
+	border-bottom: 1px solid #ddd;
+	overflow: hidden;
+	padding: 0px;
+}
+.notif_li:hover{
+	background-color:#ddd;
+}
+.notif_ul{
+	/*display:inline;*/
+	list-style: none; /*-type*/
+	margin: 0px;
+	padding: 0px;
 }

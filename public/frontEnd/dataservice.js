@@ -133,7 +133,8 @@
 				getNotifications: {method: 'GET', params: {id: userid}, isArray:false,
 					transformResponse: function(data, headers){
 						return { data: angular.fromJson(data)};
-				}	}
+				}},
+				hasSeenNotifications: {method: 'POST', params: {id: userid}, isArray:false }
 			});
 		}
 		

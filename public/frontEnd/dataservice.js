@@ -32,7 +32,6 @@
 			//uploadFile : uploadFile,
             addCategory: addCategory,
             promoteUser: promoteUser,
-            suggestCR : suggestCR,
 		}
 		
 		/*var token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjQsImlzcyI6Imh0dHA6XC9cL2xvY2FsaG9zdFwvUldBXC9wdWJsaWNcL2FwaVwvYXV0aGVudGljYXRlIiwiaWF0IjoiMTQ0ODU1MzIzOCIsImV4cCI6IjE0NDg1NTY4MzgiLCJuYmYiOiIxNDQ4NTUzMjM4IiwianRpIjoiYjZmMjk0N2U0ODQ1ZDljOGE2OTU4ZDZhZGNlZGUwNTAifQ.5CbF03PUe1fr-gK2xQMlCjdCQ2LioWOizc6bqsLBiKY';*/
@@ -222,11 +221,6 @@
                 }
 			});
 		}
-
-		function suggestCR(){
-			return $resource("api/suggestCR", {}, {
-			});
-		}
         
         function addCategory(){
             return $resource("api/addCategory", {}, {
@@ -273,5 +267,11 @@
 			var inx = param.lastIndexOf(".");
 			return param.slice(0,inx)+'t'+param.slice(inx);
 		};
+
+		function suggestCR(){
+			return $resource("api/suggestCR", {}, {
+			});
+		}
+
 	}
 })();

@@ -30,6 +30,7 @@
 		vm.reverse=true;
 		vm.sortpick='created';  //DEFAULT sort
 		vm.openImg=openImg;
+        vm.follow = follow;
 		
 		activate();
 		
@@ -107,10 +108,16 @@
 			dataservice.goPath('submit', {"idcity": idcity, "idcategory": idcategory});
 		}
 		
-		function getProblems(idcity,idcategory){
-			return dataservice.getProblems(idcity,idcategory).getAll().$promise
+		function getProblems(idcity,idcategory, iduser){
+            iduser = JSON.parse(localStorage.getItem('user'));
+            if (!iduser){
+                iduser = -1;
+            } else {
+                iduser = iduser.iduser;
+            }
+			return dataservice.getProblems(idcity,idcategory, iduser).getAll().$promise
 				.then(function(problems){
-					//console.log(problems.data);
+					console.log(problems.data);
 					vm.problems = problems.data;
 					angular.forEach(vm.problems, function(problem){
 						problem.thumb = dataservice.getThumb(problem.url);
@@ -162,6 +169,21 @@
 			});
 			lightbox.open(filledalbum, 0, options); // image index is 0 because it is a single image album
 		};
+        
+        function follow(problemid){
+            console.log('tu sam');
+            var subscribe = {
+                iduser: JSON.parse(localStorage.getItem('user')).iduser,
+                problemid: problemid,
+            }       
+            console.log(subscribe);
+            return dataservice.follow().save(subscribe).$promise
+                .then(function(data){
+                    console.log(data);
+                });
+                
+            }
+        
 		
 	}
 })();

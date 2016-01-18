@@ -27,7 +27,7 @@ Route::group(array('prefix' => 'api'), function()
     Route::get('/users/{username?}/{email?}/{accesslevel?}/{banned?}', 'ApiController@getUsers');
     Route::post('/ban/{id}/{time}', 'ApiController@banUser');
 	Route::get('/notification/{id}', 'ApiController@getNotifications');
-	Route::get('/problems/{idcity}/{idcategory}', 'ApiController@getProblems');
+	Route::get('/problems/{idcity}/{idcategory}/{iduser}', 'ApiController@getProblems');
 	Route::get('/problem/{id}', 'ApiController@getProblem');
 	Route::post('/submitcomment', 'ApiController@submitComment');
 	Route::post('/suggestCity', 'ApiController@suggestCity');
@@ -37,6 +37,7 @@ Route::group(array('prefix' => 'api'), function()
     Route::get('/suggestCategory', 'ApiController@getSuggestCategories');
     Route::post('/addCategory', 'ApiController@addCategory');
     Route::post('/promoteUser', 'ApiController@promoteUser');
+    Route::post('follow', 'ApiController@follow');
 });
 
 

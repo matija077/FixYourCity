@@ -204,6 +204,9 @@
 							<h6>
 							<a href="#/problem/{{problem.idproblem}}">{{problem.comments}} comments</a> | 
 							<a href="">Report</a>
+                            <span class="glyphicon glyphicon-share-alt" ng-if="problem.following" style="color:#00FFFF"></span>
+                            <span class="glyphicon glyphicon-share-alt" ng-if="!problem.following && authenticated" style="color: #00FF00" ng-click="vm.follow(problem.idproblem)"></span>
+                            <span class="glyphicon glyphicon-share-alt" ng-if="!authenticated" style="color: #C0C0C0"></span>
 							</h6>
 						</p>
 					</div>

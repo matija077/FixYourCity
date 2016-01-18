@@ -319,7 +319,7 @@ class ApiController extends Controller
 		return \Response::json('', 400);
 	}
 
-	public static function getProblems($idcity,$idcategory){
+	public static function getProblems($idcity,$idcategory, $iduser){
 		$i = 0;
 		
 		// MARK isn't yet included in query
@@ -343,6 +343,7 @@ class ApiController extends Controller
 		//following loop is to add number of comments for each problem that was found previously
 		while(isset($problems[$i])){
 			$problems[$i]['comments'] = Comment::where('idproblem',$problems[$i]['idproblem'])->count();
+            $problems[$i]['following'] = Subscribe::where('iduser', $iduser)->where('idproblem', $problems[$i]['idproblem'])->first();
 			$i++;
 		};
 		
@@ -572,6 +573,18 @@ class ApiController extends Controller
         $user->accesslevel = $user->accesslevel + $step;
         $user->save();
         return \Response::json('user has benn successfully promoted', 200);
+    }
+    
+    public static function follow(Request $request){
+        $iduser = $request->iduser;
+        $idproblem = $request->problemid;
+            $subscribe = array(
+                'iduser' => $iduser,
+                'idproblem' => $idproblem,
+
+            );
+            $subscribe = Subscribe::create($subscribe);
+            return \Response::json($subscribe, 200);
     }
 	
 }

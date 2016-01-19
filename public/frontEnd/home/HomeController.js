@@ -170,15 +170,21 @@
 			lightbox.open(filledalbum, 0, options); // image index is 0 because it is a single image album
 		};
         
-        function follow(problemid){
-            console.log('tu sam');
+        function follow(problemid, followOrUnfollow){
+            var user = JSON.parse(localStorage.getItem('user'));
             var subscribe = {
-                iduser: JSON.parse(localStorage.getItem('user')).iduser,
+                iduser: user.iduser,
                 problemid: problemid,
+                follow: followOrUnfollow,
             }       
             console.log(subscribe);
-            return dataservice.follow().save(subscribe).$promise
+            dataservice.follow().save(subscribe).$promise
                 .then(function(data){
+                    /*if (problem.follow==0){
+                        problem.follow = user.iduser;
+                    } else {
+                        problem.follow = 0;
+                    }*/
                     console.log(data);
                 });
                 

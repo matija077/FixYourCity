@@ -9,9 +9,11 @@ class Subscribe extends Model
     
      protected $table = 'subscribe';
 
-	 protected $primaryKey = ['iduser', 'idproblem'];
+	 protected $primaryKey = 'idsubscribe';
 	 
 	 public $timestamps = false;
+     
+     protected $guarded = ['idsubscibe'];
 	 
 	 
 }

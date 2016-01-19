@@ -344,6 +344,7 @@ class ApiController extends Controller
 		while(isset($problems[$i])){
 			$problems[$i]['comments'] = Comment::where('idproblem',$problems[$i]['idproblem'])->count();
             $problems[$i]['following'] = Subscribe::where('iduser', $iduser)->where('idproblem', $problems[$i]['idproblem'])->first();
+            $problems[$i]['following'] = $problems[$i]['following']['iduser'];
 			$i++;
 		};
 		
@@ -578,13 +579,26 @@ class ApiController extends Controller
     public static function follow(Request $request){
         $iduser = $request->iduser;
         $idproblem = $request->problemid;
+       
+        if ($request->follow!=0){
             $subscribe = array(
                 'iduser' => $iduser,
-                'idproblem' => $idproblem,
+                'idproblem' => $idproblem
 
             );
+            
+             //return \Response::json($request->follow, 200);
             $subscribe = Subscribe::create($subscribe);
-            return \Response::json($subscribe, 200);
+            return \Response::json('successfully followed', 200);
+        } else {
+            $subscribeDeleted = Subscribe::where('iduser', $iduser)->where('idproblem', $idproblem)->first();
+              //return \Response::json($subscribeDeleted, 200);
+            $subscribeDeleted->delete();
+            return \Response::json('successfully unfollowed', 200);
+        }
+        
+        return \Response::json('error', 404);
+           
     }
 	
 }

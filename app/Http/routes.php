@@ -37,7 +37,7 @@ Route::group(array('prefix' => 'api'), function()
     Route::get('/suggestCategory', 'ApiController@getSuggestCategories');
     Route::post('/addCategory', 'ApiController@addCategory');
     Route::post('/promoteUser', 'ApiController@promoteUser');
-    Route::post('follow', 'ApiController@follow');
+    Route::post('/follow', 'ApiController@follow');
 });
 
 

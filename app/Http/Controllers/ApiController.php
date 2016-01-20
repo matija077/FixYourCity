@@ -18,6 +18,7 @@ use App\suggestCity;
 use App\feedback;
 use App\suggestCategory;
 use App\Imgurlink;
+use App\suggestCR;
 
 
 class ApiController extends Controller
@@ -574,12 +575,13 @@ class ApiController extends Controller
     }
 
     public static function suggestCR(Request $request){
-			$suggestedCRarray = array(
-				'idcity' => $request->idcity,
-				'iduser' => $request->iduser,
-				'text' => $request->text,
-			);
-			$suggestedCRarray = suggestCR::create($suggestedCRarray);
+		$suggestedCRarray = array(
+			'idcity' => $request->idcity,
+			'iduser' => $request->iduser,
+			'text' => $request->text,
+		);
+		$suggestedCRarray = suggestCR::create($suggestedCRarray);
+		return \Response::json($suggestedCRarray);
 	}
 	
 }

@@ -10,6 +10,8 @@
 	function suggestCRController(dataservice){
 		var vm = this;
 		vm.citiesToShow = [];
+		vm.cities=[];
+		vm.selectedcity;
 		vm.filterCities = filterCities;
 		vm.selectCity=selectCity;
 		vm.suggestCR = suggestCR;
@@ -25,7 +27,7 @@
 			return dataservice.getCities().getAll().$promise
 				.then(function(resource){
 					vm.citiesToShow = resource.data;
-					return vm.cities = resource.data;
+					vm.cities = resource.data;
 				});
 		}
 		
@@ -46,13 +48,15 @@
 
 		function suggestCR(){
 			var user = JSON.parse(localStorage.getItem("user"));
-			var cid = 69;
-			var suggestedCR={
-				idcity : cid,
+			var toSuggest={
+				idcity : vm.selectedcity,
 				iduser : user.iduser,
 				text : vm.comment,
 			};
-			dataservice.suggestCR().save(suggestedCR);
+			dataservice.suggestCR().save(toSuggest).$promise
+				.then(function(data){
+					//console.log(data);
+				});
 		}
 
 	}

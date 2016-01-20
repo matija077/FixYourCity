@@ -18,8 +18,8 @@
 			signUp: signUp,
 			getUser: getUser,
 			reload : reload,
-            getUsers: getUsers,
-            banUser: banUser,
+			getUsers: getUsers,
+			banUser: banUser,
 			getNotifications: getNotifications,
 			getProblems: getProblems,
 			getProblem: getProblem,
@@ -30,8 +30,8 @@
 			suggestCategory : suggestCategory,
 			getThumb : getThumb,
 			//uploadFile : uploadFile,
-            addCategory: addCategory,
-            promoteUser: promoteUser,
+			addCategory: addCategory,
+			promoteUser: promoteUser,
 			suggestCR: suggestCR,
 		}
 		

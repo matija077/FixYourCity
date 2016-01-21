@@ -16,6 +16,8 @@
 		vm.selectCity=selectCity;
 		vm.suggestCR = suggestCR;
 		vm.getCities = getCities;
+		vm.sakrij = false;
+		vm.pokazi = false;
 	
 		activate();
 		
@@ -47,6 +49,8 @@
 		}
 
 		function suggestCR(){
+			vm.pokazi = true;
+			vm.sakrij = true;
 			var user = JSON.parse(localStorage.getItem("user"));
 			var toSuggest={
 				idcity : vm.selectedcity,

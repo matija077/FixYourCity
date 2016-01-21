@@ -18,6 +18,7 @@ use App\suggestCity;
 use App\feedback;
 use App\suggestCategory;
 use App\Imgurlink;
+use App\suggestCR;
 
 
 class ApiController extends Controller
@@ -572,6 +573,16 @@ class ApiController extends Controller
         $user->save();
         return \Response::json('user has benn successfully promoted', 200);
     }
+
+    public static function suggestCR(Request $request){
+		$suggestedCRarray = array(
+			'idcity' => $request->idcity,
+			'iduser' => $request->iduser,
+			'text' => $request->text,
+		);
+		$suggestedCRarray = suggestCR::create($suggestedCRarray);
+		return \Response::json($suggestedCRarray);
+	}
 	
 	public static function getSuggestedCities(){
 		$suggestedCities = suggestCity::join('user','user.iduser','=','suggestcity.iduser')

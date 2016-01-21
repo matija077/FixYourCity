@@ -18,8 +18,8 @@
 			signUp: signUp,
 			getUser: getUser,
 			reload : reload,
-            getUsers: getUsers,
-            banUser: banUser,
+			getUsers: getUsers,
+			banUser: banUser,
 			getNotifications: getNotifications,
 			getProblems: getProblems,
 			getProblem: getProblem,
@@ -297,4 +297,3 @@
 		}
 	}
 })();
-

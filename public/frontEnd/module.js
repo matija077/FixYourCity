@@ -86,6 +86,13 @@
 				templateUrl: 'frontend/home/forbidden.html',
 				accesslevel: '1',
 			})
+			.state('suggestCR', {
+				url: '/suggestCR',
+				templateUrl: 'frontend/home/suggestCR.html',
+				controller: 'suggestCRController',
+				controllerAs: 'vm',
+				accesslevel: '2',
+			})
 			$urlRouterProvider.otherwise( '/');
 
 	}

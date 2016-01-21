@@ -9,27 +9,27 @@
 		
 	function AdminPageController(dataservice){
 		var vm = this;
-        vm.chosenPart = "searchUser";
-        vm.user = {'username': null, 'email': null, 'accesslevel': null, 'banned': null, 'bannedString': null};
-        vm.usersReturned = [];
-        vm.userChosed = '';
-        vm.categories = [];
-		vm.cities = [];
-		vm.changecities=[];
-		vm.cr = [];
-		vm.changerep = [];
-        vm.categoriesToAdd = [];
-        vm.temporaryBanTime = {};
-        vm.error = '';
-        vm.renderParts = renderParts;
-        vm.returnUsers = returnUsers;
-        vm.choseUser = choseUser;
-        vm.banUser = banUser;
-        vm.emptyUsers = emptyUsers;
-        vm.getCategories = getCategories;
-        vm.addCategory = addCategory;
-        vm.saveCategories = saveCategories;
-        vm.promoteUser = promoteUser;
+		vm.chosenPart = "searchUser";
+		vm.user = {'username': null, 'email': null, 'accesslevel': null, 'banned': null, 'bannedString': null};
+		vm.usersReturned = [];
+		vm.userChosed = '';		//chosed srsly
+		vm.categories = [];		//CAT
+		vm.categoriesToAdd = [];//CAT
+		vm.cities = [];			//CITY
+		vm.changecities=[];		//CITY
+		vm.cr = [];				//CR
+		vm.changerep = [];		//CR
+		vm.temporaryBanTime = {};
+		vm.error = '';
+		vm.renderParts = renderParts;
+		vm.returnUsers = returnUsers;
+		vm.choseUser = choseUser;
+		vm.banUser = banUser;
+		vm.emptyUsers = emptyUsers;
+		vm.getCategories = getCategories;
+		vm.addCategory = addCategory;
+		vm.saveCategories = saveCategories;
+		vm.promoteUser = promoteUser;
 		vm.getCities = getCities;
 		vm.saveCities=saveCities;
 		vm.addCity=addCity;
@@ -37,16 +37,14 @@
 		vm.saveRep=saveRep;
 		vm.addRep=addRep;
 		
-        activate();
-
-        function activate(){
-        }
+		activate();
+		
+		function activate(){
+			
+		}
 
         function renderParts(part){
             //we use ng-switch, so we need to reinitialize variables
-            if (vm.temporaryBanTime.days != 0) {
-                vm.temporaryBanTime = {'days' : 0, 'hours' : 24};
-            }
 			switch(part){
                 case 'category': {
 					getCategories();
@@ -61,6 +59,10 @@
 				case 'promote': {
 					getCityRep();
 					vm.changerep=[];
+					break;
+				}
+				case 'banUser':{
+					vm.temporaryBanTime = {'days' : 0, 'hours' : 24};
 					break;
 				}
             }
@@ -120,33 +122,33 @@
                     vm.categories = data.data;
                 });
         }
-        
-        function addCategory(idsuggestCategory, namesuggestCategory){
-            var array = [];
-            console.log(vm.categoriesToAdd.length);
-            for (var counter = vm.categoriesToAdd.length; counter>0; counter--){
-                //console.log(vm.categoriesToAdd[counter-1][0], idsuggestCategory);
-                //console.log(vm.categoriesToAdd);
-                if (vm.categoriesToAdd[counter-1][0]==idsuggestCategory){
-                    vm.categoriesToAdd.splice(counter-1, 1);
-                }
-                //console.log(vm.categoriesToAdd);
-            }
-            array.push([idsuggestCategory, namesuggestCategory]);
-            vm.categoriesToAdd = array.concat(vm.categoriesToAdd);
-            console.log(vm.categoriesToAdd);
-
+		
+		function addCategory(sent,pick){
+			var found = false;
+			angular.forEach(vm.categoriesToAdd, function(category){
+				if(category.idsuggestcategory==sent.idsuggestcategory){
+					if(category.pick!=pick) category.pick=!category.pick;
+					found=true;
+				};
+			});
+			if(!found){
+				vm.categoriesToAdd.push({
+					'idsuggestcategory':sent.idsuggestcategory,
+					'pick':pick,
+				});
+				sent.marked=true; // marking for deletion from vm.cities
+			};
         }
         
         function saveCategories(){
-            console.log(vm.categoriesToAdd);
             dataservice.addCategory().save(vm.categoriesToAdd).$promise
                  .then(function(data){
-                     //initalize suggested categories again
-                     renderParts('category');
-                     vm.categoriesToAdd = [];
-                     console.log(vm.categoriesToAdd);
-                     console.log(data);
+					 for(var i=vm.categories.length-1;i>=0;i--){
+						if(typeof vm.categories[i].marked !='undefined'){
+							vm.categories.splice(i,1);
+						};
+					};
+					vm.categoriesToAdd=[];
                 });
         }
         

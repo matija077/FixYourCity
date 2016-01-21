@@ -59,7 +59,7 @@
 						<th> Username</th><th> Email</th><th> Accesslevel</th><th> Banned</th>
 					</tr>
 					<tr ng-repeat="user in vm.usersReturned | limitTo: 5" ng-click="vm.choseUser(user);"
-						ng-class="{'lightgraybg':user.iduser === vm.userChosed.iduser}"> <!-- CHOSED CHOSED CHOSED CHOSED CHOSED CHOSED CHOSED -->
+						ng-class="{'lightgraybg':user.iduser === vm.userChosed.iduser}"> <!-- CHOSED's first appearance -->
 						<td>{{ user.username }}</td><td>{{ user.email }}</td>
 						<td>{{ user.accesslevel }}</td><td>{{ user.bannedString }}</td>
 					</tr>
@@ -67,8 +67,8 @@
 			</div><br>
 			
 			<div class="col-md-11"></div>
-			<button type="button" class="btn btn-success" ng-disabled="vm.userChosed==''"
-				ng-click="vm.renderParts('banUser');">Go!</button> <!--{{  vm.userChosen.username }} -->
+			<button type="button" class="btn" ng-disabled="!vm.userChosed"
+				ng-click="vm.renderParts('banUser');" ng-class="{'btn-success':(vm.userChosed),'btn-warning':(!vm.userChosed)}">Go!</button>
 			
 		</div>
 		
@@ -106,7 +106,7 @@
 					{{ vm.userChosed.bannedString }}
 				</div>
 				<div class="col-md-4">
-					<span ng-show="vm.userChosed.bannedString=='No'" style="color: red;">Are you sure you wanna ban this user?</span> <!-- remove this? -->
+					<!--<span ng-show="vm.userChosed.bannedString=='No'" style="color: red;">Are you sure you wanna ban this user?</span> --> <!-- remove this? -->
 					<span ng-show="vm.userChosed.bannedString!='No'" style="color: red;"><h4>This user is banned</h4></span>
 				</div>
 			</div> <br /> <br />
@@ -158,11 +158,12 @@
 				</tr>
 				<tr ng-repeat="category in vm.categories">
 					<td>{{ category.suggestcategoryname }}</td><td>{{ category.username }}</td>
-					<td><input type="radio" name="{{ category.idsuggestcategory }}" ng-click="vm.addCategory(category.idsuggestcategory, category.suggestcategoryname);"></td>
-					<td><input type="radio" name="{{ category.idsuggestcategory }}" ng-click="vm.addCategory(category.idsuggestcategory, -1);"></td>
+					<td><input type="radio" name="{{ category.idsuggestcategory }}" ng-click="vm.addCategory(category, true);"></td>
+					<td><input type="radio" name="{{ category.idsuggestcategory }}" ng-click="vm.addCategory(category, false);"></td>
 				</tr>
 			</table>
-			<button type="button" class="btn btn-success" ng-click="vm.saveCategories();" ng-disabled="vm.categoriesToAdd==''  ">Submit</button>
+			<button type="button" class="btn" ng-click="vm.saveCategories();" ng-disabled="!vm.categoriesToAdd[0]" 
+				ng-class="{'btn-success':(vm.categoriesToAdd[0]),'btn-warning':(!vm.categoriesToAdd[0])}">Submit</button>
 		</div>
 		
 		
@@ -184,10 +185,10 @@
 		<div ng-switch-when="promote">
 			<table class="table table-striped">
 				<tr>
-					<th>Username</th><th>City name</th><th>Request text</th><th>Select for approval</th><th>Select for removal</th>
+					<th>Username</th><th>City name, State</th><th>Request text</th><th>Select for approval</th><th>Select for removal</th>
 				</tr>
 				<tr ng-repeat="rep in vm.cr">
-					<td>{{ rep.username }}</td><td>{{rep.cityname}}</td><td>{{ rep.text }}</td>
+					<td>{{ rep.username }}</td><td>{{rep.cityname}}, {{ rep.state}}</td><td class="col-md-3";>{{ rep.text }}</td>
 					<td><input type="radio" name="{{ rep.idsuggestcr }}" ng-click="vm.addRep(rep, true);"></td>
 					<td><input type="radio" name="{{ rep.idsuggestcr }}" ng-click="vm.addRep(rep, false);"></td>
 				</tr>

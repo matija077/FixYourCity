@@ -1,0 +1,70 @@
+<div class="container-fluid">
+
+	<div class="row" align="center">
+		<h1>Apply for city representative</h1>
+	</div>
+	
+	
+	<div class="row">
+	
+		<div class="col-md-2">
+		</div>
+		
+        <div class="col-md-4">
+			<table class="table">
+				<tr>
+					<th>
+						<h4>Apply for city:</h4>
+					</th>
+				</tr>
+				<tr>
+					<td>
+						<input type="text" placeholder="Search for city..." ng-model="vm.inputCityName" ng-change="vm.filterCities(vm.inputCityName);">
+					</td>
+				</tr> 
+				<tr ng-repeat="city in vm.citiesToShow | limitTo: 5" ng-click="vm.selectCity(city.idcity)" ng-class="{'lightgraybg':vm.selectedcity === city.idcity}">
+					<td>
+						{{city.cityname}} <span class="pull-right">{{city.state}}</span>
+					</td>
+				</tr>
+			</table>
+		</div>
+    
+    <!--<div style='display: inline-block; vertical-align: top;'> -->
+		<div class="col-md-4">
+			<div class="form-group" ng-class="{ 'has-error' : forma.textArea.$invalid }">
+				 <table class="table">
+					<tr>
+						<th>
+							<h4>Enter comment:</h4>
+						</th>
+					</tr>
+					<tr>
+						<td>
+							<form novalidate name="forma" role="form">
+								<textarea class="form-control" name="textArea" placeholder="Comment area" rows="10" style="width:250px; margin-bottom:10px" 
+									ng-model="vm.comment" required></textarea>
+								<p ng-show="forma.textArea.$invalid" class="help-block">This field is required.</p>
+							</form>
+						</td>
+					</tr>
+				</table> 
+			</div>
+		</div>
+	
+		<div class="col-md-2">
+		</div>
+		
+	</div>
+	
+	
+	<div class="row">
+		<div class="col-md-12">
+			<center>
+				<input type="submit" class="btn btn-primary" ng-click="vm.suggestCR()" value="Apply!" ng-disabled="forma.textArea.$invalid || !vm.selectedcity">
+			</center>
+		</div>
+	</div>
+	
+	
+</div>

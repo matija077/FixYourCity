@@ -32,11 +32,15 @@ Route::group(array('prefix' => 'api'), function()
 	Route::get('/problem/{id}', 'ApiController@getProblem');
 	Route::post('/submitcomment', 'ApiController@submitComment');
 	Route::post('/suggestCity', 'ApiController@suggestCity');
+	Route::get('/suggestCity', 'ApiController@getSuggestedCities');
 	Route::post('/feedback', 'ApiController@feedback');
 	Route::post('/suggestCategory', 'ApiController@suggestCategory');
 	Route::get('/suggestCategory', 'ApiController@getSuggestCategories');
 	Route::post('/addCategory', 'ApiController@addCategory');
+	Route::post('/addCities', 'ApiController@addCities');
+	Route::post('/addCityRep', 'ApiController@addCityRep');
 	Route::post('/promoteUser', 'ApiController@promoteUser');
+	Route::get('/suggestCR', 'ApiController@getSuggestedCR');
 });
 
 

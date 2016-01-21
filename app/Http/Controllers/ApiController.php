@@ -573,5 +573,46 @@ class ApiController extends Controller
         return \Response::json('user has benn successfully promoted', 200);
     }
 	
+	public static function getSuggestedCities(){
+		$suggestedCities = suggestCity::join('user','user.iduser','=','suggestcity.iduser')
+										->select('user.username','suggestcity.*')
+										->get();
+		return \Response::json($suggestedCities);
+	}
+	
+	public static function addCities(Request $request){
+		$changecities = $request->input();
+		foreach($changecities as $city){
+            $del = suggestCity::where('idsuggestcity', $city['idsuggestcity'])->first();
+			suggestCity::where('idsuggestcity', $city['idsuggestcity'])->delete();
+			if($city['pick']){
+				$cityAdd = array(
+					'cityname' => $del['suggestcityname'],
+					'state' => $del['suggeststatename'],
+                );
+				$cityAdd = City::create($cityAdd);
+            };
+        };
+        Return \Response::json('Done');
+	}
+	
+	public static function getSuggestedCR(){
+		$suggestedCR = suggestCR::join('user','user.iduser','=','suggestcity.iduser')
+									->join('city','city.idcity','=','suggestCR.idcity')
+									->select('user.username','city.cityname','suggestcity.*')
+									->get();
+		return \Response::json($suggestedCR);
+	}
+	
+	public static function addCityRep(Request $request){
+		$changerep = $request->input();
+		foreach($changerep as $rep){
+            $del = suggestCity::where('idsuggestcity', $rep['idsuggestcity'])->first();
+			//suggestCity::where('idsuggestcity', $rep['idsuggestcity'])->delete();
+			
+        };
+        Return \Response::json('Done');
+	}
+	
 }
 	 

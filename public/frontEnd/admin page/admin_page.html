@@ -2,9 +2,9 @@
 	<div class="nav row col-md-12">
 		<ul class="nav nav-tabs">
 		<li role="presentation" ><a href="" ng-click="vm.renderParts('searchUser');">Users</a></li>
-		<li role="presentation"><a href="" ng-click="vm.renderParts('feedback');">Feedback</a></li>
-		<li role="presentation"><a href="" ng-click="vm.renderParts('category');">Category</a></li>
-		<li role="presentation"><a href="" ng-click="vm.renderParts('feedback');">Feedback</a></li>
+		<li role="presentation"><a href="" ng-click="vm.renderParts('city');">City suggestions</a></li>
+		<li role="presentation"><a href="" ng-click="vm.renderParts('category');">Category suggestions</a></li>
+		<li role="presentation"><a href="" ng-click="vm.renderParts('promote');">CR requests</a></li>
 		</ul>
 	</div>
 
@@ -166,6 +166,35 @@
 		</div>
 		
 		
+		<div ng-switch-when="city">
+			<table class="table table-striped">
+				<tr>
+					<th>City name</th><th>State</th><th>Suggesting user</th><th>Select for approval</th><th>Select for removal</th>
+				</tr>
+				<tr ng-repeat="city in vm.cities">
+					<td>{{ city.suggestcityname }}</td><td>{{city.suggeststatename}}</td><td>{{ city.username }}</td>
+					<td><input type="radio" name="{{ city.idsuggestcity }}" ng-click="vm.addCity(city, true);"></td>
+					<td><input type="radio" name="{{ city.idsuggestcity }}" ng-click="vm.addCity(city, false);"></td>
+				</tr>
+			</table>
+			<button type="button" class="btn" ng-click="vm.saveCities();" ng-disabled="!vm.changecities[0]" 
+				ng-class="{'btn-success':(vm.changecities[0]),'btn-warning':(!vm.changecities[0])}">Submit</button>
+		</div>
+		
+		<div ng-switch-when="promote">
+			<table class="table table-striped">
+				<tr>
+					<th>Username</th><th>City name</th><th>Request text</th><th>Select for approval</th><th>Select for removal</th>
+				</tr>
+				<tr ng-repeat="rep in vm.cr">
+					<td>{{ rep.username }}</td><td>{{rep.cityname}}</td><td>{{ rep.text }}</td>
+					<td><input type="radio" name="{{ rep.idsuggestcr }}" ng-click="vm.addRep(rep, true);"></td>
+					<td><input type="radio" name="{{ rep.idsuggestcr }}" ng-click="vm.addRep(rep, false);"></td>
+				</tr>
+			</table>
+			<button type="button" class="btn" ng-click="vm.saveRep();" ng-disabled="!vm.changerep[0]" 
+				ng-class="{'btn-success':(vm.changerep[0]),'btn-warning':(!vm.changerep[0])}">Submit</button>
+		</div>
 		
 	</div>
 </div>

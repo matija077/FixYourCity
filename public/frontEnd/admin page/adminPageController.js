@@ -11,9 +11,13 @@
 		var vm = this;
         vm.chosenPart = "searchUser";
         vm.user = {'username': null, 'email': null, 'accesslevel': null, 'banned': null, 'bannedString': null};
-        vm.usersReturned = {};
+        vm.usersReturned = [];
         vm.userChosed = '';
-        vm.categories = {};
+        vm.categories = [];
+		vm.cities = [];
+		vm.changecities=[];
+		vm.cr = [];
+		vm.changerep = [];
         vm.categoriesToAdd = [];
         vm.temporaryBanTime = {};
         vm.error = '';
@@ -26,6 +30,12 @@
         vm.addCategory = addCategory;
         vm.saveCategories = saveCategories;
         vm.promoteUser = promoteUser;
+		vm.getCities = getCities;
+		vm.saveCities=saveCities;
+		vm.addCity=addCity;
+		vm.getCityRep = getCityRep;
+		vm.saveRep=saveRep;
+		vm.addRep=addRep;
 		
         activate();
 
@@ -37,8 +47,22 @@
             if (vm.temporaryBanTime.days != 0) {
                 vm.temporaryBanTime = {'days' : 0, 'hours' : 24};
             }
-              if (part=='category'){
-                getCategories();
+			switch(part){
+                case 'category': {
+					getCategories();
+					vm.categoriesToAdd=[];
+					break;
+				}
+				case 'city': {
+					getCities();
+					vm.changecities=[];
+					break;
+				}
+				case 'promote': {
+					getCityRep();
+					vm.changerep=[];
+					break;
+				}
             }
             return vm.chosenPart = part;
         }
@@ -142,6 +166,84 @@
                     vm.error = data;
                 })
         }
-
+		
+		function getCities(){
+			dataservice.suggestCity().getAll().$promise
+				.then(function(data){
+					//console.log(data);
+					vm.cities=data.data;
+				});
+		}
+		
+		function addCity(sent,pick){
+			var found = false;
+			angular.forEach(vm.changecities, function(city){
+				if(city.idsuggestcity==sent.idsuggestcity){
+					if(city.pick!=pick) city.pick=!city.pick;
+					found=true;
+				};
+			});
+			if(!found){
+				vm.changecities.push({
+					'idsuggestcity':sent.idsuggestcity,
+					'pick':pick,
+				});
+				sent.marked=true; // marking for deletion from vm.cities
+			};
+		}
+		
+		function saveCities(){
+			dataservice.addCities().save(vm.changecities).$promise
+				.then(function(data){
+					//console.log(data);
+					// removing city entries that we sent to server
+					for(var i=vm.cities.length-1;i>=0;i--){
+						if(typeof vm.cities[i].marked !='undefined'){
+							vm.cities.splice(i,1);
+						};
+					};
+					vm.changecities=[];
+				});
+		}
+		
+		function getCityRep(){
+			dataservice.suggestCR().getAll().$promise
+				.then(function(data){
+					//console.log(data);
+					vm.cr=data.data;
+				});
+		}
+		
+		function addRep(sent,pick){
+			var found = false;
+			angular.forEach(vm.changerep, function(rep){
+				if(rep.idsuggestcr==sent.idsuggestcr){
+					if(rep.pick!=pick) rep.pick=!rep.pick;
+					found=true;
+				};
+			});
+			if(!found){
+				vm.changerep.push({
+					'idsuggestcr':sent.idsuggestcr,
+					'pick':pick,
+				});
+				sent.marked=true; // marking for deletion from vm.cr
+			};
+		}
+		
+		function saveRep(){
+			dataservice.addCityRep().save(vm.changerep).$promise
+				.then(function(data){
+					//console.log(data);
+					for(var i=vm.cr.length-1;i>=0;i--){
+						if(typeof vm.cr[i].marked !='undefined'){
+							vm.cr.splice(i,1);
+						};
+					};
+					vm.changerep=[];
+				});
+		}
+		
+		
 	}
 })();

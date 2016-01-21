@@ -30,8 +30,8 @@
 			suggestCategory : suggestCategory,
 			getThumb : getThumb,
 			//uploadFile : uploadFile,
-            addCategory: addCategory,
-            promoteUser: promoteUser,
+			addCategory: addCategory,
+			promoteUser: promoteUser,
 			addCities: addCities,
 			suggestCR: suggestCR,
 			addCityRep: addCityRep,
@@ -88,12 +88,7 @@
 		function reload(){
 			$state.reload();
 		}
-		/*
-		function submitProblem(){
-			return $resource("api/submitproblem", {}, {
-			});
-		}	
-		*/
+		
         function getUsers(user){
             /*javascript passes objects by reference, so we need to assing each
             *key, value pair of an object separately
@@ -199,19 +194,14 @@
 				}
 			}
 		}
-		/*
-		function submitComment(){
-			return $resource("api/submitcomment", {}, {
-			});
-		}
-		*/
+		
 		function suggestCity(){
 			return $resource("api/suggestCity", {}, {
-                getAll: {method: 'GET', params: {}, isArray:false,
-                    transformResponse: function(data, header){
-                        return { data: angular.fromJson(data) };
-                    }
-                }
+				getAll: {method: 'GET', params: {}, isArray:false,
+					transformResponse: function(data, header){
+						return { data: angular.fromJson(data) };
+					}
+				}
 			});
 		}
 
@@ -236,14 +226,14 @@
         }
 		
 		function addCities(){
-            return $resource("api/addCities", {}, {
+			return $resource("api/addCities", {}, {
 			});
-        }
+		}
 		
 		function addCityRep(){
-            return $resource("api/addCityRep", {}, {
+			return $resource("api/addCityRep", {}, {
 			});
-        }
+		}
 		
 		function submitProblem($file,params){
 			return Upload.upload({
@@ -288,12 +278,13 @@
 		
 		function suggestCR(){
 			return $resource("api/suggestCR", {}, {
-                getAll: {method: 'GET', params: {}, isArray:false,
-                    transformResponse: function(data, header){
-                        return { data: angular.fromJson(data) };
-                    }
-                }
+				getAll: {method: 'GET', params: {}, isArray:false,
+					transformResponse: function(data, header){
+						return { data: angular.fromJson(data) };
+					}
+				}
 			});
 		}
+		
 	}
 })();

@@ -547,18 +547,18 @@ class ApiController extends Controller
     public static function addCategory(Request $request){
 		$suggestCategories = $request->input();
 		
-        foreach($suggestCategories as $suggestCategory){
-            $del = suggestCategory::where('idsuggestcategory', $suggestCategory['idsuggestcategory'])->first();
+		foreach($suggestCategories as $suggestCategory){
+			$del = suggestCategory::where('idsuggestcategory', $suggestCategory['idsuggestcategory'])->first();
 			suggestCategory::where('idsuggestcategory', $suggestCategory['idsuggestcategory'])->delete();
-            
-            if ($suggestCategory['pick']){
-                $categoryAdd = array(
-                    'ctgname' => $del['suggestcategoryname'],
-                );
-                $categoryAdd = Category::create($categoryAdd);
+			
+			if ($suggestCategory['pick']){
+				$categoryAdd = array(
+					'ctgname' => $del['suggestcategoryname'],
+				);
+				$categoryAdd = Category::create($categoryAdd);
 			};
-        };
-        return \Response::json('Done', 200);
+		};
+		return \Response::json('Done', 200);
 	}
     
     public static function promoteUser(Request $request){
@@ -591,19 +591,19 @@ class ApiController extends Controller
 		$changecities = $request->input();
 		
 		foreach($changecities as $city){
-            $del = suggestCity::where('idsuggestcity', $city['idsuggestcity'])->first();
+			$del = suggestCity::where('idsuggestcity', $city['idsuggestcity'])->first();
 			suggestCity::where('idsuggestcity', $city['idsuggestcity'])->delete();
 			
 			if($city['pick']){
 				$cityAdd = array(
 					'cityname' => $del['suggestcityname'],
 					'state' => $del['suggeststatename'],
-                );
+				);
 				$cityAdd = City::create($cityAdd);
-            };
-        };
+			};
+		};
 		
-        return \Response::json('Done');
+		return \Response::json('Done');
 	}
 	
 	public static function getSuggestedCR(){
@@ -618,7 +618,7 @@ class ApiController extends Controller
 		$changerep = $request->input();
 		
 		foreach($changerep as $rep){
-            $del = suggestCR::where('idsuggestcr', $rep['idsuggestcr'])->first();
+			$del = suggestCR::where('idsuggestcr', $rep['idsuggestcr'])->first();
 			suggestCR::where('idsuggestcr', $rep['idsuggestcr'])->delete();
 			
 			if($rep['pick']){

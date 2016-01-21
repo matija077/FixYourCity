@@ -42,11 +42,11 @@
 		function activate(){
 			
 		}
-
-        function renderParts(part){
-            //we use ng-switch, so we need to reinitialize variables
+		
+		function renderParts(part){
+			//we use ng-switch, so we need to reinitialize variables
 			switch(part){
-                case 'category': {
+				case 'category': {
 					getCategories();
 					vm.categoriesToAdd=[];
 					break;
@@ -65,9 +65,9 @@
 					vm.temporaryBanTime = {'days' : 0, 'hours' : 24};
 					break;
 				}
-            }
-            return vm.chosenPart = part;
-        }
+			}
+			return vm.chosenPart = part;
+		}
 
         function returnUsers(){
             if (vm.user.username!=null || vm.user.email!=null || vm.user.accesslevel!=null || vm.user.bannedString!=null){

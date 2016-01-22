@@ -352,8 +352,8 @@ class ApiController extends Controller
 	}
 	
 	public static function getProblem($idproblem,Request $request){
-		//return \Response::json($request->iduser);
 		if($idproblem){
+			
 			$problem = Problem::where('idproblem',$idproblem)
 								->join('user','user.iduser','=','problem.iduser')
 								->join('category','category.idcategory','=','problem.idcategory')
@@ -364,7 +364,7 @@ class ApiController extends Controller
 											->join('user','user.iduser','=','comment.iduser')
 											->select('comment.*','user.username')
 											->get();
-			//adds user's vote decision
+			//adds user vote decision
 			$problem['voted'] = Vote::where('idproblem',$idproblem)
 									->where('iduser',$request->iduser)
 									->select('choice')
@@ -650,17 +650,23 @@ class ApiController extends Controller
 	
 	public static function vote(Request $request){
 		$voted = $request->voted;
-		$uv = Vote::where('iduser',$request->iduser)
+		
+		$uservote = Vote::where('iduser',$request->iduser)
 					->where('idproblem',$request->idproblem)
 					->first();
+					
 		$problem = Problem::where('idproblem',$request->idproblem)->first();
-		if(empty($uv)){
+		
+		if(empty($uservote)){ 
+			//no vote has been added yet by this user for this problem
 			$vote = array(
 				'iduser' => $request->iduser,
 				'idproblem' => $request->idproblem,
 				'choice' => $voted,
 			);
+			
 			$vote = Vote::create($vote);
+			
 			switch($voted){
 				case -1:{
 					$problem->votenegative++;
@@ -671,52 +677,56 @@ class ApiController extends Controller
 					break;
 				}
 			};
+			
 			$problem->save();
 			return \Response::json('Done');
+			
 		}else{
-			if($uv->voted==$voted){ return \Response::json('Same vote'); }
+			// user's changing his vote
 			if($voted==1){
-				switch($uv->choice){
+				switch($uservote->choice){
 					case -1: {
 						$problem->votenegative-=1;
 						$problem->votepositive+=1;
-						$uv->choice=1;
+						$uservote->choice=1;
 						break;
 					}
 					case 0: {
 						$problem->votenegative+=1;
-						$uv->choice=1;
+						$uservote->choice=1;
 						break;
 					}
 					case 1: {
 						$problem->votepositive-=1;
-						$uv->choice=0;
+						$uservote->choice=0;
 						break;
 					}
-				}
+				};
 			}else{
-				switch($uv->choice){
+				switch($uservote->choice){
 					case -1: {
 						$problem->votenegative-=1;
-						$uv->choice=0;
+						$uservote->choice=0;
 						break;
 					}
 					case 0: {
 						$problem->votenegative+=1;
-						$uv->choice=-1;
+						$uservote->choice=-1;
 						break;
 					}
 					case 1: {
 						$problem->votepositive-=1;
 						$problem->votenegative+=1;
-						$uv->choice=-1;
+						$uservote->choice=-1;
 						break;
 					}
-				}
+				};
 			};
+			
 			$problem->save();
-			$uv->save();
+			$uservote->save();
 			return \Response::json('Updated');
+			
 		};
 			
 		return \Response::json('Error!');

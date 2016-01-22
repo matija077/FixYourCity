@@ -159,7 +159,7 @@
 			var user = JSON.parse(localStorage.getItem("user"));
 			if(!user){ 
 				service.goPath('forbidden'); 
-				return -1; 
+				return 0; 
 			};
 			if(typeof problem.voted == 'undefined' || problem.voted==null) problem.voted=0;
 			if(vote==1){

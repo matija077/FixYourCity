@@ -32,7 +32,9 @@
 			//uploadFile : uploadFile,
 			addCategory: addCategory,
 			promoteUser: promoteUser,
+			addCities: addCities,
 			suggestCR: suggestCR,
+			addCityRep: addCityRep,
 		}
 		
 		/*var token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjQsImlzcyI6Imh0dHA6XC9cL2xvY2FsaG9zdFwvUldBXC9wdWJsaWNcL2FwaVwvYXV0aGVudGljYXRlIiwiaWF0IjoiMTQ0ODU1MzIzOCIsImV4cCI6IjE0NDg1NTY4MzgiLCJuYmYiOiIxNDQ4NTUzMjM4IiwianRpIjoiYjZmMjk0N2U0ODQ1ZDljOGE2OTU4ZDZhZGNlZGUwNTAifQ.5CbF03PUe1fr-gK2xQMlCjdCQ2LioWOizc6bqsLBiKY';*/
@@ -86,12 +88,7 @@
 		function reload(){
 			$state.reload();
 		}
-		/*
-		function submitProblem(){
-			return $resource("api/submitproblem", {}, {
-			});
-		}	
-		*/
+		
         function getUsers(user){
             /*javascript passes objects by reference, so we need to assing each
             *key, value pair of an object separately
@@ -106,7 +103,7 @@
                }
                //console.log(value, key, tempUser);
             });
-            console.log(tempUser);
+            //console.log(tempUser);
             return $resource("api/users/:username/:email/:accesslevel/:banned", {username: -1, email: -1, accesslevel: -1, banned: -1}, {
                 getUsers: {method: 'GET', params:{username: tempUser.username, email: tempUser.email,
                     accesslevel: tempUser.accesslevel, banned: tempUser.bannedString}, isArray:false,
@@ -197,14 +194,14 @@
 				}
 			}
 		}
-		/*
-		function submitComment(){
-			return $resource("api/submitcomment", {}, {
-			});
-		}
-		*/
+		
 		function suggestCity(){
 			return $resource("api/suggestCity", {}, {
+				getAll: {method: 'GET', params: {}, isArray:false,
+					transformResponse: function(data, header){
+						return { data: angular.fromJson(data) };
+					}
+				}
 			});
 		}
 
@@ -227,6 +224,16 @@
             return $resource("api/addCategory", {}, {
 			});
         }
+		
+		function addCities(){
+			return $resource("api/addCities", {}, {
+			});
+		}
+		
+		function addCityRep(){
+			return $resource("api/addCityRep", {}, {
+			});
+		}
 		
 		function submitProblem($file,params){
 			return Upload.upload({
@@ -268,11 +275,16 @@
 			var inx = param.lastIndexOf(".");
 			return param.slice(0,inx)+'t'+param.slice(inx);
 		};
-
+		
 		function suggestCR(){
 			return $resource("api/suggestCR", {}, {
+				getAll: {method: 'GET', params: {}, isArray:false,
+					transformResponse: function(data, header){
+						return { data: angular.fromJson(data) };
+					}
+				}
 			});
 		}
-
+		
 	}
 })();

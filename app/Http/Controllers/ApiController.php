@@ -19,6 +19,7 @@ use App\feedback;
 use App\suggestCategory;
 use App\Imgurlink;
 use App\suggestCR;
+use App\Cityrep;
 
 
 class ApiController extends Controller
@@ -545,34 +546,33 @@ class ApiController extends Controller
     
     public static function addCategory(Request $request){
 		$suggestCategories = $request->input();
-        //0 is id, 1 is categoryname
-        //if categoryname is -1 ->category is not aproved
-        foreach($suggestCategories as $suggestCategory){
-            $categoryDeleted = suggestCategory::where('idsuggestcategory', $suggestCategory[0]);
-            $categoryDeleted->delete();
-            
-            if ($suggestCategory[1]!=-1){
-                $categoryAdd = array(
-                    'ctgname' => $suggestCategory[1],
-                );
-                try {
-                    $categoryAdd = Category::create($categoryAdd);
-            } catch(Exception $e){
-                
-            }
-            }
-        }
-        Return \Response::json($categoryAdd, 200);
+		
+		foreach($suggestCategories as $suggestCategory){
+			$del = suggestCategory::where('idsuggestcategory', $suggestCategory['idsuggestcategory'])->first();
+			suggestCategory::where('idsuggestcategory', $suggestCategory['idsuggestcategory'])->delete();
+			
+			if ($suggestCategory['pick']){
+				$categoryAdd = array(
+					'ctgname' => $del['suggestcategoryname'],
+				);
+				$categoryAdd = Category::create($categoryAdd);
+			};
+		};
+		return \Response::json('Done', 200);
 	}
-    
-    public static function promoteUser(Request $request){
-        $step = $request->step;
-        $userId = $request->iduser;
-        $user = User::where('iduser', $userId)->first();
-        $user->accesslevel = $user->accesslevel + $step;
-        $user->save();
-        return \Response::json('user has benn successfully promoted', 200);
-    }
+	
+	public static function promoteUser(Request $request){
+		$step = $request->step;
+		$userId = $request->iduser;
+		$user = User::where('iduser', $userId)->first();
+		//removes cities from CR on demote
+		if($step==-1 && $user->accesslevel==3){
+			Cityrep::where('iduser',$userId)->delete();
+		};
+		$user->accesslevel = $user->accesslevel + $step;
+		$user->save();
+		return \Response::json('Done', 200);
+	}
 
     public static function suggestCR(Request $request){
 		$suggestedCRarray = array(
@@ -582,6 +582,65 @@ class ApiController extends Controller
 		);
 		$suggestedCRarray = suggestCR::create($suggestedCRarray);
 		return \Response::json($suggestedCRarray);
+	}
+	
+	public static function getSuggestedCities(){
+		$suggestedCities = suggestCity::join('user','user.iduser','=','suggestcity.iduser')
+										->select('user.username','suggestcity.*')
+										->get();
+		return \Response::json($suggestedCities);
+	}
+	
+	public static function addCities(Request $request){
+		$changecities = $request->input();
+		
+		foreach($changecities as $city){
+			$del = suggestCity::where('idsuggestcity', $city['idsuggestcity'])->first();
+			suggestCity::where('idsuggestcity', $city['idsuggestcity'])->delete();
+			
+			if($city['pick']){
+				$cityAdd = array(
+					'cityname' => $del['suggestcityname'],
+					'state' => $del['suggeststatename'],
+				);
+				$cityAdd = City::create($cityAdd);
+			};
+		};
+		
+		return \Response::json('Done');
+	}
+	
+	public static function getSuggestedCR(){
+		$suggestedCR = suggestCR::join('user','user.iduser','=','suggestcr.iduser')
+									->join('city','city.idcity','=','suggestcr.idcity')
+									->select('user.username','city.cityname','city.state','suggestcr.*')
+									->get();
+		return \Response::json($suggestedCR);
+	}
+	
+	public static function addCityRep(Request $request){
+		$changerep = $request->input();
+		
+		foreach($changerep as $rep){
+			$del = suggestCR::where('idsuggestcr', $rep['idsuggestcr'])->first();
+			suggestCR::where('idsuggestcr', $rep['idsuggestcr'])->delete();
+			
+			if($rep['pick']){
+				$rep = array(
+					'iduser' => $del['iduser'],
+					'idcity' => $del['idcity'],
+					'date_assigned' => date('Y-m-d H:i:s', time()),
+				);
+				$rep = Cityrep::create($rep);
+				$user = User::where('iduser',$del['iduser'])->first();
+				if($user->accesslevel!=4){
+					$user->accesslevel = 3;
+					$user->save();
+				};
+			};	
+        };
+		
+        return \Response::json('Done');
 	}
 	
 }

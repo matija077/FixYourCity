@@ -1,4 +1,4 @@
-<div class="container-fluid" ng-hide="vm.sakrij" >
+<div class="container-fluid" ng-hide="vm.sent" >
 
 	<div class="row" align="center">
 		<h1>Apply for city representative</h1>
@@ -65,10 +65,11 @@
 			</center>
 		</div>
 	</div>
-
 </div>
 
-<div class="well" ng-show="vm.pokazi" align="center">
-		<h2>Message sent successfully</h2>
-		<h3>Thanks for applying!</h3>
+<div class="container-fluid" ng-hide="!vm.sent">
+	<div class="row well" align="center">
+			<h2>Message sent successfully.</h2>
+			<h3>Thanks for applying!</h3>
+	</div>
 </div>

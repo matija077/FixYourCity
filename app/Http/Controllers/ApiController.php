@@ -20,6 +20,7 @@ use App\suggestCategory;
 use App\Imgurlink;
 use App\suggestCR;
 use App\Cityrep;
+use App\Vote;
 
 
 class ApiController extends Controller
@@ -320,9 +321,8 @@ class ApiController extends Controller
 		return \Response::json($iduser, 400);
 	}
 	
-	public static function getProblems($idcity,$idcategory){
+	public static function getProblems($idcity,$idcategory,Request $request){
 		$i = 0;
-		
 		// MARK isn't yet included in query
 		
 		//if idcategory is -1 it means category hasn't been selected -> querying only by city
@@ -341,19 +341,19 @@ class ApiController extends Controller
 								->get();
 		}
 		
-		//following loop is to add number of comments for each problem that was found previously
+		//following loop is to add number of comments for each problem that was found previously | and to add voted status of user for each problem
 		while(isset($problems[$i])){
 			$problems[$i]['comments'] = Comment::where('idproblem',$problems[$i]['idproblem'])->count();
+			$problems[$i]['voted'] = Vote::where('idproblem',$problems[$i]['idproblem'])->where('iduser',$request->iduser)->select('choice')->first()['choice'];
 			$i++;
 		};
 		
 		return \Response::json($problems);
 	}
 	
-	public static function getProblem($idproblem){
+	public static function getProblem($idproblem,Request $request){
+		//return \Response::json($request->iduser);
 		if($idproblem){
-			$i = 0;
-			
 			$problem = Problem::where('idproblem',$idproblem)
 								->join('user','user.iduser','=','problem.iduser')
 								->join('category','category.idcategory','=','problem.idcategory')
@@ -364,9 +364,14 @@ class ApiController extends Controller
 											->join('user','user.iduser','=','comment.iduser')
 											->select('comment.*','user.username')
 											->get();
+			//adds user's vote decision
+			$problem['voted'] = Vote::where('idproblem',$idproblem)
+									->where('iduser',$request->iduser)
+									->select('choice')
+									->first()['choice'];
 											
 			return \Response::json($problem);
-		}
+		};
 		return \Response::json('Greska');
 		
 	}
@@ -641,6 +646,80 @@ class ApiController extends Controller
         };
 		
         return \Response::json('Done');
+	}
+	
+	public static function vote(Request $request){
+		$voted = $request->voted;
+		$uv = Vote::where('iduser',$request->iduser)
+					->where('idproblem',$request->idproblem)
+					->first();
+		$problem = Problem::where('idproblem',$request->idproblem)->first();
+		if(empty($uv)){
+			$vote = array(
+				'iduser' => $request->iduser,
+				'idproblem' => $request->idproblem,
+				'choice' => $voted,
+			);
+			$vote = Vote::create($vote);
+			switch($voted){
+				case -1:{
+					$problem->votenegative++;
+					break;
+				}
+				case 1:{
+					$problem->votepositive++;
+					break;
+				}
+			};
+			$problem->save();
+			return \Response::json('Done');
+		}else{
+			if($uv->voted==$voted){ return \Response::json('Same vote'); }
+			if($voted==1){
+				switch($uv->choice){
+					case -1: {
+						$problem->votenegative-=1;
+						$problem->votepositive+=1;
+						$uv->choice=1;
+						break;
+					}
+					case 0: {
+						$problem->votenegative+=1;
+						$uv->choice=1;
+						break;
+					}
+					case 1: {
+						$problem->votepositive-=1;
+						$uv->choice=0;
+						break;
+					}
+				}
+			}else{
+				switch($uv->choice){
+					case -1: {
+						$problem->votenegative-=1;
+						$uv->choice=0;
+						break;
+					}
+					case 0: {
+						$problem->votenegative+=1;
+						$uv->choice=-1;
+						break;
+					}
+					case 1: {
+						$problem->votepositive-=1;
+						$problem->votenegative+=1;
+						$uv->choice=-1;
+						break;
+					}
+				}
+			};
+			$problem->save();
+			$uv->save();
+			return \Response::json('Updated');
+		};
+			
+		return \Response::json('Error!');
 	}
 	
 }

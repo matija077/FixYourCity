@@ -560,15 +560,19 @@ class ApiController extends Controller
 		};
 		return \Response::json('Done', 200);
 	}
-    
-    public static function promoteUser(Request $request){
-        $step = $request->step;
-        $userId = $request->iduser;
-        $user = User::where('iduser', $userId)->first();
-        $user->accesslevel = $user->accesslevel + $step;
-        $user->save();
-        return \Response::json('user has benn successfully promoted', 200);
-    }
+	
+	public static function promoteUser(Request $request){
+		$step = $request->step;
+		$userId = $request->iduser;
+		$user = User::where('iduser', $userId)->first();
+		//removes cities from CR on demote
+		if($step==-1 && $user->accesslevel==3){
+			Cityrep::where('iduser',$userId)->delete();
+		};
+		$user->accesslevel = $user->accesslevel + $step;
+		$user->save();
+		return \Response::json('Done', 200);
+	}
 
     public static function suggestCR(Request $request){
 		$suggestedCRarray = array(

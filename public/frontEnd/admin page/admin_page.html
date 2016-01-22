@@ -34,7 +34,7 @@
 						Ban status:
 						<div class="radio">
 							<label><input type="radio" name="banned" ng-model="vm.user.bannedString"
-								ng-value="null" ng-change="vm.returnUsers();" ng-click="vm.emptyUsers();" checked >Any</label>
+								value="-1" ng-change="vm.returnUsers();">Any</label>
 						</div>
 						<div class="radio">
 							<label><input type="radio" name="banned" ng-model="vm.user.bannedString"
@@ -54,7 +54,7 @@
 			</div><br /><br />
 			
 			<div class="row">
-				<table class="col-md-12" border="1">
+				<table class="col-md-12" border="1" ng-show="vm.usersReturned[0]">
 					<tr>
 						<th> Username</th><th> Email</th><th> Accesslevel</th><th> Banned</th>
 					</tr>
@@ -119,7 +119,7 @@
 					<button type="button" class="btn btn-success" ng-click="vm.banUser(-1);" ng-hide="vm.userChosed.banned=='No'">
 						Unban user</button>
 					<button type="button" class="btn btn-warning" ng-click="vm.banUser(vm.temporaryBanTime);">Temporary ban</button>
-					<button type="button" class="btn btn-danger" ng-click="vm.banUser(0);">Ban!</button>
+					<button type="button" class="btn btn-danger" ng-click="vm.banUser(0);">Pernament ban</button>
 				</div>
 				<div class="col-md-3">
 					<div class="input-group">
@@ -138,7 +138,7 @@
 			<div class="row">
 			
 				<div class="col-md-4">
-					<button type="button" class="btn" ng-class="{'btn-success':vm.userChosed.accesslevel>1, 'btn-warning':vm.userChosed.accesslevel<=2}" 
+					<button type="button" class="btn" ng-class="{'btn-success':vm.userChosed.accesslevel>2, 'btn-warning':vm.userChosed.accesslevel<=2}" 
 						ng-click="vm.promoteUser(-1);" ng-disabled="vm.userChosed.accesslevel<=2">Demote user</button>
 					<button type="button" class="btn" ng-class="{'btn-success':vm.userChosed.accesslevel<4, 'btn-warning':vm.userChosed.accesslevel>=4}"
 						ng-click="vm.promoteUser(+1);" ng-disabled="vm.userChosed.accesslevel>=4">Promote user</button>

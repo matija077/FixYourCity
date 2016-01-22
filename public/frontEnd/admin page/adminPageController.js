@@ -25,7 +25,7 @@
 		vm.returnUsers = returnUsers;
 		vm.choseUser = choseUser;
 		vm.banUser = banUser;
-		vm.emptyUsers = emptyUsers;
+		//vm.emptyUsers = emptyUsers;
 		vm.getCategories = getCategories;
 		vm.addCategory = addCategory;
 		vm.saveCategories = saveCategories;
@@ -76,7 +76,7 @@
                         return vm.usersReturned = data.data; 
                     })
                     .catch(function(data){
-                        return console.log(data.error);
+                        //return console.log(data.error);
                     });
             }
         }
@@ -108,14 +108,14 @@
                     dataservice.reload();
                 })
                 .catch(function(data){
-                    console.log(data);
+                    //console.log(data);
                 });
         }
-        
+        /*
         function emptyUsers(){
             vm.usersReturned = {};
         }
-        
+        */
         function getCategories(){
             dataservice.suggestCategory().getAll().$promise
                 .then(function(data){
@@ -157,14 +157,14 @@
                 iduser: vm.userChosed.iduser,
                 step: step,
             };
-            console.log(vm.userChosed);
+            //console.log(vm.userChosed);
             dataservice.promoteUser().save(user).$promise
                 .then(function(data){
                     console.log(data);
                     dataservice.reload();
                 })
                 .catch(function(data){
-                    console.log(data);
+                    //console.log(data);
                     vm.error = data;
                 })
         }

@@ -16,9 +16,9 @@
 						<input type="text" placeholder="Search for city..." ng-model="vm.inputCityName" ng-change="vm.filterCities(vm.inputCityName);">
 					</td>
 				</tr> 
-				<tr ng-repeat="city in vm.citiesToShow | limitTo: 5" ng-click="vm.selectCity(city.idcity)" ng-class="{'lightgraybg':vm.selectedcity === city.idcity}">
+				<tr ng-repeat="city in vm.citiesToShow | limitTo: 5" ng-click="vm.selectCity(city.idcity)" ng-class="{'lightgraybg':vm.selectedcity === city.idcity}" role="button">
 					<td>
-						<a href="#/city/{{city.idcity}}">{{city.cityname}}</a>
+						{{city.cityname}}
 					</td>
 					<td>
 						{{city.state}}
@@ -53,7 +53,8 @@
 						<input type="text" placeholder="Search for category..." ng-model="vm.inputCategoryName" ng-change="vm.filterCategories(vm.inputCategoryName);">
 					</td>
 				</tr>
-				<tr ng-repeat="category in vm.categoriesToShow  | limitTo: 5" ng-click="vm.selectCategory(category.idcategory)" ng-class="{'lightgraybg':vm.selectedcategory === category.idcategory}">
+				<tr ng-repeat="category in vm.categoriesToShow  | limitTo: 5" ng-click="vm.selectCategory(category.idcategory)" ng-class="{'lightgraybg':vm.selectedcategory === category.idcategory}" 
+					role="button">
 					<td>
 						{{ category.ctgname}}
 					</td>
@@ -188,9 +189,9 @@
 					</center>
 				</div>
 				
-				<div class="well well-sm pull-left col-md-11">  <!-- missing: mark, picture -->
+				<div class="well well-sm pull-left col-md-11">  <!-- missing: mark -->
 					<div class="pull-left">
-						<img ng-src="{{problem.thumb}}" ng-click="vm.openImg(problem.idproblem)"/>
+						<img role="button" ng-src="{{problem.thumb}}" ng-click="vm.openImg(problem.idproblem)"/>
 					</div>
 					<div class="pull-left margin-l-5">
 						<p class="title">
@@ -199,17 +200,21 @@
 							</a>
 						</p>
 						<p>Location: {{problem.address}}</p>
-						<p>Category: {{problem.ctgname}}<span style="float: right">Submitted by <a href="/user/{{problem.iduser}}">{{problem.username}}</a> on {{problem.created}}<span></p>
+						<p>Category: {{problem.ctgname}}</p><br />
 						<p>
 							<h6>
-							<a href="#/problem/{{problem.idproblem}}">{{problem.comments}} comments</a> | 
-							<a href="">Report</a>
+								<a href="#/problem/{{problem.idproblem}}">{{problem.comments}} comments</a>
 							</h6>
 						</p>
+					</div>
+					<div class="pull-right" style="font-size:smaller;">
+					<p>Submitted by <b>{{problem.username}}</b> on {{problem.created}}<p>
 					</div>
 				</div>
 			
 			</div>
+			
+		</div>
 		
 		<div class="col-md-1">
 		</div>

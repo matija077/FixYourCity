@@ -1,13 +1,19 @@
 <div ng-controller="navbarController as navbar">
 	<nav class="navbar navbar-inverse navbar-fixed-top"> 
 		<div class="container">		
-		
-			<div class="navbar-header">		
+			<!--
+			<div class="nav navbar-header">		
 				<a href="#" class="navbar-brand">FixYourCity</a>
 			</div>
-			
-			<ul class="nav navbar-nav">
-				<li class="" ng-repeat="tab in navbar.tabs"  ng-bind-html="navbar.renderTab(tab)"></li>
+			-->
+			<ul class="nav navbar-nav" style="width:100%;">
+				
+				<li class="navbar-header">
+					<a href="#" class="navbar-brand">FixYourCity</a>
+				</li>
+				
+				<li class="" ng-repeat="tab in navbar.tabs"  ng-bind-html="navbar.renderTab(tab)">
+				</li>
 
 				<li class="navbar-form" ng-if="(!authenticated)"> <!--  navbar-left -->
 					<input class="form-control" style="background-color:#eee" type="text" placeholder="Email" name="username" ng-model="navbar.email">

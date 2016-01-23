@@ -205,6 +205,7 @@ class ApiController extends Controller
 			'votepositive' => '1',
 			'votenegative' => '0',
 			'lastactivity' => date('Y-m-d H:i:s', time()),
+			'created' => date('Y-m-d H:i:s', time()),
 		);
 		
 		$problem = Problem::create($problem);
@@ -402,6 +403,10 @@ class ApiController extends Controller
 			'url' => $link,
 			'created' => date('Y-m-d H:i:s', time()),   //time isnt correct, need uniform assignment for all database tables
 		);
+		//update problems 'lastactivity' when a comment is added
+		$problem = Problem::where('idproblem',$_POST['params']['idproblem'])->first();
+		$problem->lastactivity = date('Y-m-d H:i:s', time());
+		$problem->save();
 		
 		$comment = Comment::create($comment);
 		

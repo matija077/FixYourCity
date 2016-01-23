@@ -32,8 +32,11 @@ class AccesslevelCheck
         }
             /*every time user is authenticated and uses routes with this middleware, 
             *it updates user's lastactivity column.  
-            */  
-            if ($user!=''){
+            */ 
+		//REMOVED: lastactivity has since been redone to be used for checking when were notifications last seen
+		// and thus is no longer needed here as it would break that functionality
+		/*
+		if ($user!=''){
             //date_default_timezone_set('Europe/Zagreb');
             //time is off by an hour
             //$hour = 3600;
@@ -41,7 +44,7 @@ class AccesslevelCheck
             $user->lastactivity = $lastactivity;    
             $user->save();
         }
-        
+        */
         if ($accesslevel>=$role) {
             return $next($request);
         }

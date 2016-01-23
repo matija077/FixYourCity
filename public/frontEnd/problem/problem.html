@@ -11,21 +11,14 @@
 		<div class="well well-sm pull-left col-md-11" >  <!-- missing: mark, picture style="width:97%;"-->
 			<div class="row col-md-12">
 				<div class="pull-left">
-					<img ng-src="{{vm.album[0].thumb}}" ng-click="vm.openImg(0)"/>
+					<img role="button" ng-src="{{vm.album[0].thumb}}" ng-click="vm.openImg(0)"/>
 				</div>
 				<div class="pull-left margin-l-5">
-					<p class="title">
-						<a href="#/problem/{{problem.idproblem}}">
-							{{vm.problem.text}}
-						</a>
-					</p>
-					<p>Location: {{vm.problem.address}}</p>
-					<p>Category: {{vm.problem.ctgname}}<span style="float: right">Submitted by <a href="/user/{{vm.problem.iduser}}">{{vm.problem.username}}</a> on {{vm.problem.created}}<span></p>
-					<p>
-						<h6>
-							<a href="">Report</a>
-						</h6>
-					</p>
+					<p class="title">{{vm.problem.text}}</p><br />
+					<p>Location: {{vm.problem.address}}</p><br />
+					<p>Category: {{vm.problem.ctgname}}</p>
+				</div>
+				<div class="pull-right" style="font-size:smaller;">Submitted by <b>{{vm.problem.username}}</b> on {{vm.problem.created}}
 				</div>
 			</div>
 		</div>
@@ -38,9 +31,12 @@
 		
 		<div class="col-md-9 well well-sm">
 			<div class="pull-left">
-				<img ng-src="{{vm.album[$index+1].thumb}}" ng-click="vm.openImg($index+1)"/>
+				<img role="button" ng-src="{{vm.album[$index+1].thumb}}" ng-click="vm.openImg($index+1)"/>
 			</div>
-			{{comment.text}} by {{comment.username}} on {{comment.created}}
+			<div class="pull-left margin-l-5">
+			<p>{{comment.text}}</p><br />
+			<p style="font-size:smaller;">Commented by <b>{{comment.username}}</b> on {{comment.created}}</p>
+			</div>
 		</div>
 	</div>
 	
@@ -52,7 +48,7 @@
 		<div class="col-md-9 well well-sm">
 		
 			<div class="row col-md-12">
-				Reply: <small>(required)</small>
+				<b>Reply:</b><span style="font-size:smaller;"> (required)</span>
 			</div>
 			
 			<div class="row">
@@ -60,11 +56,8 @@
 				<textarea style="height:100px;width:400px;" class="form-control" placeholder="Type your comment here" ng-model="vm.textcomment"></textarea>
 				</div>
 				<div class="col-md-6">
-					<b>Comment image:</b> <small>(optional)</small>
+					Comment image:<span style="font-size:smaller;"> (optional)</span>
 					<br />
-					<!--
-					<input type="file" ng-disabled="1" />
-					-->
 					<input type="file" class="btn" ng-class="{'btn-success':vm.file !== undefined, 'btn-warning':vm.file == undefined}" 
 						ngf-select ng-model="vm.file" name="file" ngf-pattern="'image/*'"
 						ngf-accept="'image/*'" ngf-max-size="9MB" ngf-min-height="100" style="max-width:100%;"/>
@@ -73,10 +66,6 @@
 		
 			<div class="row col-md-12">
 				<br />
-				<!--
-				<input type="button" value="Comment" ng-disabled="!vm.textcomment || !vm.user" ng-if="!vm.sent" ng-click="vm.submitComment()" />
-				<span ng-if="vm.sent">Comment sent!</span>
-				-->
 				<input class="btn" ng-class="{'btn-success':(vm.textcomment),'btn-warning':(!vm.textcomment)}"
 						type="submit" value="  Submit  " ng-disabled="(!vm.textcomment) || (role<=1) || (!authenticated)" ng-click="vm.submitComment()" ng-if="vm.sent==0" />
 				<span ng-if="vm.sent==1">Uploading...</span><span ng-if="vm.sent==-1">Failed to comment</span><span ng-if="vm.sent==2">Comment sent!</span>

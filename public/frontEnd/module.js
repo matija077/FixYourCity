@@ -13,6 +13,7 @@
 		$stateProvider
 			.state('home',{
 				url: '/',
+				title: 'Home',
 				templateUrl: 'frontend/home/homePage.html',
 				controller: 'HomeController',
 				controllerAs: 'vm',
@@ -27,13 +28,15 @@
 			})
 			.state('submit', {
 				url: '/submit/:idcity/:idcategory',
+				title: 'Submit problem',
 				templateUrl:'frontend/home/submitissue.html',
 				controller: 'submitissueController',
 				controllerAs: 'vm',
-				accesslevel: '1',	
+				accesslevel: '2',
 			})
 			.state('about',{
 				url: '/about',
+				title: 'About',
 				templateUrl: 'frontend/about/about.html',
 				controller: 'aboutController',
 				controllerAs: 'vm',
@@ -41,6 +44,7 @@
 			})
 			.state('signup', {
 				url: '/signup',
+				title: 'Sign up!',
 				templateUrl: 'frontend/signup/signup.html',
 				controller: 'signupController',
 				controllerAs: 'vm',
@@ -48,6 +52,7 @@
 			})
             .state('admin page', {
                 url: '/admin',
+				title: 'Admin panel',
                 templateUrl: 'frontend/admin page/admin_page.html',
                 controller: 'AdminPageController',
                 controllerAs: 'vm',
@@ -55,6 +60,7 @@
             })
 			.state('problem', {
 				url: '/problem/:id',
+				title: 'Problem',
 				templateUrl: 'frontend/problem/problem.html',
 				controller: 'problemController',
 				controllerAs: 'vm',
@@ -62,6 +68,7 @@
 			})
 			.state('feedback', {
 				url: '/feedback',
+				title: 'Send feedback',
 				templateUrl: 'frontend/home/feedback.html',
 				controller: 'feedbackController',
 				controllerAs: 'vm',
@@ -69,6 +76,7 @@
 			})
 			.state('suggestCity', {
 				url: '/suggestCity',
+				title: 'Suggest city',
 				templateUrl: 'frontend/home/suggestCity.html',
 				controller: 'suggestCityController',
 				controllerAs: 'vm',
@@ -76,6 +84,7 @@
 			})
 			.state('suggestCategory', {
 				url: '/suggestCategory',
+				title: 'Suggest category',
 				templateUrl: 'frontend/home/suggestCategory.html',
 				controller: 'suggestCategoryController',
 				controllerAs: 'vm',
@@ -83,11 +92,13 @@
 			})
 			.state('forbidden', {
 				url: '/forbidden',
+				title: 'Forbidden',
 				templateUrl: 'frontend/home/forbidden.html',
 				accesslevel: '1',
 			})
 			.state('suggestCR', {
 				url: '/suggestCR',
+				title: 'Apply for city representative',
 				templateUrl: 'frontend/home/suggestCR.html',
 				controller: 'suggestCRController',
 				controllerAs: 'vm',
@@ -128,6 +139,11 @@
                 event.preventDefault();
                 $state.go('forbidden');
             }
+		});
+		$rootScope.$on('$stateChangeSuccess', function(event, toState) {
+			//changes title of the page | adds number of unseen notifications in brackets for logged in users
+			$rootScope.title = (toState && toState.title) ? toState.title : 'Fix Your City';
+			if($rootScope.numofnotif && $rootScope.authenticated) $rootScope.title+=' (' + $rootScope.numofnotif + ')';
 		});
 	}
 	

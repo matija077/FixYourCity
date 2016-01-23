@@ -26,11 +26,17 @@ class AuthenticateController extends Controller
         *check if user actually exists in database
         * '\' in front of a Hash for including
         */
-        $time = date('Y-m-d H:i:s', time());
-        if (!$user->exists){
-            $user = array('username' => $request->username, 'email' => $request->email,
-                'password' =>  \Hash::make($request->password), 'accesslevel' => $request->accesslevel, 
-                'karma' => $request->karma, 'banned' => $time);
+		$time = date('Y-m-d H:i:s', time());
+		if (!$user->exists){
+			$user = array(
+				'username' => $request->username,
+				'email' => $request->email,
+				'password' =>  \Hash::make($request->password),
+				'accesslevel' => $request->accesslevel,
+				'karma' => $request->karma,
+				'banned' => $time,
+				'registered' => $time,
+			);
                 
             $user = User::create($user);
             //banned in array not working, this is a fix

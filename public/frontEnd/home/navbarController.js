@@ -44,9 +44,7 @@
 					innerDesc: 'About',
 				},
 				];
-			/*
-			* END OF TABS
-			*/
+			//END OF TABS
 		
 		activate();
 		
@@ -87,6 +85,7 @@
 								$rootScope.userName = userData.data.user.username;
 								//load data agian
 								dataservice.reload();
+								activate(); //loads navbar again (notifications)
 								//console.log($rootScope.role);
 							})
 							.catch(function(userDataError){
@@ -131,6 +130,8 @@
 			}else{
 				userid=userid.iduser;
 			};
+			vm.notifications = [];
+			vm.numberOfNotifications = 0;
 			dataservice.getNotifications(userid).getNotifications().$promise
 				.then(function(data){
 					if(data.data!="No new notifications"){
@@ -139,6 +140,7 @@
 							vm.numberOfNotifications++;
 						});
 					vm.seen = false;
+					$rootScope.numofnotif = vm.numberOfNotifications;
 					//console.log(vm.notifications);  
 					};
 				})
@@ -153,6 +155,7 @@
 				.then(function(data){
 					if(data.$resolved){
 						vm.numberOfNotifications = 0;
+						$rootScope.numofnotif = 0;
 						//we do not clear notifications because they might be opened again
 					};
 				});

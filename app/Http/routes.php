@@ -42,6 +42,7 @@ Route::group(array('prefix' => 'api'), function()
 	Route::post('/promoteUser', 'ApiController@promoteUser');
 	Route::post('/suggestCR', 'ApiController@suggestCR');
 	Route::get('/suggestCR', 'ApiController@getSuggestedCR');
+	Route::post('/vote', 'ApiController@vote');
 	
 });
 

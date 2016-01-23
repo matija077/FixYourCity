@@ -9,7 +9,7 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" href="frontend/ng-bootstrap-lightbox/lightbox.min.css">
 	<link rel="icon" type="image/ico" href="favicon.ico">
-	<title>{{title}}</title>
+	<title ng-bind="title"></title>
 </head>
 <body>
 	

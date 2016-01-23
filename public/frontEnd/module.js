@@ -44,7 +44,7 @@
 			})
 			.state('signup', {
 				url: '/signup',
-				title: '',
+				title: 'Sign up!',
 				templateUrl: 'frontend/signup/signup.html',
 				controller: 'signupController',
 				controllerAs: 'vm',
@@ -133,7 +133,6 @@
                     localStorage.removeItem('user');
                 }
             }
-			//$rootScope.title=$state.title;
             //it-s enough to check accesslevel only. If user is authenticated he
             //will have accesslevel > 1
             if (toState.accesslevel>$rootScope.role){

@@ -33,7 +33,7 @@
 		function getProblem(){
 			return dataservice.getProblem().getProblem({id:$stateParams.id}, function(res){
 				vm.problem = res;
-				console.log(res);
+				//console.log(res);
 				vm.album.push({
 					src: vm.problem.url,
 					thumb: dataservice.getThumb(vm.problem.url),

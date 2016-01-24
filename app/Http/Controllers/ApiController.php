@@ -370,7 +370,12 @@ class ApiController extends Controller
 									->where('iduser',$request->iduser)
 									->select('choice')
 									->first()['choice'];
-											
+			//adds status of user being City Representative (in that city)
+			$problem['cr'] = Cityrep::where('idcity',$problem->idcity)
+									->where('iduser',$request->iduser)
+									->select('idcityrep')
+									->first()['idcityrep'];
+								
 			return \Response::json($problem);
 		};
 		return \Response::json('Greska');
@@ -737,5 +742,16 @@ class ApiController extends Controller
 		return \Response::json('Error!');
 	}
 	
+	public static function mark(Request $request){
+		if(empty($request->mark) && $request->mark!=0 || empty($request->idproblem)){
+			return \Response::json('Missing parameters!');
+		};
+		$problem = Problem::where('idproblem',$request->idproblem)->first();
+		
+		$problem->mark = $request->mark;
+		$problem->lastactivity = date('Y-m-d H:i:s', time());
+		$problem->save();
+		return \Response::json('Done');
+	}
 }
 	 

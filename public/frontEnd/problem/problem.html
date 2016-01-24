@@ -1,24 +1,40 @@
 <div class="container-fluid">
 	<div class="row">
-		<div class="well well-sm pull-left col-md-1" > <!--style="width:3%"-->
+		<div class="well well-sm pull-left col-md-1">
 			<center>
 				<div class="glyphicon glyphicon-menu-up" role="button" ng-click="vm.toggleVote(vm.problem,1)" ng-class="{'glyphvoted':vm.problem.voted==1}"></div>
-				<div>{{vm.problem.votepositive-vm.problem.votenegative}}</div>
+				<div style="cursor:default;" title="P: {{vm.problem.votepositive}} N: {{vm.problem.votenegative}}">{{vm.problem.votepositive-vm.problem.votenegative}}</div>
 				<div class="glyphicon glyphicon-menu-down" role="button" ng-click="vm.toggleVote(vm.problem,-1)" ng-class="{'glyphvoted':vm.problem.voted==-1}"></div>
 			</center>
 		</div>
 				
-		<div class="well well-sm pull-left col-md-11" >  <!-- missing: mark, picture style="width:97%;"-->
+		<div class="well well-sm pull-left col-md-11">
 			<div class="row col-md-12">
 				<div class="pull-left">
-					<img role="button" ng-src="{{vm.album[0].thumb}}" ng-click="vm.openImg(0)"/>
+					<img style="cursor:zoom-in;" ng-src="{{vm.album[0].thumb}}" ng-click="vm.openImg(0)"/>
 				</div>
 				<div class="pull-left margin-l-5">
-					<p class="title">{{vm.problem.text}}</p><br />
+					<p class="title">
+						<b>
+						<span ng-if="vm.problem.mark==2">[Solved]</span>
+						<span ng-if="vm.problem.mark==1">[In Progress]</span>
+						</b>
+						{{vm.problem.text}}</p><br />
 					<p>Location: {{vm.problem.address}}</p><br />
-					<p>Category: {{vm.problem.ctgname}}</p>
+					<p>Category: {{vm.problem.ctgname}}
+					</p>
+						<div role="button" class="glyphicon glyphicon-ok" style="font-size:larger;color:green;" 
+							title="Mark as: Solved" ng-if="!vm.problem.mark && (role==4 || vm.problem.cr)" ng-click="vm.mark(2);">
+						</div>
+						<div role="button" class="glyphicon glyphicon-time" style="font-size:larger;color:orange;" 
+							title="Mark as: In Progress" ng-if="!vm.problem.mark && (role==4 || vm.problem.cr)" ng-click="vm.mark(1);">
+						</div>
+						<div role="button" class="glyphicon glyphicon-remove" style="font-size:larger;color:red;" 
+							title="Remove mark" ng-if="vm.problem.mark && (role==4 || vm.problem.cr)" ng-click="vm.mark(0);">
+						</div>
+					</p>
 				</div>
-				<div class="pull-right" style="font-size:smaller;">Submitted by <b>{{vm.problem.username}}</b> on {{vm.problem.created}}
+				<div class="pull-right" style="font-size:smaller;"> Submitted by <b>{{vm.problem.username}}</b> on {{vm.problem.created}}
 				</div>
 			</div>
 		</div>
@@ -31,7 +47,7 @@
 		
 		<div class="col-md-9 well well-sm">
 			<div class="pull-left">
-				<img role="button" ng-src="{{vm.album[$index+1].thumb}}" ng-click="vm.openImg($index+1)"/>
+				<img style="cursor:zoom-in;" ng-src="{{vm.album[$index+1].thumb}}" ng-click="vm.openImg($index+1)"/>
 			</div>
 			<div class="pull-left margin-l-5">
 			<p>{{comment.text}}</p><br />

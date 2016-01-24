@@ -122,7 +122,8 @@
 		
 		<div class="col-md-4">
 			<center>
-			<input type="button" value="Proceed to report" ng-disabled="(!vm.selectedcity || !vm.selectedcategory)"/ ng-click="vm.proceedSubmit(vm.selectedcity,vm.selectedcategory)">
+			<input role="button" type="submit" class="btn" ng-class="{'btn-warning':(!vm.selectedcity || !vm.selectedcategory), 'btn-success':(vm.selectedcity && vm.selectedcategory)}" 
+				value="Proceed to report" ng-disabled="(!vm.selectedcity || !vm.selectedcategory)"/ ng-click="vm.proceedSubmit(vm.selectedcity,vm.selectedcategory)">
 			</center>
 		</div>
 		
@@ -155,12 +156,12 @@
 			<div class="row" ng-if="vm.selectedcity">  <!-- only show if the necessary requirement is selected -->
 				<b>Sort by:</b>
 				<select>
-					<!-- <option ng-click="vm.sort('')">Relevance*</option> -->
-					<option ng-click="vm.sort('created')" selected>Date</option>
+					<option ng-click="vm.sort('lastactivity')" selected>Last activity</option>
+					<option ng-click="vm.sort('created')">Submit date</option>
 					<option ng-click="vm.sort('votepositive - votenegative')">Vote score</option>
 					<option ng-click="vm.sort('votepositive + votenegative')">Num. votes</option>
-					<!-- <option ng-click="vm.sort('')">In progress*</option> -->
-					<!-- <option ng-click="vm.sort('')">Solved*</option> -->
+					<option style="background-color:lightsalmon;" ng-click="vm.sort('1')">In progress</option>
+					<option style="background-color:lightgreen;" ng-click="vm.sort('2')">Solved</option>
 				</select>
 				
 				<!-- reverse -->
@@ -180,21 +181,26 @@
 		
 		<div class="col-md-10">
 		
-			<div class="row" ng-repeat="problem in vm.problems | orderBy: vm.sortpick : vm.reverse">
+			<div class="row" ng-repeat="problem in vm.problems | orderBy: vm.sortpick : vm.reverse" 
+					ng-hide="(vm.marksort==0 && problem.mark) || (vm.marksort==2 && problem.mark!=2) || (vm.marksort==1 && problem.mark!=1)">
 				<div class="well well-sm pull-left col-md-1">
 					<center>
 					<div class="glyphicon glyphicon-menu-up" role="button" ng-click="vm.toggleVote(problem,1)" ng-class="{'glyphvoted':problem.voted==1}"></div>
-					<div>{{problem.votepositive-problem.votenegative}}</div>
+					<div style="cursor:default;" title="P: {{problem.votepositive}} N: {{problem.votenegative}}">{{problem.votepositive-problem.votenegative}}</div>
 					<div class="glyphicon glyphicon-menu-down" role="button" ng-click="vm.toggleVote(problem,-1)" ng-class="{'glyphvoted':problem.voted==-1}"></div>
 					</center>
 				</div>
 				
-				<div class="well well-sm pull-left col-md-11">  <!-- missing: mark -->
+				<div class="well well-sm pull-left col-md-11">
 					<div class="pull-left">
-						<img role="button" ng-src="{{problem.thumb}}" ng-click="vm.openImg(problem.idproblem)"/>
+						<img style="cursor:zoom-in;" ng-src="{{problem.thumb}}" ng-click="vm.openImg(problem.idproblem)"/>
 					</div>
 					<div class="pull-left margin-l-5">
 						<p class="title">
+							<b>
+							<span ng-if="problem.mark==2">[Solved]</span>
+							<span ng-if="problem.mark==1">[In Progress]</span>
+							</b>
 							<a href="#/problem/{{problem.idproblem}}">   
 							{{problem.text}}
 							</a>

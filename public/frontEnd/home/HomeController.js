@@ -28,7 +28,8 @@
 		vm.showsearchToggle=showsearchToggle;
 		vm.sort=sort;
 		vm.reverse=true;
-		vm.sortpick='created';  //DEFAULT sort
+		vm.sortpick='lastactivity';  //DEFAULT sort
+		vm.marksort=0;
 		vm.openImg=openImg;
 		
 		activate();
@@ -131,7 +132,13 @@
 		}
 		
 		function sort(pick){
-			vm.sortpick=pick;
+			if(pick=='1' || pick=='2'){
+				vm.marksort=pick;
+				vm.sortpick='lastactivity';
+			}else{
+				vm.marksort=0;
+				vm.sortpick=pick;
+			};
 		}
 		
 		function openImg(id){

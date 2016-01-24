@@ -22,6 +22,7 @@
 		vm.getProblem=getProblem;
 		vm.submitComment=submitComment;
 		vm.openImg=openImg;
+		vm.mark=mark;
 		
 		init();
 		
@@ -32,6 +33,7 @@
 		function getProblem(){
 			return dataservice.getProblem().getProblem({id:$stateParams.id}, function(res){
 				vm.problem = res;
+				console.log(res);
 				vm.album.push({
 					src: vm.problem.url,
 					thumb: dataservice.getThumb(vm.problem.url),
@@ -126,5 +128,16 @@
 			lightbox.open(filledalbum, index, options);
 		};
 		
+		function mark(param){
+			vm.problem.mark=param;
+			var toSend = {
+				'idproblem': vm.problem.idproblem,
+				'mark': param,
+			};
+			dataservice.mark().save(toSend).$promise
+				.then(function(data){
+					//console.log(data);
+				});
+		};
 	}
 })();

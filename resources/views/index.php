@@ -36,8 +36,6 @@
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-resource.js"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-cookies.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/satellizer/0.13.1/satellizer.min.js"></script>
-	<!--<script src="http://cdnjs.cloudflare.com/ajax/libs/restangular/1.3.1/restangular.js"></script>-->
-	<!--   1.3.14 -->
 
 	
 	<script src="frontend/module.js"></script>
@@ -51,8 +49,6 @@
 	<script src="frontend/home/navbarController.js"></script>
 
 	<script src="frontend/home/submitissueController.js"></script>
-
-	<script src="frontend/about/aboutController.js"></script>
 	
 	<script src="frontend/signup/signupController.js"></script>
     

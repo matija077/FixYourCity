@@ -13,7 +13,7 @@
 				</tr>
 				<tr>
 					<td>
-						<input type="text" placeholder="Search for city..." ng-model="vm.inputCityName" ng-change="vm.filterCities(vm.inputCityName);">
+						<input type="text" class="form-control" placeholder="Search for city..." ng-model="vm.inputCityName" ng-change="vm.filterCities(vm.inputCityName);">
 					</td>
 				</tr> 
 				<tr ng-repeat="city in vm.citiesToShow | limitTo: 5" ng-click="vm.selectCity(city.idcity)" ng-class="{'lightgraybg':vm.selectedcity === city.idcity}" role="button">
@@ -50,7 +50,7 @@
 				</tr>
 				<tr>
 					<td>
-						<input type="text" placeholder="Search for category..." ng-model="vm.inputCategoryName" ng-change="vm.filterCategories(vm.inputCategoryName);">
+						<input type="text" class="form-control" placeholder="Search for category..." ng-model="vm.inputCategoryName" ng-change="vm.filterCategories(vm.inputCategoryName);">
 					</td>
 				</tr>
 				<tr ng-repeat="category in vm.categoriesToShow  | limitTo: 5" ng-click="vm.selectCategory(category.idcategory)" ng-class="{'lightgraybg':vm.selectedcategory === category.idcategory}" 
@@ -180,7 +180,9 @@
 		</div>
 		
 		<div class="col-md-10">
-		
+			<div class="row" ng-if="!vm.problems[0] && vm.selectedcity">
+				<h2 align="center">No problems to show.</h2>
+			</div>
 			<div class="row" ng-repeat="problem in vm.problems | orderBy: vm.sortpick : vm.reverse" 
 					ng-hide="(vm.marksort==0 && problem.mark) || (vm.marksort==2 && problem.mark!=2) || (vm.marksort==1 && problem.mark!=1)">
 				<div class="well well-sm pull-left col-md-1">
@@ -209,10 +211,13 @@
 						<p>Category: {{problem.ctgname}}</p><br />
 						<p>
 							<h6>
-							<span role="button" class="glyphicon glyphicon-eye-open" ng-if="problem.following && authenticated" style="color:green;font-size:larger;" 
-								title="Unfollow" ng-click="vm.follow(problem, 0)"></span>
-                            <span role="button" class="glyphicon glyphicon-eye-close" ng-if="!problem.following && authenticated" style="font-size:larger;" 
-								title="Follow"ng-click="vm.follow(problem, 1)"></span> | 
+							<span ng-if="authenticated" style="cursor:default">
+								<span role="button" class="glyphicon glyphicon-eye-open" ng-if="problem.following" style="color:green;font-size:larger;" 
+									title="Unfollow" ng-click="vm.follow(problem, 0)"></span>
+								<span role="button" class="glyphicon glyphicon-eye-close" ng-if="!problem.following" style="font-size:larger;" 
+									title="Follow"ng-click="vm.follow(problem, 1)"></span>
+							 | 
+							</span>
 							<a href="#/problem/{{problem.idproblem}}">{{problem.comments}} comments</a>
 							</h6>
 						</p>

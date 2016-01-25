@@ -32,12 +32,6 @@
 					innerDesc: 'GitHub<sup> FixYourCity</sup>', 															
 				},
 				{
-					url: 'https://github.com/johnpapa/angular-styleguide#table-of-contents',
-					target: '_blank', 
-					icoSrc: 'https://github.com/fluidicon.png',
-					innerDesc: 'Styleguide',
-				},
-				{
 					url: '#/about',
 					target: '',  
 					icoSrc: '',

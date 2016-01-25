@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid"  align="center">
 	<div class="row">
 	
 	
@@ -7,21 +7,34 @@
 		
 		
 		<div class="col-md-8 well well-lg">
-			<form name="signup">
-				<h4>User Name:</h4> <input type="text" name="username" ng-model="vm.user.username">
+			<div class="row">
+			<h2>Fill in this form to sign up</h2><br />
+			<form name="signup" class="form-group">
+				<h4>Username:</h4>
+				<input type="text"  style="width:250px; margin-bottom:10px" class="form-control" name="username" ng-model="vm.user.username">
 				<span ng-if="vm.error.username">Required!</span>
-				<h4>Email: </h4> <input type="text" ng-model="vm.user.email">
+				
+				<h4>Email: </h4> <input type="text"  style="width:250px; margin-bottom:10px" class="form-control" ng-model="vm.user.email">
 				<span ng-if="vm.error.email">Required!</span>
-				<h4>Password: </h4> <input type="password" ng-model="vm.user.password">
+				
+				<h4>Password: </h4> <input type="password"  style="width:250px; margin-bottom:10px" class="form-control" ng-model="vm.user.password">
 				<span ng-if="vm.error.password==1">Required!</span>
 				<span ng-if="vm.error.password==2">Password must match!</span>
-				<h4>Retype password: </h4> <input type="password"
+				
+				<h4>Retype password: </h4> <input  style="width:250px; margin-bottom:10px" class="form-control" type="password"
 					ng-model="vm.user.retypePassword">
 				<span ng-if="vm.error.retypePassword==1">Required!</span>
 				<span ng-if="vm.error.retypePassword==2">Password must match!</span><br>
-				<div class="col-md-3"></div>
-				<button class="btn btn-info col-md-3" ng-click="vm.signUp();">Sign up</button>
+				
+				
+				<button class="btn" ng-class="{'btn-warning':(!vm.user.username || !vm.user.email || !vm.user.password || vm.user.password!=vm.user.retypePassword), 
+												'btn-success':(vm.user.username && vm.user.email && vm.user.password==vm.user.retypePassword)}" 
+					ng-disabled="(!vm.user.username || !vm.user.email || !vm.user.password || vm.user.password!=vm.user.retypePassword)" ng-click="vm.signUp();">Sign up</button>
 			</form>	
+			</div>
+		</div>
+		
+		<div class="col-md-2">
 		</div>
 	</div>
 </div>

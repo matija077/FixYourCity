@@ -15,13 +15,13 @@
 				<li class="" ng-repeat="tab in navbar.tabs"  ng-bind-html="navbar.renderTab(tab)">
 				</li>
 
-				<li class="navbar-form" ng-if="(!authenticated)"> <!--  navbar-left -->
+				<li class="navbar-right navbar-form" ng-if="(!authenticated)"> <!--  navbar-left -->
 					<input class="form-control" style="background-color:#eee" type="text" placeholder="Email" name="username" ng-model="navbar.email">
 					<input class="form-control" style="background-color:#eee" type="password" placeholder="Password" name="pasword" ng-model="navbar.password">
 					<button type="submit" class="btn btn-default" ng-click="navbar.login();" ng-disabled="(navbar.email=='') || (navbar.password=='')">Log in</button>
 				</li>
 				
-				<li ng-if="(!authenticated)">
+				<li class="navbar-right" ng-if="(!authenticated)">
 					<button type="button" class="navbar-btn btn btn-info" ng-click="navbar.signUp();">Sign up!</button>
 				</li>
 				
@@ -30,21 +30,21 @@
 				</li>
 				
 				<li class="navbar-right" ng-if="(authenticated)">
-				
-					<div class="notification.exists" ng-show="(!navbar.seen)" ng-style="{'color': 'red'}" ng-click="navbar.seenNotifications();">
-						<div class="glyphicon glyphicon-list navbar-btn btn" style="color:#999"><!--
-						--><span class="badge" style="margin-top:-15px;margin-left:-5px;background-color:#f33">{{ navbar.numberOfNotifications }}</span></div>
-					</div>
-					
-					<div class="notification.default" ng-show="(navbar.seen)" ng-click="navbar.showNotifs();">
-						<div class="glyphicon glyphicon-list navbar-btn btn" style="color:#999"></div>
-					</div>
-					
+					<p class="navbar-text">{{userName}} <span class="glyphicon glyphicon-user" style="color:#aaa"></span></p>
+					<!-- WORKING but with too much spaces -- <div class="glyphicon glyphicon-cog navbar-btn btn" style="color:#eee"></div> -->
 				</li>
 				
 				<li class="navbar-right" ng-if="(authenticated)">
-					<p class="navbar-text">{{ userName }}</p>
-					<!-- WORKING but with too much spaces -- <div class="glyphicon glyphicon-cog navbar-btn btn" style="color:#eee"></div> -->
+				
+					<div class="notification.exists" ng-show="(!navbar.seen)" ng-style="{'color': 'red'}" ng-click="navbar.seenNotifications();">
+						<div class=" glyphicon glyphicon-bullhorn navbar-btn btn" style="color:#bbb">
+						<span class="badge" style="margin-top:-20px;margin-left:-17px;background-color:#f33">{{ navbar.numberOfNotifications }}</span></div>
+					</div>
+					
+					<div class="notification.default" ng-show="(navbar.seen)" ng-click="navbar.showNotifs();">
+						<div class=" glyphicon glyphicon-bullhorn navbar-btn btn" style="color:#bbb"></div>
+					</div>
+					
 				</li>
 				
 				<li class="navbar-right" ng-if="(role==4)">

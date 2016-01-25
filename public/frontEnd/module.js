@@ -38,8 +38,6 @@
 				url: '/about',
 				title: 'About',
 				templateUrl: 'frontend/about/about.html',
-				controller: 'aboutController',
-				controllerAs: 'vm',
 				accesslevel: '1',
 			})
 			.state('signup', {

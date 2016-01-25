@@ -19,7 +19,7 @@ Route::group(array('prefix' => 'api'), function()
 	Route::get('/cities', 'ApiController@getCities');
 	Route::get('/categories', 'ApiController@getCategories');
 	Route::get('/categories/{id}', 'ApiController@getCategory');
-	Route::post('/insertcity', 'ApiController@insertCity');
+	Route::post('/insertcity', 'ApiController@insertCity')->middleware('check:2');
 	Route::post('/submitproblem', 'ApiController@submitProblem')->middleware('check:2');
 	Route::get('/authenticate/user', 'AuthenticateController@getAuthenticatedUser');
 	Route::post('/authenticate', 'AuthenticateController@authenticate');
@@ -44,7 +44,7 @@ Route::group(array('prefix' => 'api'), function()
 	Route::get('/suggestCR', 'ApiController@getSuggestedCR')->middleware('check:4');
 	Route::post('/vote', 'ApiController@vote')->middleware('check:2');
 	Route::post('/mark', 'ApiController@mark')->middleware('check:3');
-	Route::post('/follow', 'ApiController@follow');
+	Route::post('/follow', 'ApiController@follow')->middleware('check:2');
 });
 
 

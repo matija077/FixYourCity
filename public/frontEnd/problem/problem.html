@@ -23,11 +23,13 @@
 					<p>Location: {{vm.problem.address}}</p><br />
 					<p>Category: {{vm.problem.ctgname}}
 					</p>
-						<span role="button" class="glyphicon glyphicon-eye-open" ng-if="vm.problem.following && authenticated" style="color:green;font-size:larger;" 
-							title="Unfollow" ng-click="vm.follow(0)"></span>
-						<span role="button" class="glyphicon glyphicon-eye-close" ng-if="!vm.problem.following && authenticated" style="font-size:larger;"
-							title="Follow" ng-click="vm.follow(1)"></span> 
-						 | 
+						<span ng-if="authenticated" style="cursor:default">
+							<span role="button" class="glyphicon glyphicon-eye-open" ng-show="vm.problem.following" style="color:green;font-size:larger;" 
+								title="Unfollow" ng-click="vm.follow(0)"></span>
+							<span role="button" class="glyphicon glyphicon-eye-close" ng-show="!vm.problem.following" style="font-size:larger;"
+								title="Follow" ng-click="vm.follow(1)"></span> 
+							<span ng-show="vm.problem.cr"> | </span>
+						</span>
 						<div role="button" class="glyphicon glyphicon-ok" style="font-size:larger;color:green;" 
 							title="Mark as: Solved" ng-if="!vm.problem.mark && (role==4 || vm.problem.cr)" ng-click="vm.mark(2);">
 						</div>

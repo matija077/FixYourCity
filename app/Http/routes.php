@@ -43,7 +43,7 @@ Route::group(array('prefix' => 'api'), function()
 	Route::post('/suggestCR', 'ApiController@suggestCR')->middleware('check:2');
 	Route::get('/suggestCR', 'ApiController@getSuggestedCR')->middleware('check:4');
 	Route::post('/vote', 'ApiController@vote')->middleware('check:2');
-	
+	Route::post('/mark', 'ApiController@mark')->middleware('check:3');
 });
 
 

@@ -59,6 +59,7 @@
 	<div class="container-fluid notif well well-sm" ng-if="navbar.notifshow && authenticated">
 		<div class="">
 		<ul class="notif_ul">
+			<li ng-if="!navbar.notifications[0]">No new notifications</li>
 			<li class="notif_li" role="button" ng-repeat="notification in navbar.notifications | orderBy: lastactivity" ng-click="navbar.goPath('problem',notification.idproblem);">
 				<div class="">{{notification.text}}</div>
 				<div class=""><span style="font-size:10px;">City: {{notification.cityname}} | Category: {{notification.ctgname}}</span></div>

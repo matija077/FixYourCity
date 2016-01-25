@@ -29,7 +29,6 @@
 			feedback : feedback,
 			suggestCategory : suggestCategory,
 			getThumb : getThumb,
-			//uploadFile : uploadFile,
 			addCategory: addCategory,
 			promoteUser: promoteUser,
 			addCities: addCities,
@@ -37,6 +36,7 @@
 			addCityRep: addCityRep,
 			vote: vote,
 			mark: mark,
+			follow: follow,
 		}
 		
 		/*var token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjQsImlzcyI6Imh0dHA6XC9cL2xvY2FsaG9zdFwvUldBXC9wdWJsaWNcL2FwaVwvYXV0aGVudGljYXRlIiwiaWF0IjoiMTQ0ODU1MzIzOCIsImV4cCI6IjE0NDg1NTY4MzgiLCJuYmYiOiIxNDQ4NTUzMjM4IiwianRpIjoiYjZmMjk0N2U0ODQ1ZDljOGE2OTU4ZDZhZGNlZGUwNTAifQ.5CbF03PUe1fr-gK2xQMlCjdCQ2LioWOizc6bqsLBiKY';*/
@@ -137,7 +137,7 @@
 				hasSeenNotifications: {method: 'POST', params: {id: userid}, isArray:false }
 			});
 		}
-		
+
 		function getProblems(idcity,idcategory){
 			var user = JSON.parse(localStorage.getItem("user"));
 			return $resource("api/problems/:idcity/:idcategory", {idcity: "@idcity",idcategory: "@idcategory"}, {
@@ -308,5 +308,12 @@
 			return $resource("api/mark", {}, {
 			});
 		}
+		
+        function follow(){
+            return $resource("api/follow", {}, {
+                
+            });
+        }
+		
 	}
 })();

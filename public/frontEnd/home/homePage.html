@@ -209,7 +209,11 @@
 						<p>Category: {{problem.ctgname}}</p><br />
 						<p>
 							<h6>
-								<a href="#/problem/{{problem.idproblem}}">{{problem.comments}} comments</a>
+							<span role="button" class="glyphicon glyphicon-eye-open" ng-if="problem.following && authenticated" style="color:green;font-size:larger;" 
+								title="Unfollow" ng-click="vm.follow(problem, 0)"></span>
+                            <span role="button" class="glyphicon glyphicon-eye-close" ng-if="!problem.following && authenticated" style="font-size:larger;" 
+								title="Follow"ng-click="vm.follow(problem, 1)"></span> | 
+							<a href="#/problem/{{problem.idproblem}}">{{problem.comments}} comments</a>
 							</h6>
 						</p>
 					</div>

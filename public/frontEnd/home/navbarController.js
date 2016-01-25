@@ -26,12 +26,6 @@
 		vm.tabs=[
 			//BEGIN TABS
 				{
-					url: 'https://github.com/matija077/FixYourCity',
-					target: '_blank',   
-					icoSrc: 'https://github.com/fluidicon.png',
-					innerDesc: 'GitHub<sup> FixYourCity</sup>', 															
-				},
-				{
 					url: '#/about',
 					target: '',  
 					icoSrc: '',

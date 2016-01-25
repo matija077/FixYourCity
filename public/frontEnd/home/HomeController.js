@@ -32,6 +32,7 @@
 		vm.marksort=0;
 		vm.openImg=openImg;
         vm.follow = follow;
+		vm.notfound=false;
 		
 		activate();
 		
@@ -110,6 +111,7 @@
 		}
 		
 		function getProblems(idcity,idcategory){
+			vm.notfound=false;
 			return dataservice.getProblems(idcity,idcategory).getAll().$promise
 				.then(function(problems){
 					//console.log(problems.data);
@@ -117,6 +119,7 @@
 					angular.forEach(vm.problems, function(problem){
 						problem.thumb = dataservice.getThumb(problem.url);
 					});
+					if(!vm.problems[0]){vm.notfound=true;}
 				});
 		}
 		

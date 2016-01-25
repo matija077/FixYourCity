@@ -342,10 +342,11 @@ class ApiController extends Controller
 								->get();
 		}
 		
-		//following loop is to add number of comments for each problem that was found previously | and to add voted status of user for each problem
+		//following loop is to add number of comments for each problem that was found previously | and to add voted status of user for each problem | and to add following status
 		while(isset($problems[$i])){
 			$problems[$i]['comments'] = Comment::where('idproblem',$problems[$i]['idproblem'])->count();
 			$problems[$i]['voted'] = Vote::where('idproblem',$problems[$i]['idproblem'])->where('iduser',$request->iduser)->select('choice')->first()['choice'];
+            $problems[$i]['following'] = Subscribe::where('idproblem', $problems[$i]['idproblem'])->where('iduser', $request->iduser)->first()['selection'];
 			$i++;
 		};
 		
@@ -375,7 +376,11 @@ class ApiController extends Controller
 									->where('iduser',$request->iduser)
 									->select('idcityrep')
 									->first()['idcityrep'];
-								
+			//adds follow/subscribe status
+			$problem['following'] = Subscribe::where('idproblem', $idproblem)
+											->where('iduser', $request->iduser)
+											->first()['selection'];
+											
 			return \Response::json($problem);
 		};
 		return \Response::json('Error!',400);
@@ -575,6 +580,31 @@ class ApiController extends Controller
 		};
 		return \Response::json('Done', 200);
 	}
+	
+    public static function follow(Request $request){
+        $iduser = $request->iduser;
+        $idproblem = $request->problemid;
+       
+        if ($request->follow!=0){
+            $subscribe = array(
+                'iduser' => $iduser,
+                'idproblem' => $idproblem
+
+            );
+            
+             //return \Response::json($request->follow, 200);
+            $subscribe = Subscribe::create($subscribe);
+            return \Response::json('successfully followed', 200);
+        } else {
+            $subscribeDeleted = Subscribe::where('iduser', $iduser)->where('idproblem', $idproblem)->first();
+              //return \Response::json($subscribeDeleted, 200);
+            $subscribeDeleted->delete();
+            return \Response::json('successfully unfollowed', 200);
+        }
+        
+        return \Response::json('error', 404);
+           
+    }
 	
 	public static function promoteUser(Request $request){
 		$step = $request->step;

@@ -31,6 +31,7 @@
 		vm.sortpick='lastactivity';  //DEFAULT sort
 		vm.marksort=0;
 		vm.openImg=openImg;
+        vm.follow = follow;
 		
 		activate();
 		
@@ -169,6 +170,24 @@
 			});
 			lightbox.open(filledalbum, 0, options); // image index is 0 because it is a single image album
 		};
+        
+        function follow(problem, followOrUnfollow){
+            var user = JSON.parse(localStorage.getItem('user'));
+			if(!user) return 0;
+            var subscribe = {
+                iduser: user.iduser,
+                problemid: problem.idproblem,
+                follow: followOrUnfollow,
+            }
+			problem.following=followOrUnfollow;
+            //console.log(subscribe);
+            dataservice.follow().save(subscribe).$promise
+                .then(function(data){
+                    //console.log(data);
+                });
+                
+        }
+        
 		
 	}
 })();

@@ -23,6 +23,7 @@
 		vm.submitComment=submitComment;
 		vm.openImg=openImg;
 		vm.mark=mark;
+		vm.follow=follow;
 		
 		init();
 		
@@ -139,5 +140,20 @@
 					//console.log(data);
 				});
 		};
+		
+		function follow(followOrUnfollow){
+			if(!vm.user) return 0;
+			var subscribe = {
+				iduser: vm.user.iduser,
+				problemid: vm.problem.idproblem,
+				follow: followOrUnfollow,
+			};
+			vm.problem.following=followOrUnfollow;
+			dataservice.follow().save(subscribe).$promise
+				.then(function(data){
+					//console.log(data);
+				});
+		};
+		
 	}
 })();

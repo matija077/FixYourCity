@@ -11,6 +11,7 @@ html {
     position: relative;
     min-height: 100%;
     min-width: 100% !important;
+	overflow-y: scroll;
 }
 
 html, body {

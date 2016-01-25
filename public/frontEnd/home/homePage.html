@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid animated fadeIn">
 	<div class="row" ng-hide="!vm.showsearch">
 	
 		<div class="col-md-0">
@@ -16,7 +16,7 @@
 						<input type="text" class="form-control" placeholder="Search for city..." ng-model="vm.inputCityName" ng-change="vm.filterCities(vm.inputCityName);">
 					</td>
 				</tr> 
-				<tr ng-repeat="city in vm.citiesToShow | limitTo: 5" ng-click="vm.selectCity(city.idcity)" ng-class="{'lightgraybg':vm.selectedcity === city.idcity}" role="button">
+				<tr class="animated fadeInRight" ng-repeat="city in vm.citiesToShow | limitTo: 5" ng-click="vm.selectCity(city.idcity)" ng-class="{'lightgraybg':vm.selectedcity === city.idcity}" role="button">
 					<td>
 						{{city.cityname}}
 					</td>
@@ -53,7 +53,7 @@
 						<input type="text" class="form-control" placeholder="Search for category..." ng-model="vm.inputCategoryName" ng-change="vm.filterCategories(vm.inputCategoryName);">
 					</td>
 				</tr>
-				<tr ng-repeat="category in vm.categoriesToShow  | limitTo: 5" ng-click="vm.selectCategory(category.idcategory)" ng-class="{'lightgraybg':vm.selectedcategory === category.idcategory}" 
+				<tr class="animated fadeInLeft" ng-repeat="category in vm.categoriesToShow  | limitTo: 5" ng-click="vm.selectCategory(category.idcategory)" ng-class="{'lightgraybg':vm.selectedcategory === category.idcategory}" 
 					role="button">
 					<td>
 						{{ category.ctgname}}
@@ -106,7 +106,7 @@
 		</div>
 	-->
 	<hr style="padding: 0px; margin: 0px;"/>
-	<div role="button" class="row collapserow" ng-click="vm.showsearchToggle()">
+	<div role="button" class="row collapserow animated fadeIn" ng-click="vm.showsearchToggle()">
 	
 		<center>
 			<div class="glyphicon glyphicon-triangle-bottom glyphcollapse" ng-if="!vm.showsearch"></div><div class="glyphicon glyphicon-triangle-top glyphcollapse" ng-if="vm.showsearch"></div>
@@ -115,7 +115,7 @@
 	</div>
 	<hr style="padding: 0px; margin-top: 0px;"/>
 	
-	<div class="row">
+	<div class="row animated fadeIn">
 		
 		<div class="col-md-4">
 		</div>
@@ -153,7 +153,7 @@
 			</div>
 			</div>
 			-->
-			<div class="row" ng-if="vm.selectedcity">  <!-- only show if the necessary requirement is selected -->
+			<div class="row animated fadeIn" ng-if="vm.selectedcity">  <!-- only show if the necessary requirement is selected -->
 				<b>Sort by:</b>
 				<select>
 					<option ng-click="vm.sort('lastactivity')" selected>Last activity</option>
@@ -180,10 +180,10 @@
 		</div>
 		
 		<div class="col-md-10">
-			<div class="row" ng-if="!vm.problems[0] && vm.selectedcity">
+			<div class="row animated fadeIn" ng-if="!vm.problems[0] && vm.selectedcity && vm.notfound">
 				<h2 align="center">No problems to show.</h2>
 			</div>
-			<div class="row" ng-repeat="problem in vm.problems | orderBy: vm.sortpick : vm.reverse" 
+			<div class="row animated fadeIn" ng-repeat="problem in vm.problems | orderBy: vm.sortpick : vm.reverse" 
 					ng-hide="(vm.marksort==0 && problem.mark) || (vm.marksort==2 && problem.mark!=2) || (vm.marksort==1 && problem.mark!=1)">
 				<div class="well well-sm pull-left col-md-1">
 					<center>

@@ -12,7 +12,7 @@
 	<div class="row col-md-12" ng-switch="vm.chosenPart">
 
 
-		<div class="user" ng-switch-when="searchUser">
+		<div class="user animated fadeIn" ng-switch-when="searchUser">
 			<br />
 			
 			<div class="row">
@@ -58,7 +58,7 @@
 					<tr>
 						<th> Username</th><th> Email</th><th> Accesslevel</th><th> Banned</th>
 					</tr>
-					<tr ng-repeat="user in vm.usersReturned | limitTo: 5" ng-click="vm.choseUser(user);"
+					<tr class="animated fadeIn" ng-repeat="user in vm.usersReturned | limitTo: 5" ng-click="vm.choseUser(user);"
 						ng-class="{'lightgraybg':user.iduser === vm.userChosed.iduser}"> <!-- CHOSED's first appearance -->
 						<td>{{ user.username }}</td><td>{{ user.email }}</td>
 						<td>{{ user.accesslevel }}</td><td>{{ user.bannedString }}</td>
@@ -73,7 +73,7 @@
 		</div>
 		
 		
-		<div class="banUser" ng-switch-when="banUser">
+		<div class="banUser animated fadeIn" ng-switch-when="banUser">
 		
 			<div class="row">
 				<div class="col-md-2">
@@ -151,12 +151,12 @@
 		</div>
 		
 		
-		<div class="aproveCategory" ng-switch-when="category">
+		<div class="aproveCategory animated fadeIn" ng-switch-when="category">
 			<table class="table table-striped">
 				<tr>
 					<th>Category name</th><th>Username</th><th>Add category</th><th>Remove category</th>
 				</tr>
-				<tr ng-repeat="category in vm.categories">
+				<tr class="fadeIn" ng-repeat="category in vm.categories">
 					<td>{{ category.suggestcategoryname }}</td><td>{{ category.username }}</td>
 					<td><input type="radio" name="{{ category.idsuggestcategory }}" ng-click="vm.addCategory(category, true);"></td>
 					<td><input type="radio" name="{{ category.idsuggestcategory }}" ng-click="vm.addCategory(category, false);"></td>
@@ -167,12 +167,12 @@
 		</div>
 		
 		
-		<div ng-switch-when="city">
+		<div class="animated fadeIn" ng-switch-when="city">
 			<table class="table table-striped">
 				<tr>
 					<th>City name</th><th>State</th><th>Suggesting user</th><th>Select for approval</th><th>Select for removal</th>
 				</tr>
-				<tr ng-repeat="city in vm.cities">
+				<tr class="fadeIn" ng-repeat="city in vm.cities">
 					<td>{{ city.suggestcityname }}</td><td>{{city.suggeststatename}}</td><td>{{ city.username }}</td>
 					<td><input type="radio" name="{{ city.idsuggestcity }}" ng-click="vm.addCity(city, true);"></td>
 					<td><input type="radio" name="{{ city.idsuggestcity }}" ng-click="vm.addCity(city, false);"></td>
@@ -182,12 +182,12 @@
 				ng-class="{'btn-success':(vm.changecities[0]),'btn-warning':(!vm.changecities[0])}">Submit</button>
 		</div>
 		
-		<div ng-switch-when="promote">
+		<div class="animated fadeIn" ng-switch-when="promote">
 			<table class="table table-striped">
 				<tr>
 					<th>Username</th><th>City name, State</th><th>Request text</th><th>Select for approval</th><th>Select for removal</th>
 				</tr>
-				<tr ng-repeat="rep in vm.cr">
+				<tr class="fadeIn" ng-repeat="rep in vm.cr">
 					<td>{{ rep.username }}</td><td>{{rep.cityname}}, {{ rep.state}}</td><td class="col-md-3";>{{ rep.text }}</td>
 					<td><input type="radio" name="{{ rep.idsuggestcr }}" ng-click="vm.addRep(rep, true);"></td>
 					<td><input type="radio" name="{{ rep.idsuggestcr }}" ng-click="vm.addRep(rep, false);"></td>

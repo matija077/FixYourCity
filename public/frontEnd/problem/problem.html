@@ -1,5 +1,5 @@
 <div class="container-fluid">
-	<div class="row">
+	<div class="row animated fadeIn">
 		<div class="well well-sm pull-left col-md-1">
 			<center>
 				<div class="glyphicon glyphicon-menu-up" role="button" ng-click="vm.toggleVote(vm.problem,1)" ng-class="{'glyphvoted':vm.problem.voted==1}"></div>
@@ -47,7 +47,7 @@
 		</div>
 	</div>
 	
-	<div class="row" ng-repeat="comment in vm.problem.comments">
+	<div class="row animated fadeIn" ng-repeat="comment in vm.problem.comments">
 	
 		<div class="col-md-3">
 		</div>
@@ -63,7 +63,7 @@
 		</div>
 	</div>
 	
-	<div class="row">
+	<div class="row animated fadeIn">
 	
 		<div class="col-md-3">
 		</div>

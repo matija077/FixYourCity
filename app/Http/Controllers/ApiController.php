@@ -210,8 +210,6 @@ class ApiController extends Controller
 		
 		$problem = Problem::create($problem);
 		
-		//add positive vote to Vote table for submitting user
-		
 		//add image deletion from imgur (imgurlink table, deletehash) if problem insert is unsuccessful
 		
 		return \Response::json($problem);
@@ -734,7 +732,7 @@ class ApiController extends Controller
 						break;
 					}
 					case 0: {
-						$problem->votepositive+=1;
+						$problem->votenegative+=1;
 						$uservote->choice=1;
 						break;
 					}
@@ -764,6 +762,7 @@ class ApiController extends Controller
 					}
 				};
 			};
+			
 			$problem->save();
 			$uservote->save();
 			return \Response::json('Updated');

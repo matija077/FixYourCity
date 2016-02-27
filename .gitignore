@@ -6,7 +6,6 @@ Homestead.json
 .ftpquota
 /ftps
 /phpmyadmin
-/remote_server
 
 # Compiled source #
 ###################

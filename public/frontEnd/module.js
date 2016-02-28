@@ -108,7 +108,10 @@
 	
 	function routeInterceptor ($rootScope, $state){
 		$rootScope.$on('$stateChangeStart', function(event, toState){
-			var user = JSON.parse(localStorage.getItem('user'));
+			var user = null;
+			if(localStorage.getItem('user')){
+				var user = JSON.parse(localStorage.getItem('user'));
+			};
 			var token = localStorage.getItem('satellizer_token');
 			//console.log('user :', user);
 			//console.log('token :', token);

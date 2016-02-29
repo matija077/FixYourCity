@@ -130,9 +130,7 @@
                 $rootScope.role = '1';
                 $rootScope.authenticated = false;
                 //on exparation token is removed by Satelizer. We need to take care of removing the user.
-                if (user!=null) {
-                    localStorage.removeItem('user');
-                }
+                localStorage.removeItem('user');
             }
             //it-s enough to check accesslevel only. If user is authenticated he
             //will have accesslevel > 1

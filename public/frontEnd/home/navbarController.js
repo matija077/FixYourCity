@@ -45,26 +45,24 @@
 					if(userData.data[0]=="error"){
 						localStorage.removeItem('user');
 						$rootScope.authenticated = false;
-						$rootScope.role = 1;
-						$rootScope.userName = '';
+						$rootScope.role = '1';
+						$rootScope.userName = "";
 						return;
 					};
 					//local storage accepts only string pairs
 					//add user to local storage
 					localStorage.setItem('user', JSON.stringify(userData.data.user));
-					//needed for ng-if
 					$rootScope.authenticated = true;
 					$rootScope.role = userData.data.user.accesslevel;
 					$rootScope.userName = userData.data.user.username;
-					//load data agian
-					getNotifications();
+					//get notifications only if user is logged in
+					getNotifications(userData.data.user.iduser);
 					
 					/*
 					dataservice.reload();
 					activate(); //loads navbar again (notifications)
 					//console.log($rootScope.role);
 					*/
-					
 				})
 				.catch(function(userDataError){
 					//console.log('error retriving');
@@ -128,13 +126,8 @@
             dataservice.goPath(state, params);
         }
 		
-		function getNotifications(){
-			var userid = JSON.parse(localStorage.getItem('user'));
-			if(typeof userid == 'undefined' || !userid){
-				return;
-			}else{
-				userid=userid.iduser;
-			};
+		function getNotifications(userid){
+			//currently only called when (re)loading page. clears any existing notifications!
 			vm.notifications = [];
 			vm.numberOfNotifications = 0;
 			dataservice.getNotifications(userid).getNotifications().$promise

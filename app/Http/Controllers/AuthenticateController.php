@@ -82,6 +82,9 @@ class AuthenticateController extends Controller
     public function getAuthenticatedUser()
     {
         try {
+			if(!JWTAuth::getToken()){
+				return \Response::json(array('0'=>'error','1'=>'Not logged in'),200);
+			}
 
             if (! $user = JWTAuth::parseToken()->authenticate()) {
                 return response()->json(['user_not_found'], 404);

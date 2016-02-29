@@ -108,7 +108,10 @@
 	
 	function routeInterceptor ($rootScope, $state){
 		$rootScope.$on('$stateChangeStart', function(event, toState){
-			var user = JSON.parse(localStorage.getItem('user'));
+			var user = null;
+			if(localStorage.getItem('user')){
+				var user = JSON.parse(localStorage.getItem('user'));
+			};
 			var token = localStorage.getItem('satellizer_token');
 			//console.log('user :', user);
 			//console.log('token :', token);
@@ -127,9 +130,7 @@
                 $rootScope.role = '1';
                 $rootScope.authenticated = false;
                 //on exparation token is removed by Satelizer. We need to take care of removing the user.
-                if (user!=null) {
-                    localStorage.removeItem('user');
-                }
+                localStorage.removeItem('user');
             }
             //it-s enough to check accesslevel only. If user is authenticated he
             //will have accesslevel > 1

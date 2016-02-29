@@ -37,7 +37,37 @@
 		activate();
 		
 		function activate(){
-			getNotifications();
+			//we're checking if user is logged in on every refresh or pageload
+			//required when users token has expired and we need to clear his login 
+			dataservice.getUser().getUser().$promise
+				.then(function(userData){
+					//console.log(userData);
+					if(userData.data[0]=="error"){
+						localStorage.removeItem('user');
+						$rootScope.authenticated = false;
+						$rootScope.role = '1';
+						$rootScope.userName = "";
+						return;
+					};
+					//local storage accepts only string pairs
+					//add user to local storage
+					localStorage.setItem('user', JSON.stringify(userData.data.user));
+					$rootScope.authenticated = true;
+					$rootScope.role = userData.data.user.accesslevel;
+					$rootScope.userName = userData.data.user.username;
+					//get notifications only if user is logged in
+					getNotifications(userData.data.user.iduser);
+					
+					/*
+					dataservice.reload();
+					activate(); //loads navbar again (notifications)
+					//console.log($rootScope.role);
+					*/
+				})
+				.catch(function(userDataError){
+					//console.log('error retriving');
+				});
+			
 		}
 		
 		function renderTab(tab){     //called for each tab in navbar from html using ng-repeat
@@ -62,23 +92,8 @@
 				// Use Satellizer's $auth service to login
 				$auth.login(credentials)
 					.then(function(data) {
-						dataservice.getUser().getUser().$promise
-							.then(function(userData){
-								//local storage accepts only string pairs
-								//add user to local storage
-								localStorage.setItem('user', JSON.stringify(userData.data.user));
-								//needed for ng-if
-								$rootScope.authenticated = true;
-								$rootScope.role = userData.data.user.accesslevel;
-								$rootScope.userName = userData.data.user.username;
-								//load data agian
-								dataservice.reload();
-								activate(); //loads navbar again (notifications)
-								//console.log($rootScope.role);
-							})
-							.catch(function(userDataError){
-								//console.log('error retriving');
-							});
+						dataservice.reload();
+						activate();
 					})
 					.catch(function(data) {
 						//console.log(data + 'error');	
@@ -111,13 +126,8 @@
             dataservice.goPath(state, params);
         }
 		
-		function getNotifications(){
-			var userid = JSON.parse(localStorage.getItem('user'));
-			if(typeof userid == 'undefined' || !userid){
-				return;
-			}else{
-				userid=userid.iduser;
-			};
+		function getNotifications(userid){
+			//currently only called when (re)loading page. clears any existing notifications!
 			vm.notifications = [];
 			vm.numberOfNotifications = 0;
 			dataservice.getNotifications(userid).getNotifications().$promise

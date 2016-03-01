@@ -32,7 +32,7 @@ class AuthenticateController extends Controller
 				'username' => $request->username,
 				'email' => $request->email,
 				'password' =>  \Hash::make($request->password),
-				'accesslevel' => $request->accesslevel,
+				'accesslevel' => 2,
 				'karma' => $request->karma,
 				'banned' => $time,
 				'registered' => $time,

@@ -2,40 +2,76 @@
 	<div class="row">
 	
 	
-		<div class="col-md-2">
+		<div class="col-md-3">
 		</div>
 		
 		
-		<div class="col-md-8 well well-lg">
+		<div class="col-md-6 well well-lg">
 			<div class="row">
 			<h2>Fill in this form to sign up</h2><br />
-			<form name="signup" class="form-group">
-				<h4>Username:</h4>
-				<input type="text"  style="width:250px; margin-bottom:10px" class="form-control" name="username" ng-model="vm.user.username">
-				<span ng-if="vm.error.username">Required!</span>
+			<form name="signup" class="form-horizontal" style="width:250px;">
+			
+				<div class="row">
+					<h4>Username:</h4>
+				</div>
+				<div class="row form-group has-feedback {{vm.check.usernameHas}}" >
+					<div class="col-md-12">
+						<input type="text" class="form-control" name="username" ng-model="vm.user.username" ng-change="vm.changeUsername();" >
+						<span ng-class="{'form-control-feedback glyphicon glyphicon-remove':vm.check.username==1}"></span>
+						<span ng-class="{'form-control-feedback glyphicon glyphicon-ok':vm.check.username==2}"></span>
+						<span ng-if="vm.check.username==3" class="form-control-feedback"><img style="heigth:24px; width:24px;" src="ajax-loader.gif" /></span>
+					</div>
+				</div>
 				
-				<h4>Email: </h4> <input type="text"  style="width:250px; margin-bottom:10px" class="form-control" ng-model="vm.user.email">
-				<span ng-if="vm.error.email">Required!</span>
+				<div class="row">
+					<h4>Email:</h4>
+				</div>
+				<div class="row form-group has-feedback {{vm.check.emailHas}}" >
+					<div class="col-md-12">
+						<input type="text" class="form-control" ng-model="vm.user.email" ng-change="vm.changeEmail();" >
+						<span ng-class="{'form-control-feedback glyphicon glyphicon-remove':vm.check.email===1}"></span>
+						<span ng-class="{'form-control-feedback glyphicon glyphicon-ok':vm.check.email==2}"></span>
+						<span ng-if="vm.check.email==3" class="form-control-feedback"><img style="heigth:24px; width:24px;" src="ajax-loader.gif" /></span>
+					</div>
+				</div>
 				
-				<h4>Password: </h4> <input type="password"  style="width:250px; margin-bottom:10px" class="form-control" ng-model="vm.user.password">
-				<span ng-if="vm.error.password==1">Required!</span>
-				<span ng-if="vm.error.password==2">Password must match!</span>
+				<div class="row">
+					<h4>Password: </h4> 
+				</div>
+				<div class="row form-group has-feedback {{vm.check.passwordHas}}" >
+					<div class="col-md-12">
+						<input type="password" class="form-control" ng-model="vm.user.password" ng-change="vm.changePassword();" placeholder="Minimum 6 charachers" >
+						<span ng-class="{'form-control-feedback glyphicon glyphicon-remove':vm.check.password==1}"></span>
+						<span ng-class="{'form-control-feedback glyphicon glyphicon-ok':vm.check.password==2}"></span>
+					</div>
+				</div>
 				
-				<h4>Retype password: </h4> <input  style="width:250px; margin-bottom:10px" class="form-control" type="password"
-					ng-model="vm.user.retypePassword">
-				<span ng-if="vm.error.retypePassword==1">Required!</span>
-				<span ng-if="vm.error.retypePassword==2">Password must match!</span><br>
+				<div class="row">
+					<h4>Repeat password: </h4>
+				</div>
+				<div class="row form-group has-feedback {{vm.check.retypeHas}}">
+					<!--ng-class="{'has-error':vm.check.retypePassword==1,'has-success':vm.check.retypePassword==2}">-->
+					<div class="col-md-12">
+						<input class="form-control" type="password" ng-model="vm.user.retypePassword" ng-change="vm.changeRetype();" />
+						<span ng-class="{'form-control-feedback glyphicon glyphicon-remove':vm.check.retypePassword==1}"></span>
+						<span ng-class="{'form-control-feedback glyphicon glyphicon-ok':vm.check.retypePassword==2}"></span>
+					</div>
+				</div>
+	
+				<br />
+				<div class="row">
+					<button class="btn" ng-class="vm.check.complete ? 'btn-success' : 'btn-warning'" ng-disabled="!vm.check.complete"
+						 ng-click="vm.signUp();">Sign up</button>
+				</div>
 				
-				
-				<button class="btn" ng-class="{'btn-warning':(!vm.user.username || !vm.user.email || !vm.user.password || vm.user.password!=vm.user.retypePassword), 
-												'btn-success':(vm.user.username && vm.user.email && vm.user.password==vm.user.retypePassword)}" 
-					ng-disabled="(!vm.user.username || !vm.user.email || !vm.user.password || vm.user.password!=vm.user.retypePassword)" ng-click="vm.signUp();">Sign up</button>
 			</form>	
 			</div>
 		</div>
 		
-		<div class="col-md-2">
+		<div class="col-md-3">
 		</div>
+		
+		
 	</div>
 </div>
 		

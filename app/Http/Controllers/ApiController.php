@@ -785,5 +785,30 @@ class ApiController extends Controller
 		$problem->save();
 		return \Response::json('Done');
 	}
+	
+	public static function checkUsername(Request $request){
+		if(empty($request->username)){
+			return \Response::json('Missing parameter!');
+		};
+		$check = User::where('username',$request->username)->first();
+		if($check){
+			return \Response::json('0');
+		}else{
+			return \Response::json('1');
+		};
+	}
+	
+	public static function checkEmail(Request $request){
+		if(empty($request->email)){
+			return \Response::json('Missing parameter!');
+		};
+		$check = User::where('email',$request->email)->first();
+		if($check){
+			return \Response::json('0');
+		}else{
+			return \Response::json('1');
+		};
+	}
+	
 }
 	 

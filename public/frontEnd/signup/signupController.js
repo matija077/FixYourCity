@@ -14,13 +14,13 @@
 			email: '',
 			password: '',
 			retypePassword: '',
-			accesslevel: '2', //this shouldn't be assigned here
 			karma: '1'
 		}
-		/* check codes:
+		/* check status:
 		* 0 - expecting more input
 		* 1 - any error
 		* 2 - input approved
+		* 3 - waiting for server response (checking availability)
 		*/
 		var check = {
 			username: 0,
@@ -32,6 +32,8 @@
 			retypePassword: 0,
 			retypeHas: '',
 			complete: 0,
+			timeusername: 0, //holds id of settimeout for checking username
+			emailtime: 0, // ^for email
 		}
 		vm.user = user;
 		vm.check = check;
@@ -41,8 +43,6 @@
 		vm.changeUsername = changeUsername;
 		vm.changeEmail = changeEmail;
 		vm.isFormComplete = isFormComplete;
-		
-		
 		
 		function signUp(){
 				return dataservice.signUp().save(user).$promise
@@ -71,7 +71,7 @@
 		
 		function changePassword(){
 			changeRetype();
-			//this should also check only when focus is lost
+			//tooltip message on error
 			if(user.password.length<6){
 				check.password=1;
 				check.passwordHas='has-error';
@@ -84,30 +84,62 @@
 		};
 		
 		function changeUsername(){
-			if(user.username.length<2){
-				vm.check.username=0;
-				vm.check.usernameHas='';
-			}else{
-				//TODO: check if username is free
-				//time constraint to prevent spam on each key? (wait x time after last key)
-				vm.check.username=2;
-				vm.check.usernameHas='has-success';
-			};
-			isFormComplete();
+			vm.check.username=0;
+			vm.check.usernameHas='';
+			/* time constraint to prevent spam of username check calls to server for each char
+			* after each char we clear queued execution of previous username entry, and set a new one
+			*/
+			clearTimeout(check.timeusername);
+			check.timeusername = setTimeout(function(){
+				// do not execute if username isn't at least 2 characters long
+				if(user.username.length>1){
+					vm.check.username=3;
+					vm.check.usernameHas='has-warning';
+					dataservice.checkUsername(user.username).check().$promise
+						.then(function(data){
+							//console.log(data);
+							if(data.data=='1'){
+								vm.check.username=2;
+								vm.check.usernameHas='has-success';
+							}else{
+								vm.check.username=1;
+								vm.check.usernameHas='has-error';
+							};
+							isFormComplete();
+						});
+				};
+			},1500); //wait 1.5s after last char entry
 		};
 		
 		function changeEmail(){
+			check.email=0;
+			check.emailHas='';
+			clearTimeout(check.emailtime);
+			check.emailtime = setTimeout(function(){
+				//if we're (kinda) sure email has been entered, database is queried, else it isn't email - error feedback | (else does not work consistently!)
+				if(user.email.indexOf('@')>0 && user.email.lastIndexOf('.')-user.email.indexOf('@')>0){
+					vm.check.email=3;
+					vm.check.emailHas='has-warning';
+					dataservice.checkEmail(user.email).check().$promise
+						.then(function(data){
+							//console.log(data);
+							if(data.data=='1'){
+								vm.check.email=2;
+								vm.check.emailHas='has-success';
+							}else{
+								vm.check.email=1;
+								vm.check.emailHas='has-error';
+							};
+							isFormComplete();
+						});
+				}else{
+					// DOES NOT WORK PROPERLY
+					// check.email does get updated in controller, but change isnt applied to view (html)
+					check.email=1;
+					check.emailHas='has-error';
+				};
+			},1500);
 			
-			//make it check this only after it lost focus?
-			if(user.email.indexOf('@')==-1 || user.email.lastIndexOf('.')-user.email.indexOf('@')<=0){
-				check.email=0;
-				check.emailHas='';
-			}else{
-				//TODO: check if email is available
-				check.email=2;
-				check.emailHas='has-success';
-			};
-			isFormComplete();
 		};
 		
 		function isFormComplete(){

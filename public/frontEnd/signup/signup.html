@@ -19,6 +19,7 @@
 						<input type="text" class="form-control" name="username" ng-model="vm.user.username" ng-change="vm.changeUsername();" >
 						<span ng-class="{'form-control-feedback glyphicon glyphicon-remove':vm.check.username==1}"></span>
 						<span ng-class="{'form-control-feedback glyphicon glyphicon-ok':vm.check.username==2}"></span>
+						<span ng-if="vm.check.username==3" class="form-control-feedback"><img style="heigth:24px; width:24px;" src="ajax-loader.gif" /></span>
 					</div>
 				</div>
 				
@@ -28,8 +29,9 @@
 				<div class="row form-group has-feedback {{vm.check.emailHas}}" >
 					<div class="col-md-12">
 						<input type="text" class="form-control" ng-model="vm.user.email" ng-change="vm.changeEmail();" >
-						<span ng-class="{'form-control-feedback glyphicon glyphicon-remove':vm.check.email==1}"></span>
+						<span ng-class="{'form-control-feedback glyphicon glyphicon-remove':vm.check.email===1}"></span>
 						<span ng-class="{'form-control-feedback glyphicon glyphicon-ok':vm.check.email==2}"></span>
+						<span ng-if="vm.check.email==3" class="form-control-feedback"><img style="heigth:24px; width:24px;" src="ajax-loader.gif" /></span>
 					</div>
 				</div>
 				

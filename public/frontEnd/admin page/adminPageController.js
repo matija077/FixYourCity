@@ -11,6 +11,7 @@
 		var vm = this;
 		vm.chosenPart = "searchUser";
 		vm.user = {'username': null, 'email': null, 'accesslevel': null, 'banned': null, 'bannedString': null};
+        vm.initalState = 0;
 		vm.usersReturned = [];
 		vm.userChosed = '';		//chosed srsly
 		vm.categories = [];		//CAT
@@ -71,6 +72,7 @@
 
         function returnUsers(){
             if (vm.user.username!=null || vm.user.email!=null || vm.user.accesslevel!=null || vm.user.bannedString!=null){
+                vm.initalState = 1;
                 return dataservice.getUsers(vm.user).getUsers().$promise
                     .then(function(data){
                         console.log(data.data);

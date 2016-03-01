@@ -17,7 +17,7 @@
 			
 			<div class="row">
 				
-				<form class="col-md-12">
+				<form class="col-md-12" name="searchParameters">
 					<div class="col-md-3">
 						 Username:<br /><input class="form-control" type="text" name="user" ng-model="vm.user.username" 
 							ng-change="vm.returnUsers(vm.user);">
@@ -27,9 +27,15 @@
 							ng-change="vm.returnUsers(vm.user);">
 					</div>
 					<div class="col-md-3">
-						Accesslevel:<br /><input class="form-control" type="number" name="accesslevel" ng-model="vm.user.accesslevel"
+						Accesslevel:<br /><input class="form-control" type="number" max="4" min="2"  name="accesslevel" ng-model="vm.user.accesslevel"
 							ng-change="vm.returnUsers(vm.user);">
 					</div>
+                    <!--<div class="col-md-3"  role="alert">
+                        <span class="error" ng-show="searchParameters.vm.user.accesslevel.$error.minlength">
+                            Too short!</span>
+                        <span class="error" ng-show="searchParameters.vm.user.accesslevel.$error.maxlength">
+                            Too long!</span>
+                    </div>-->
 					<div class="col-md-3">
 						Ban status:
 						<div class="radio">
@@ -64,17 +70,27 @@
 						<td>{{ user.accesslevel }}</td><td>{{ user.bannedString }}</td>
 					</tr>
 				</table>
-			</div><br>
+			</div>
+            <div class="row animated fadeIn" ng-if="!vm.usersReturned[0] && vm.initalState">
+                <div class="col-md-12" align="center">
+                        <h2>There are no users under given search parameters, try another</h2>
+                </div>
+            </div><br>
 			
-			<div class="col-md-10"></div>
-			<button type="button" class="btn" ng-disabled="!vm.userChosed"
-				ng-click="vm.renderParts('banUser');" ng-class="{'btn-success':(vm.userChosed),'btn-warning':(!vm.userChosed)}">Ban or Promote</button>
+			<div class="col-md-10 animated fadeIn"></div>
+			<button type="button" class="btn" ng-disabled="!vm.userChosed" ng-show="vm.usersReturned[0]"
+				ng-click="vm.renderParts('banUser');" ng-class="{'btn-success':(vm.userChosed),'btn-warning':(!vm.userChosed)}">Make actions</button>
 			
 		</div>
 		
 		
 		<div class="banUser animated fadeIn" ng-switch-when="banUser">
             <div class="well well-md">
+                <div class="row">
+                    <div class="col-md-12">
+                        <span ng-show="vm.userChosed.bannedString!='No'" style="color: red;"><h3>This user is banned</h3></span>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-md-2">
                         <h3>Username</h3>
@@ -109,9 +125,7 @@
                     <div class="col-md-2">
                         {{ vm.userChosed.bannedString }}
                     </div>
-                    <div class="col-md-4">
-                        <!--<span ng-show="vm.userChosed.bannedString=='No'" style="color: red;">Are you sure you wanna ban this user?</span> --> <!-- remove this? -->
-                        <span ng-show="vm.userChosed.bannedString!='No'" style="color: red;"><h4>This user is banned</h4></span>
+                    <div class="col-md-4">              
                     </div>
                 </div> <br /> <br />
             </div>
@@ -123,13 +137,13 @@
 						Go back</button>
                 </div>
                 <div class="col-md-9">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                     </div>
-                    <div class="col-md-5" ng-if="vm.userChosed.bannedString=='No'">
+                    <div class="col-md-6" ng-if="vm.userChosed.bannedString=='No'">
                         <button type="button" class="btn btn-warning" ng-click="vm.banUser(vm.temporaryBanTime);">
                             Temporary ban</button>
                         <button type="button" class="btn btn-danger" ng-click="vm.banUser(0);">Pernament ban</button>      
-                        <div class="input-group col-md-4">
+                        <div class="input-group" style="width:250px">
                             <span class="input-group-addon" id="days-addon">Days</span>
                             <input type="text" class="form-control" ng-model="vm.temporaryBanTime.days">
                             <span class="input-group-addon" id="hours-addon">Hours</span>

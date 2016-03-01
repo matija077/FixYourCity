@@ -22,6 +22,7 @@
 		vm.seenNotifications = seenNotifications;
 		vm.showNotifs=showNotifs;
 		vm.notifshow = false;
+        vm.closeThis = closeThis;
 		
 		vm.tabs=[
 			//BEGIN TABS
@@ -160,6 +161,7 @@
 		}
 		
 		function showNotifs(){
+            //console.log(vm.notifshow, vm.seen);
 			if(vm.notifshow){
 				vm.notifshow=false;
 			}else{
@@ -167,6 +169,10 @@
 				vm.seen = true;
 			}
 		};
+        
+        function closeThis() {
+            vm.notifshow = false;
+        }
 	}
 
 })();

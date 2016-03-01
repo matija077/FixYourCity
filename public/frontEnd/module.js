@@ -2,7 +2,7 @@
 	'use strict';
 	
 	angular
-		.module('FixYourCityApp', [ 'ui.router','ngResource','satellizer','ngFileUpload','ngBootstrapLightbox'])
+		.module('FixYourCityApp', [ 'ui.router','ngResource','satellizer','ngFileUpload','ngBootstrapLightbox', 'angular-click-outside'])
 		.config(routeConfig)
 		.run(routeInterceptor);
 		

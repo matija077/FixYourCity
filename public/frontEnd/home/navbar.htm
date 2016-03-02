@@ -56,7 +56,7 @@
 		</div>
 	</nav>
 	
-	<div class="container-fluid notif well well-sm animated fadeIn" id="notif" click-outside="navbar.closeThis()" ng-if="navbar.notifshow && authenticated">
+	<div class="container-fluid notif well well-sm animated {{navbar.fade}}"  ng-if="navbar.notifshow && authenticated">
 		<div class="">
 		<ul class="notif_ul">
 			<li ng-if="!navbar.notifications[0]">No new notifications</li>

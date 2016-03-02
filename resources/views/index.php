@@ -70,8 +70,6 @@
 	
 	<script src="frontend/ng-bootstrap-lightbox/bootstrap-modal.min.js"></script>
 	<script src="frontend/ng-bootstrap-lightbox/lightbox.min.js"></script>
-    
-    <script src="frontend/clickoutside.js"></script>
 </body>
 
 </html>

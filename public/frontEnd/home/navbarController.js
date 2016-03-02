@@ -5,9 +5,9 @@
 		.module('FixYourCityApp')
 		.controller('navbarController', navbarController);
 		
-	navbarController.$inject = ['$sce', '$auth', 'dataservice', '$rootScope', '$interval'];
+	navbarController.$inject = ['$sce', '$auth', 'dataservice', '$rootScope', '$interval', '$timeout'];
 	
-	function navbarController($sce, $auth, dataservice, $rootScope, $interval){
+	function navbarController($sce, $auth, dataservice, $rootScope, $interval, $timeout){
 		var vm = this;
 		vm.email = '';
 		vm.password = '';
@@ -15,6 +15,7 @@
 		vm.numberOfNotifications = 0;
         vm.intervalFirstPass = true;
 		vm.seen = true;
+        vm.timeNotif = 0;
 		vm.renderTab=renderTab;
 		vm.login = login;
 		vm.signUp = signUp;
@@ -23,7 +24,6 @@
 		vm.seenNotifications = seenNotifications;
 		vm.showNotifs=showNotifs;
 		vm.notifshow = false;
-        vm.closeThis = closeThis;
 		
 		vm.tabs=[
 			//BEGIN TABS
@@ -175,17 +175,26 @@
 		
 		function showNotifs(){
             //console.log(vm.notifshow, vm.seen);
+            //we need to detect if notification button is pressed while timer is still going.
+            //if that's the c
+            if (vm.notifshow=="timeoutTime")
+            {
+                $timeout.cancel(vm.timeNotif);
+                vm.notifshow = false;
+            }
 			if(vm.notifshow){
-				vm.notifshow=false;
+                vm.fade = "fadeOut";
+                vm.timeNotif = $timeout(function(){
+                   vm.notifshow = false;
+                }, 500);
+                vm.notifshow = "timeoutTime";
 			}else{
-				vm.notifshow=true;
+				vm.notifshow = true;
 				vm.seen = true;
+                vm.fade = "fadeIn";
 			}
 		};
         
-        function closeThis() {
-            vm.notifshow = false;
-        }
 	}
 
 })();

@@ -5,14 +5,15 @@
 		.module('FixYourCityApp')
 		.controller('navbarController', navbarController);
 		
-	navbarController.$inject = ['$sce', '$auth', 'dataservice', '$rootScope'];
+	navbarController.$inject = ['$sce', '$auth', 'dataservice', '$rootScope', '$interval'];
 	
-	function navbarController($sce, $auth, dataservice, $rootScope){
+	function navbarController($sce, $auth, dataservice, $rootScope, $interval){
 		var vm = this;
 		vm.email = '';
 		vm.password = '';
 		vm.notifications = [];
 		vm.numberOfNotifications = 0;
+        vm.intervalFirstPass = true;
 		vm.seen = true;
 		vm.renderTab=renderTab;
 		vm.login = login;
@@ -57,8 +58,20 @@
 					$rootScope.role = userData.data.user.accesslevel;
 					$rootScope.userName = userData.data.user.username;
 					//get notifications only if user is logged in
-					getNotifications(userData.data.user.iduser);
-					
+                    if (vm.intervalFirstPass==true)
+                    {
+                        getNotifications(userData.data.user.iduser);
+                        vm.intervalFirstPass = false;
+                    }
+                    var intervalNotif = $interval(function(){
+                        if (JSON.parse(localStorage.getItem('user'))==null || localStorage.getItem('satellizer_token')==null)
+                        {    
+                            $interval.cancel(intervalNotif);
+                            return;
+                        }
+                        getNotifications(userData.data.user.iduser);
+                    }, 10000);
+
 					/*
 					dataservice.reload();
 					activate(); //loads navbar again (notifications)

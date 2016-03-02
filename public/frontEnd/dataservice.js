@@ -37,6 +37,8 @@
 			vote: vote,
 			mark: mark,
 			follow: follow,
+			checkUsername: checkUsername,
+			checkEmail: checkEmail,
 		}
 		
 		/*var token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjQsImlzcyI6Imh0dHA6XC9cL2xvY2FsaG9zdFwvUldBXC9wdWJsaWNcL2FwaVwvYXV0aGVudGljYXRlIiwiaWF0IjoiMTQ0ODU1MzIzOCIsImV4cCI6IjE0NDg1NTY4MzgiLCJuYmYiOiIxNDQ4NTUzMjM4IiwianRpIjoiYjZmMjk0N2U0ODQ1ZDljOGE2OTU4ZDZhZGNlZGUwNTAifQ.5CbF03PUe1fr-gK2xQMlCjdCQ2LioWOizc6bqsLBiKY';*/
@@ -311,9 +313,27 @@
 		
         function follow(){
             return $resource("api/follow", {}, {
-                
             });
         }
 		
+		function checkUsername(param){
+			return $resource("api/checkusername", {}, {
+                check: {method: 'GET', params: {username:param}, isArray:false,
+                    transformResponse: function(data, header){
+                        return { data: angular.fromJson(data) };
+                    }
+                }
+			});
+		}
+		
+		function checkEmail(param){
+			return $resource("api/checkemail", {}, {
+                check: {method: 'GET', params: {email:param}, isArray:false,
+                    transformResponse: function(data, header){
+                        return { data: angular.fromJson(data) };
+                    }
+                }
+			});
+		}
 	}
 })();

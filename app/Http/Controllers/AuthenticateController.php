@@ -13,44 +13,43 @@ use App\User;
 
 class AuthenticateController extends Controller
 {
-    public static function signup(Request $request)
-    {
-        //if user exists returns a new model instance
-        try {
-            $user = User::firstorNew(['email' => $request->email]);
-        }//catching any erros that may occur
-        catch(Exception $e){
-            return \Response::json(['error' => $e->getMessage()], 404);
-        }
-        /*
-        *check if user actually exists in database
-        * '\' in front of a Hash for including
-        */
+	public static function signup(Request $request){
+		//parameters validation
+		if(empty($request->username) || empty($request->email) || empty($request->password) || strlen($request->username)<2 || strlen($request->password)<6 || strpos($request->email,'@')===false || strrpos($request->email,'.')-strpos($request->email,'@')<=0){
+			return \Response::json(['error'=>'Incomplete parameters!','success'=>0],400);
+		};
+		
+		try{
+			$user = User::where('email',$request->email)->orWhere('username',$request->username)->first();
+		}catch(Exception $e){
+			return \Response::json(['error' => $e->getMessage()], 500);
+		};
+		
+		/*
+		*check if user actually exists in database
+		* '\' in front of a Hash for including
+		*/
+		if($user){
+			//user exists; return 'conflict error'
+			return \Response::json(['error' => 'User already exists.','success'=>0], 409);
+		};
+		
 		$time = date('Y-m-d H:i:s', time());
-		if (!$user->exists){
-			$user = array(
-				'username' => $request->username,
-				'email' => $request->email,
-				'password' =>  \Hash::make($request->password),
-				'accesslevel' => 2,
-				'karma' => $request->karma,
-				'banned' => $time,
-				'registered' => $time,
-			);
-                
-            $user = User::create($user);
-            //banned in array not working, this is a fix
-            $user->banned = $time;
-            $user->save();
-        }//user exist; return 'conflict error'
-        else{
-            return \Response::json(['error' => 'User already exists.'], 409);
-        }
-               
-        $token = JWTAuth::fromUser($user);
-        
-        return \Response::json(compact('token'));
-    }
+		$user = array(
+			'username' => $request->username,
+			'email' => $request->email,
+			'password' => \Hash::make($request->password),
+			'accesslevel' => 2,
+			'karma' => 1,
+			'banned' => $time,
+			'registered' => $time,
+			'lastactivity' => $time,
+		);
+		$user = User::create($user);
+		//signup successful
+		return \Response::json(['success'=>1],200);
+		
+	}
     
     public static function authenticate(Request $request)
     {
@@ -83,7 +82,7 @@ class AuthenticateController extends Controller
     {
         try {
 			if(!JWTAuth::getToken()){
-				return \Response::json(array('0'=>'error','1'=>'Not logged in'),200);
+				return \Response::json(['0'=>'error','1'=>'Not logged in'],200);
 			}
 
             if (! $user = JWTAuth::parseToken()->authenticate()) {

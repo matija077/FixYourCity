@@ -5,16 +5,15 @@
 		.module('FixYourCityApp')
 		.controller('signupController', signupController);
 		
-	signupController.$inject = ['dataservice'];
+	signupController.$inject = ['dataservice', '$timeout', '$interval'];
 	
-	function signupController(dataservice){
+	function signupController(dataservice, $timeout, $interval){
 		var vm = this;
 		var user = {
 			username: '',
 			email: '',
 			password: '',
 			retypePassword: '',
-			karma: '1'
 		}
 		/* check status:
 		* 0 - expecting more input
@@ -23,8 +22,8 @@
 		* 3 - waiting for server response (checking availability)
 		*/
 		var check = {
-			username: 0,
-			usernameHas: '',
+			username: 0, //status
+			usernameHas: '', //sets class
 			email: 0,
 			emailHas: '',
 			password: 0,
@@ -32,8 +31,10 @@
 			retypePassword: 0,
 			retypeHas: '',
 			complete: 0,
-			timeusername: 0, //holds id of settimeout for checking username
+			timeusername: 0, //holds id of $timeout for checking username
 			emailtime: 0, // ^for email
+			success: 0, //determines successful registration
+			countdown: 5, //duration before user is redirected to homepage
 		}
 		vm.user = user;
 		vm.check = check;
@@ -45,14 +46,24 @@
 		vm.isFormComplete = isFormComplete;
 		
 		function signUp(){
-				return dataservice.signUp().save(user).$promise
-					.then(function(resource){
-						console.log(resource);
-						dataservice.goPath('home');
-					})
-					.catch(function(data){
-						console.log('error :', data);
-					});
+			dataservice.signUp().save(user).$promise
+				.then(function(resource){
+					//console.log(resource);
+					if(resource.success){
+						vm.check.success=1;
+						var tmp = $interval(function(){
+							vm.check.countdown--;
+							},1000);
+						$timeout(function(){
+							$interval.cancel(tmp);
+							dataservice.goPath('home');
+						},5000);
+					};
+					
+				})
+				.catch(function(data){
+					console.log('error :', data);
+				});
 		}
 		
 		function changeRetype(){
@@ -71,7 +82,6 @@
 		
 		function changePassword(){
 			changeRetype();
-			//tooltip message on error
 			if(user.password.length<6){
 				check.password=1;
 				check.passwordHas='has-error';
@@ -86,26 +96,28 @@
 		function changeUsername(){
 			vm.check.username=0;
 			vm.check.usernameHas='';
+			//resetting completion status immediately rather than 1.5s later in some cases
+			vm.check.complete=0;
+			
 			/* time constraint to prevent spam of username check calls to server for each char
 			* after each char we clear queued execution of previous username entry, and set a new one
 			*/
-			clearTimeout(check.timeusername);
-			check.timeusername = setTimeout(function(){
+			$timeout.cancel(check.timeusername);
+			check.timeusername = $timeout(function(){
 				// do not execute if username isn't at least 2 characters long
 				if(user.username.length>1){
 					vm.check.username=3;
 					vm.check.usernameHas='has-warning';
 					dataservice.checkUsername(user.username).check().$promise
 						.then(function(data){
-							//console.log(data);
 							if(data.data=='1'){
 								vm.check.username=2;
 								vm.check.usernameHas='has-success';
+								isFormComplete();
 							}else{
 								vm.check.username=1;
 								vm.check.usernameHas='has-error';
 							};
-							isFormComplete();
 						});
 				};
 			},1500); //wait 1.5s after last char entry
@@ -114,9 +126,11 @@
 		function changeEmail(){
 			check.email=0;
 			check.emailHas='';
-			clearTimeout(check.emailtime);
-			check.emailtime = setTimeout(function(){
-				//if we're (kinda) sure email has been entered, database is queried, else it isn't email - error feedback | (else does not work consistently!)
+			vm.check.complete=0;
+			
+			$timeout.cancel(check.emailtime);
+			check.emailtime = $timeout(function(){
+				//if we're (kinda) sure email has been entered, database is queried, else it isn't email - error feedback
 				if(user.email.indexOf('@')>0 && user.email.lastIndexOf('.')-user.email.indexOf('@')>0){
 					vm.check.email=3;
 					vm.check.emailHas='has-warning';
@@ -126,15 +140,13 @@
 							if(data.data=='1'){
 								vm.check.email=2;
 								vm.check.emailHas='has-success';
+								isFormComplete();
 							}else{
 								vm.check.email=1;
 								vm.check.emailHas='has-error';
 							};
-							isFormComplete();
 						});
 				}else{
-					// DOES NOT WORK PROPERLY
-					// check.email does get updated in controller, but change isnt applied to view (html)
 					check.email=1;
 					check.emailHas='has-error';
 				};

@@ -1,12 +1,12 @@
 (function() {
 	'use strict';
-	
-	angular	
+
+	angular
 		.module('FixYourCityApp')
 		.controller('AdminPageController', AdminPageController);
-		
+
 		AdminPageController.$inject = ['dataservice'];
-		
+
 	function AdminPageController(dataservice){
 		var vm = this;
 		vm.chosenPart = "searchUser";
@@ -22,6 +22,9 @@
 		vm.changerep = [];		//CR
 		vm.temporaryBanTime = {};
 		vm.error = '';
+        vm.has = {
+            accesslevel : '',
+        };
 		vm.renderParts = renderParts;
 		vm.returnUsers = returnUsers;
 		vm.choseUser = choseUser;
@@ -37,13 +40,14 @@
 		vm.getCityRep = getCityRep;
 		vm.saveRep=saveRep;
 		vm.addRep=addRep;
-		
+        vm.formComplete = formComplete;
+
 		activate();
-		
+
 		function activate(){
-			
+
 		}
-		
+
 		function renderParts(part){
 			//we use ng-switch, so we need to reinitialize variables
 			switch(part){
@@ -71,16 +75,31 @@
 		}
 
         function returnUsers(){
-            if (vm.user.username!=null || vm.user.email!=null || vm.user.accesslevel!=null || vm.user.bannedString!=null){
-                vm.initalState = 1;
-                return dataservice.getUsers(vm.user).getUsers().$promise
-                    .then(function(data){
-                        console.log(data.data);
-                        return vm.usersReturned = data.data; 
-                    })
-                    .catch(function(data){
-                        //return console.log(data.error);
-                    });
+            if (!formComplete())
+                return;
+            vm.initalState = 1;
+            return dataservice.getUsers(vm.user).getUsers().$promise
+                .then(function(data){
+                    console.log(data.data);
+                    return vm.usersReturned = data.data;
+                })
+                .catch(function(data){
+                });
+        }
+
+        function formComplete(){
+            //on inital state or no search parameters given return false
+            //empty accesslevel shouldn't trigger 'has-warning' feedback
+            if (vm.user.username==null && vm.user.email==null && vm.user.accesslevel==null && vm.user.bannedString==null)
+                return false;
+            if (vm.user.accesslevel==null)
+                return true;
+            if (vm.user.accesslevel<2 || vm.user.accesslevel>4){
+                vm.has.accesslevel = 'has-warning';
+                return false;
+            } else {
+                vm.has.accesslevel = 'has-success';
+                return true
             }
         }
 
@@ -105,7 +124,7 @@
                 //banned time is computed in hours
                 time = time.days*24 + time.hours;
             }
-            
+
             dataservice.banUser(vm.userChosed.iduser, time).banUser().$promise
                 .then(function(data){
                     dataservice.reload();
@@ -125,7 +144,7 @@
                     vm.categories = data.data;
                 });
         }
-		
+
 		function addCategory(sent,pick){
 			var found = false;
 			angular.forEach(vm.categoriesToAdd, function(category){
@@ -142,7 +161,7 @@
 				sent.marked=true; // marking for deletion from vm.cities
 			};
         }
-        
+
         function saveCategories(){
             dataservice.addCategory().save(vm.categoriesToAdd).$promise
                  .then(function(data){
@@ -154,7 +173,7 @@
 					vm.categoriesToAdd=[];
                 });
         }
-        
+
         function promoteUser(step){
             var user ={
                 iduser: vm.userChosed.iduser,
@@ -171,7 +190,7 @@
                     vm.error = data;
                 })
         }
-		
+
 		function getCities(){
 			dataservice.suggestCity().getAll().$promise
 				.then(function(data){
@@ -179,7 +198,7 @@
 					vm.cities=data.data;
 				});
 		}
-		
+
 		function addCity(sent,pick){
 			var found = false;
 			angular.forEach(vm.changecities, function(city){
@@ -196,7 +215,7 @@
 				sent.marked=true; // marking for deletion from vm.cities
 			};
 		}
-		
+
 		function saveCities(){
 			dataservice.addCities().save(vm.changecities).$promise
 				.then(function(data){
@@ -210,7 +229,7 @@
 					vm.changecities=[];
 				});
 		}
-		
+
 		function getCityRep(){
 			dataservice.suggestCR().getAll().$promise
 				.then(function(data){
@@ -218,7 +237,7 @@
 					vm.cr=data.data;
 				});
 		}
-		
+
 		function addRep(sent,pick){
 			var found = false;
 			angular.forEach(vm.changerep, function(rep){
@@ -235,7 +254,7 @@
 				sent.marked=true; // marking for deletion from vm.cr
 			};
 		}
-		
+
 		function saveRep(){
 			dataservice.addCityRep().save(vm.changerep).$promise
 				.then(function(data){
@@ -248,7 +267,7 @@
 					vm.changerep=[];
 				});
 		}
-		
-		
+
+
 	}
 })();

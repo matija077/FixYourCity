@@ -242,14 +242,7 @@ class ApiController extends Controller
             //dd($query); 
         })
         ->get();
-        /*$finalQuery = User::where('iduser', '!=', -1) ;
-        $finalQuery->unionAll($arrayOfQueries);*/
-        /*$query = User::where(function($query){
-            foreach($QueryParametars as $key => $value){
-                $query->where($key, $value);
-            }
-        })
-        ->get();*/
+        
         $users = $query;
         $date = date('Y-m-d H:i:s', time());
         foreach($users as $user){

@@ -14,23 +14,26 @@
 
 		<div class="user animated fadeIn" ng-switch-when="searchUser">
 			<br />
-			
+
 			<div class="row">
-				
-				<form class="col-md-12">
-					<div class="col-md-3">
-						 Username:<br /><input class="form-control" type="text" name="user" ng-model="vm.user.username" 
-							ng-change="vm.returnUsers(vm.user);">
+
+				<form class="col-md-12" role="form" name="searchParameters">
+					<div class="col-md-3 form-group">
+						 Username:<br /><input class="form-control" type="text" name="user" ng-model="vm.user.username" ng-change="vm.returnUsers(vm.user);"
+							ng-model-options="{updateOn: 'keyup click blur', debounce: { keyup: 500, click: 0, blur: 0 } }">
 					</div>
-					<div class="col-md-3">
-						Email:<br /><input class="form-control" type="text" name="email" ng-model="vm.user.email"
-							ng-change="vm.returnUsers(vm.user);">
+					<div class="col-md-3 form-group">
+						Email:<br /><input class="form-control" type="text" name="email" ng-model="vm.user.email" ng-change="vm.returnUsers(vm.user);"
+							ng-model-options="{updateOn: 'keyup click blur', debounce: { keyup: 500, click: 0, blur: 0 } }">
 					</div>
-					<div class="col-md-3">
+					<div class="col-md-3 form-group {{vm.has.accesslevel}}">
 						Accesslevel:<br /><input class="form-control" type="number" name="accesslevel" ng-model="vm.user.accesslevel"
-							ng-change="vm.returnUsers(vm.user);">
+							ng-model-options="{updateOn: 'keyup click blur', debounce: { keyup: 500, click: 0, blur: 0 } }"
+                            ng-change="vm.returnUsers(vm.user);">
+                        <span class="help-block" ng-if="vm.has.accesslevel=='has-warning'">Accesslevel must be between 2 and 4</span>
 					</div>
-					<div class="col-md-3">
+
+					<div class="col-md-3 form-group">
 						Ban status:
 						<div class="radio">
 							<label><input type="radio" name="banned" ng-model="vm.user.bannedString"
@@ -47,110 +50,126 @@
 						<div class="radio">
 							<label><input type="radio" name="banned" ng-model="vm.user.bannedString"
 								value="No" ng-change="vm.returnUsers();">Not banned</label>
-						</div> 
+						</div>
 					</div>
 				</form>
-				
+
 			</div><br /><br />
-			
+
 			<div class="row">
-				<table class="col-md-12" border="1" ng-show="vm.usersReturned[0]">
+				<table class="col-md-12 table table-striped"  ng-show="vm.usersReturned[0]">
 					<tr>
 						<th> Username</th><th> Email</th><th> Accesslevel</th><th> Banned</th>
 					</tr>
 					<tr class="animated fadeIn" ng-repeat="user in vm.usersReturned | limitTo: 5" ng-click="vm.choseUser(user);"
-						ng-class="{'lightgraybg':user.iduser === vm.userChosed.iduser}"> <!-- CHOSED's first appearance -->
+						ng-class="{'success':user.iduser === vm.userChosed.iduser}"> <!-- CHOSED's first appearance -->
 						<td>{{ user.username }}</td><td>{{ user.email }}</td>
 						<td>{{ user.accesslevel }}</td><td>{{ user.bannedString }}</td>
 					</tr>
 				</table>
-			</div><br>
-			
-			<div class="col-md-11"></div>
-			<button type="button" class="btn" ng-disabled="!vm.userChosed"
-				ng-click="vm.renderParts('banUser');" ng-class="{'btn-success':(vm.userChosed),'btn-warning':(!vm.userChosed)}">Go!</button>
-			
-		</div>
-		
-		
-		<div class="banUser animated fadeIn" ng-switch-when="banUser">
-		
-			<div class="row">
-				<div class="col-md-2">
-					Username
-				</div>
-				<div class="col-md-2">
-					Email
-				</div>
-				<div class="col-md-2">
-					Accesslevel
-				</div>
-				<div class="col-md-2">
-					Banned
-				</div>
-				<div class="col-md-4">
-				</div>
 			</div>
-			
+            <div class="row animated fadeIn" ng-if="!vm.usersReturned[0] && vm.initalState">
+                <div class="col-md-12" align="center">
+                        <h2>There are no users under given search parameters, try another</h2>
+                </div>
+            </div><br>
+
+			<div class="col-md-10 animated fadeIn"></div>
+			<button type="button" class="btn" ng-disabled="!vm.userChosed" ng-show="vm.usersReturned[0]"
+				ng-click="vm.renderParts('banUser');" ng-class="{'btn-success':(vm.userChosed),'btn-warning':(!vm.userChosed)}">Make actions</button>
+
+		</div>
+
+
+		<div class="banUser animated fadeIn" ng-switch-when="banUser">
+            <div class="well well-md">
+                <div class="row">
+                    <div class="col-md-12">
+                        <span ng-show="vm.userChosed.bannedString!='No'" style="color: red;"><h3>This user is banned</h3></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <h3>Username</h3>
+                    </div>
+                    <div class="col-md-2">
+                        <h3>Email</h3>
+                    </div>
+                    <div class="col-md-2">
+                        <h3>Accesslevel</h3>
+                    </div>
+                    <div class="col-md-2">
+                        <h3>Banned</h3>
+                    </div>
+                    <div class="col-md-4">
+                        <button type="button " class="btn btn-primary"
+                            ng-click="vm.promoteUser(-1);" ng-disabled="vm.userChosed.accesslevel<=2">Demote user</button>
+                        <button type="button" class="btn btn-primary"
+                            ng-click="vm.promoteUser(+1);" ng-disabled="vm.userChosed.accesslevel>=4">Promote user</button>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-2">
+                        {{ vm.userChosed.username }}
+                    </div>
+                    <div class="col-md-2">
+                        {{ vm.userChosed.email }}
+                    </div>
+                    <div class="col-md-2">
+                        {{ vm.userChosed.accesslevel }}
+                    </div>
+                    <div class="col-md-2">
+                        {{ vm.userChosed.bannedString }}
+                    </div>
+                    <div class="col-md-4">
+                    </div>
+                </div> <br /> <br />
+            </div>
+
 			<div class="row">
-				<div class="col-md-2">
-					{{ vm.userChosed.username }}
-				</div>
-				<div class="col-md-2">
-					{{ vm.userChosed.email }}
-				</div>
-				<div class="col-md-2">
-					{{ vm.userChosed.accesslevel }}
-				</div>
-				<div class="col-md-2">
-					{{ vm.userChosed.bannedString }}
-				</div>
-				<div class="col-md-4">
-					<!--<span ng-show="vm.userChosed.bannedString=='No'" style="color: red;">Are you sure you wanna ban this user?</span> --> <!-- remove this? -->
-					<span ng-show="vm.userChosed.bannedString!='No'" style="color: red;"><h4>This user is banned</h4></span>
-				</div>
-			</div> <br /> <br />
-			
-			<div class="row">
-			
-				<div class="col-md-6">
+
+				<div class="col-md-3">
 					<button type="button" class="btn btn-info" ng-click="vm.renderParts('searchUser');">
 						Go back</button>
-					<button type="button" class="btn btn-success" ng-click="vm.banUser(-1);" ng-hide="vm.userChosed.banned=='No'">
-						Unban user</button>
-					<button type="button" class="btn btn-warning" ng-click="vm.banUser(vm.temporaryBanTime);">Temporary ban</button>
-					<button type="button" class="btn btn-danger" ng-click="vm.banUser(0);">Pernament ban</button>
-				</div>
-				<div class="col-md-3">
-					<div class="input-group">
-						<span class="input-group-addon" id="days-addon">Days</span>
-						<input type="text" class="form-control" ng-model="vm.temporaryBanTime.days">
-						<span class="input-group-addon" id="hours-addon">Hours</span>
-						<input type="text" class="form-control" ng-model="vm.temporaryBanTime.hours">
-					</div>
-				</div>
-				<div class="col-md-3">
-				</div>
-				
-			</div>
-			
+                </div>
+                <div class="col-md-9">
+                    <div class="col-md-3">
+                    </div>
+                    <div class="col-md-6" ng-if="vm.userChosed.bannedString=='No'">
+                        <button type="button" class="btn btn-warning" ng-click="vm.banUser(vm.temporaryBanTime);">
+                            Temporary ban</button>
+                        <button type="button" class="btn btn-danger" ng-click="vm.banUser(0);">Pernament ban</button>
+                        <div class="input-group" style="width:250px">
+                            <span class="input-group-addon" id="days-addon">Days</span>
+                            <input type="text" class="form-control" ng-model="vm.temporaryBanTime.days">
+                            <span class="input-group-addon" id="hours-addon">Hours</span>
+                            <input type="text" class="form-control" ng-model="vm.temporaryBanTime.hours">
+                        </div>
+                    </div>
+                    <div class="col-md-6" ng-if="vm.userChosed.bannedString!='No'">
+                    </div>
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-success pull-rigth" ng-click="vm.banUser(-1);" ng-hide="vm.userChosed.bannedString=='No'">
+                            Unban user</button>
+                    </div>
+
+                </div>
+            </div>
+
 			<br />
 			<div class="row">
-			
+			    <div class="col-md-4">
+                </div>
+
 				<div class="col-md-4">
-					<button type="button" class="btn" ng-class="{'btn-success':vm.userChosed.accesslevel>2, 'btn-warning':vm.userChosed.accesslevel<=2}" 
-						ng-click="vm.promoteUser(-1);" ng-disabled="vm.userChosed.accesslevel<=2">Demote user</button>
-					<button type="button" class="btn" ng-class="{'btn-success':vm.userChosed.accesslevel<4, 'btn-warning':vm.userChosed.accesslevel>=4}"
-						ng-click="vm.promoteUser(+1);" ng-disabled="vm.userChosed.accesslevel>=4">Promote user</button>
 				</div>
-				<div class="col-md-8">
-				</div>
-				
+
 			</div>
-			
+
 		</div>
-		
-		
+
+
 		<div class="aproveCategory animated fadeIn" ng-switch-when="category">
 			<table class="table table-striped">
 				<tr>
@@ -162,11 +181,11 @@
 					<td><input type="radio" name="{{ category.idsuggestcategory }}" ng-click="vm.addCategory(category, false);"></td>
 				</tr>
 			</table>
-			<button type="button" class="btn" ng-click="vm.saveCategories();" ng-disabled="!vm.categoriesToAdd[0]" 
+			<button type="button" class="btn" ng-click="vm.saveCategories();" ng-disabled="!vm.categoriesToAdd[0]"
 				ng-class="{'btn-success':(vm.categoriesToAdd[0]),'btn-warning':(!vm.categoriesToAdd[0])}">Submit</button>
 		</div>
-		
-		
+
+
 		<div class="animated fadeIn" ng-switch-when="city">
 			<table class="table table-striped">
 				<tr>
@@ -178,10 +197,10 @@
 					<td><input type="radio" name="{{ city.idsuggestcity }}" ng-click="vm.addCity(city, false);"></td>
 				</tr>
 			</table>
-			<button type="button" class="btn" ng-click="vm.saveCities();" ng-disabled="!vm.changecities[0]" 
+			<button type="button" class="btn" ng-click="vm.saveCities();" ng-disabled="!vm.changecities[0]"
 				ng-class="{'btn-success':(vm.changecities[0]),'btn-warning':(!vm.changecities[0])}">Submit</button>
 		</div>
-		
+
 		<div class="animated fadeIn" ng-switch-when="promote">
 			<table class="table table-striped">
 				<tr>
@@ -193,9 +212,9 @@
 					<td><input type="radio" name="{{ rep.idsuggestcr }}" ng-click="vm.addRep(rep, false);"></td>
 				</tr>
 			</table>
-			<button type="button" class="btn" ng-click="vm.saveRep();" ng-disabled="!vm.changerep[0]" 
+			<button type="button" class="btn" ng-click="vm.saveRep();" ng-disabled="!vm.changerep[0]"
 				ng-class="{'btn-success':(vm.changerep[0]),'btn-warning':(!vm.changerep[0])}">Submit</button>
 		</div>
-		
+
 	</div>
 </div>

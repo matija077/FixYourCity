@@ -106,7 +106,7 @@
 
 	}
 	
-	function routeInterceptor ($rootScope, $state){
+	function routeInterceptor ($rootScope, $state, $http, $location){
 		$rootScope.$on('$stateChangeStart', function(event, toState){
 			var user = null;
 			if(localStorage.getItem('user')){
@@ -143,6 +143,9 @@
 			//changes title of the page | adds number of unseen notifications in brackets for logged in users
 			$rootScope.title = (toState && toState.title) ? toState.title : 'Fix Your City';
 			if($rootScope.numofnotif && $rootScope.authenticated) $rootScope.title+=' (' + $rootScope.numofnotif + ')';
+			
+			//adds header to all http requests made to server with relative path of calling page
+			$http.defaults.headers.common.internalref = $location.path();
 		});
 	}
 	
